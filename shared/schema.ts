@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -24,6 +24,16 @@ export const contactMessages = pgTable("contact_messages", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const ads = pgTable("ads", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  imageUrl: text("image_url").notNull(),
+  linkUrl: text("link_url").notNull(),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // === BASE SCHEMAS ===
 export const insertApplicationSchema = createInsertSchema(internshipApplications)
   .omit({ id: true, createdAt: true })
@@ -34,6 +44,8 @@ export const insertApplicationSchema = createInsertSchema(internshipApplications
 export const insertContactMessageSchema = createInsertSchema(contactMessages)
   .omit({ id: true, createdAt: true });
 
+export const insertAdSchema = createInsertSchema(ads).omit({ id: true, createdAt: true });
+
 // === EXPLICIT API CONTRACT TYPES ===
 export type InternshipApplication = typeof internshipApplications.$inferSelect;
 export type InsertApplication = z.infer<typeof insertApplicationSchema>;
@@ -41,5 +53,10 @@ export type InsertApplication = z.infer<typeof insertApplicationSchema>;
 export type ContactMessage = typeof contactMessages.$inferSelect;
 export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
 
+export type Ad = typeof ads.$inferSelect;
+export type InsertAd = z.infer<typeof insertAdSchema>;
+
 export type CreateApplicationRequest = InsertApplication;
 export type CreateContactMessageRequest = InsertContactMessage;
+export type CreateAdRequest = InsertAd;
+export type UpdateAdRequest = Partial<InsertAd>;

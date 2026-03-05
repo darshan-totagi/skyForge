@@ -3,10 +3,8 @@ import { motion } from "framer-motion";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { 
-  ArrowRight, BrainCircuit, Code2, LayoutTemplate, 
-  UserPlus, FileCheck2, Send, Award, Star
-} from "lucide-react";
+import { ArrowRight, BrainCircuit, Code2, LayoutTemplate, UserPlus, FileCheck2, Send, Award, Star } from "lucide-react";
+import { AdSection } from "@/components/AdSection";
 
 export default function Home() {
   return (
@@ -63,6 +61,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <AdSection />
 
       {/* Domains Section */}
       <section className="py-20 bg-black/20 border-y border-white/5 relative">

@@ -2,15 +2,26 @@ import { db } from "./db";
 import {
   internshipApplications,
   contactMessages,
+  ads,
   type CreateApplicationRequest,
   type CreateContactMessageRequest,
   type InternshipApplication,
-  type ContactMessage
+  type ContactMessage,
+  type CreateAdRequest,
+  type UpdateAdRequest,
+  type Ad
 } from "@shared/schema";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   createApplication(application: CreateApplicationRequest): Promise<InternshipApplication>;
+  getApplications(): Promise<InternshipApplication[]>;
   createContactMessage(message: CreateContactMessageRequest): Promise<ContactMessage>;
+  getContactMessages(): Promise<ContactMessage[]>;
+  createAd(ad: CreateAdRequest): Promise<Ad>;
+  getAds(): Promise<Ad[]>;
+  updateAd(id: number, updates: UpdateAdRequest): Promise<Ad>;
+  deleteAd(id: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -21,11 +32,40 @@ export class DatabaseStorage implements IStorage {
     return created;
   }
 
+  async getApplications(): Promise<InternshipApplication[]> {
+    return await db.select().from(internshipApplications);
+  }
+
   async createContactMessage(message: CreateContactMessageRequest): Promise<ContactMessage> {
     const [created] = await db.insert(contactMessages)
       .values(message)
       .returning();
     return created;
+  }
+
+  async getContactMessages(): Promise<ContactMessage[]> {
+    return await db.select().from(contactMessages);
+  }
+
+  async createAd(ad: CreateAdRequest): Promise<Ad> {
+    const [created] = await db.insert(ads).values(ad).returning();
+    return created;
+  }
+
+  async getAds(): Promise<Ad[]> {
+    return await db.select().from(ads);
+  }
+
+  async updateAd(id: number, updates: UpdateAdRequest): Promise<Ad> {
+    const [updated] = await db.update(ads)
+      .set(updates)
+      .where(eq(ads.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteAd(id: number): Promise<void> {
+    await db.delete(ads).where(eq(ads.id, id));
   }
 }
 

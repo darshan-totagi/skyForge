@@ -12,6 +12,7 @@ import Apply from "./pages/Apply";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
+import Admin from "./pages/Admin";
 
 function Router() {
   return (
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/faq" component={FAQ} />
       <Route path="/contact" component={Contact} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );
