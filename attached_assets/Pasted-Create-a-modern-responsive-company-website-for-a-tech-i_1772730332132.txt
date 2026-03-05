@@ -1,0 +1,106 @@
+Create a modern, responsive company website for a tech internship platform called **SkyForge**.
+
+The website should look professional like a startup company and be built using **React (frontend)** with a clean UI and modern design. Use a dark + tech style theme.
+
+The website should contain the following pages and sections:
+
+**1. Home Page**
+
+* Hero section with headline:
+  “Forge Your Future with Real-World Tech Internships”
+* Short introduction about SkyForge
+* Highlight internship domains:
+
+  * Artificial Intelligence
+  * Full Stack Development
+  * Frontend Development
+* Section explaining “How it Works”
+
+  1. Register for the internship
+  2. Get assigned tasks and projects
+  3. Submit work and gain experience
+  4. Receive completion certificate
+* Testimonials section (dummy student reviews)
+* Call-to-action button: “Apply for Internship”
+
+**2. Programs Page**
+Show internship programs in cards with:
+
+* Program title
+* Duration (4 weeks)
+* Mode (Remote)
+* Skills covered
+  Programs to include:
+* AI Internship
+* Full Stack Development Internship
+* Frontend Development Internship
+
+Each program should have a “Register Now” button.
+
+**3. Internship Registration Form**
+Create a form where students can apply for internships.
+
+Form fields:
+
+* Full Name
+* Email Address
+* Phone Number
+* College / University
+* Year of Study
+* GitHub / Portfolio Link
+* Select Internship Domain (Dropdown):
+
+  * Artificial Intelligence
+  * Full Stack Development
+  * Frontend Development
+* Short Statement of Interest
+* Submit Button
+
+On submission show:
+“Thank you for applying to SkyForge. We will contact you soon.”
+
+**4. About SkyForge**
+Include:
+
+* Company introduction
+* Mission statement
+* Vision statement
+* Objectives such as:
+
+  * Bridging the gap between education and industry
+  * Providing real-world project experience
+  * Helping students build professional portfolios
+  * Supporting career growth in technology
+
+**5. FAQs Page**
+Include questions like:
+
+* Is the internship remote?
+* What is the duration?
+* Will I receive a certificate?
+* Do I need prior experience?
+* Is there a selection process?
+
+**6. Contact Page**
+Include:
+
+* Contact form (Name, Email, Message)
+* Company email
+* Social media links
+* Location placeholder
+
+**7. Footer**
+Include:
+
+* SkyForge logo
+* Quick links (Home, Programs, FAQs, Contact)
+* Copyright text:
+  “© 2026 SkyForge. All rights reserved.”
+
+Design requirements:
+
+* Clean modern UI
+* Smooth animations
+* Mobile responsive
+* Professional startup look
+* Dark theme with blue/purple tech accents
