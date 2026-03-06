@@ -239,7 +239,7 @@ export default function AdminPage() {
                     <div className="flex items-center justify-between pt-2">
                       <div className="flex items-center space-x-2">
                         <Switch 
-                          checked={ad.isActive} 
+                          checked={!!ad.isActive} 
                           onCheckedChange={(checked) => toggleAdMutation.mutate({ id: ad.id, isActive: checked })} 
                         />
                         <Label className="text-xs">Active</Label>

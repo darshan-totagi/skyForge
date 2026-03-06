@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config({ override: true });
 import { defineConfig } from "drizzle-kit";
 
 if (!process.env.DATABASE_URL) {
