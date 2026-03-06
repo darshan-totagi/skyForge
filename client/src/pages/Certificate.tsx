@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 
 export default function Certificate() {
-  const href = "/certificates/sample-certificate.svg";
-  const fileName = "Sample-Certificate.svg";
+  const href = "/certificates/sample-certificate.png";
+  const fileName = "Sample-Certificate.png";
   return (
     <MainLayout>
       <section className="container mx-auto px-4 md:px-6 py-24">
