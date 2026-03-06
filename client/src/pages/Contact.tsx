@@ -70,8 +70,7 @@ export default function Contact() {
                       </div>
                       <div>
                         <h4 className="font-semibold text-foreground mb-1">Email Us</h4>
-                        <p className="text-muted-foreground">hello@skyforge.tech</p>
-                        <p className="text-muted-foreground">support@skyforge.tech</p>
+                        <p className="text-muted-foreground">skyforgelearn@gmail.com</p>
                       </div>
                     </div>
                     
