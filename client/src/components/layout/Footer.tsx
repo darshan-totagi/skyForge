@@ -58,8 +58,8 @@ export function Footer() {
                 <span>skyforgelearn@gmail.com</span>
               </li>
               <li className="flex items-start gap-3 text-muted-foreground">
-                <MapPin size={20} className="text-primary shrink-0 mt-0.5" />
-                <span>123 Innovation Drive<br/>Tech Valley, CA 94043</span>
+                
+                
               </li>
             </ul>
           </div>

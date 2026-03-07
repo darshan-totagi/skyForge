@@ -75,13 +75,9 @@ export default function Contact() {
                     </div>
                     
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                        <MapPin className="w-6 h-6 text-primary" />
-                      </div>
+                      
                       <div>
-                        <h4 className="font-semibold text-foreground mb-1">Headquarters</h4>
-                        <p className="text-muted-foreground">123 Innovation Drive</p>
-                        <p className="text-muted-foreground">Tech Valley, CA 94043</p>
+                        
                       </div>
                     </div>
                   </div>
