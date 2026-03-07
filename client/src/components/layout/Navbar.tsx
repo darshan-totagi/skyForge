@@ -42,8 +42,17 @@ export function Navbar() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="bg-primary/20 p-2 rounded-xl text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-              <Rocket size={24} className="stroke-[2.5]" />
+            <img 
+              src="/logo.png" 
+              alt="SkyForge Logo" 
+              className="h-12 w-auto object-contain"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+              }}
+            />
+            <div className="bg-primary/20 p-2 rounded-xl text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors hidden">
+              <Rocket size={8} className="stroke-[2.5]" />
             </div>
             <span className="font-display font-bold text-2xl tracking-wide text-foreground">
               Sky<span className="text-primary">Forge</span>

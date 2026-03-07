@@ -9,8 +9,19 @@ export function Footer() {
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-6">
-              <Rocket size={24} className="text-primary stroke-[2.5]" />
+            <Link href="/" className="flex items-center gap-2 mb-6 group">
+              <img 
+                src="/logo.png" 
+                alt="SkyForge Logo" 
+                className="h-10 w-auto object-contain"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                }}
+              />
+              <div className="bg-primary/20 p-2 rounded-xl text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors hidden">
+                <Rocket size={24} className="text-primary stroke-[2.5]" />
+              </div>
               <span className="font-display font-bold text-2xl tracking-wide text-foreground">
                 Sky<span className="text-primary">Forge</span>
               </span>
