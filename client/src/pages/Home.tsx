@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, BrainCircuit, Code2, LayoutTemplate, UserPlus, FileCheck2, Send, Award, Star } from "lucide-react";
+import { ArrowRight, BrainCircuit, Code2, LayoutTemplate, UserPlus, FileCheck2, Send, Award } from "lucide-react";
 import { AdSection } from "@/components/AdSection";
 
 export default function Home() {
@@ -156,30 +156,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Why Choose Us */}
       <section className="py-24 bg-card/30 border-y border-white/5">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Intern Success Stories</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">Hear from students who built their foundation with SkyForge.</p>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Why Choose SkyForge?</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">We provide the tools and guidance you need to bridge the gap between academia and industry.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { name: "Alex Chen", role: "AI Intern", text: "The tasks were challenging but incredibly rewarding. I learned more in 4 weeks than a whole semester at college." },
-              { name: "Sarah Miller", role: "Frontend Intern", text: "Having a structured path and real projects for my portfolio completely changed my job hunt success rate." },
-              { name: "David Kumar", role: "Full Stack Intern", text: "Building a full application from scratch under their guidance gave me the confidence to apply for junior roles." }
-            ].map((test, i) => (
-              <Card key={i} className="bg-background/50 border-white/10 hover:border-primary/30 transition-colors">
+              { 
+                title: "Real-World Experience", 
+                desc: "Work on actual projects that solve real problems, giving you substance for your resume and portfolio.",
+                icon: <Code2 className="w-8 h-8 text-primary" />
+              },
+              { 
+                title: "Structured Learning", 
+                desc: "Follow a carefully designed curriculum that ensures you master the most relevant tools and technologies.",
+                icon: <BrainCircuit className="w-8 h-8 text-primary" />
+              },
+              { 
+                title: "Verified Certification", 
+                desc: "Receive a professional certificate upon successful completion to showcase your skills to employers.",
+                icon: <Award className="w-8 h-8 text-primary" />
+              }
+            ].map((benefit, i) => (
+              <Card key={i} className="bg-background/50 border-white/10 hover:border-primary/30 transition-all hover:-translate-y-1">
                 <CardContent className="p-8">
-                  <div className="flex text-yellow-500 mb-4">
-                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}
+                  <div className="mb-6 bg-primary/10 w-16 h-16 rounded-2xl flex items-center justify-center">
+                    {benefit.icon}
                   </div>
-                  <p className="text-lg italic mb-6">"{test.text}"</p>
-                  <div>
-                    <h4 className="font-bold text-foreground">{test.name}</h4>
-                    <p className="text-sm text-primary">{test.role}</p>
-                  </div>
+                  <h3 className="text-xl font-display font-bold mb-3">{benefit.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{benefit.desc}</p>
                 </CardContent>
               </Card>
             ))}
