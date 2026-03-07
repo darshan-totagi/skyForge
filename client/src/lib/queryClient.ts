@@ -7,8 +7,27 @@ function toUrl(u: string): string {
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
-    const text = (await res.text()) || res.statusText;
-    throw new Error(`${res.status}: ${text}`);
+    const contentType = res.headers.get("content-type");
+    let message = res.statusText;
+    
+    if (contentType && contentType.includes("application/json")) {
+      try {
+        const json = await res.json();
+        message = json.message || message;
+      } catch {
+        // Fallback to text
+      }
+    } else {
+      const text = await res.text();
+      // If it's an HTML error page (like Netlify 404), don't dump the whole thing
+      if (text.includes("<!DOCTYPE") || text.includes("<html")) {
+        message = `Server Error: Received HTML instead of JSON (Status ${res.status})`;
+      } else {
+        message = text.slice(0, 100) || message;
+      }
+    }
+    
+    throw new Error(message);
   }
 }
 
