@@ -44,7 +44,7 @@ export function Navbar() {
           <Link href="/" className="flex items-center gap-2 group">
             <img 
               src="/logo.png" 
-              alt="SkyForge Logo" 
+              alt="SkyForger Logo" 
               className="h-12 w-auto object-contain"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
@@ -55,7 +55,7 @@ export function Navbar() {
               <Rocket size={8} className="stroke-[2.5]" />
             </div>
             <span className="font-display font-bold text-2xl tracking-wide text-foreground">
-              Sky<span className="text-primary">Forge</span>
+              Sky<span className="text-primary">Forger</span>
             </span>
           </Link>
 

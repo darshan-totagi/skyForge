@@ -12,7 +12,7 @@
   <text x="827" y="310" font-family="sans-serif" font-size="22" fill="#94a3b8" text-anchor="middle">This certifies that</text>
   <text x="827" y="400" font-family="Georgia, serif" font-size="56" fill="#f8fafc" text-anchor="middle">Sample Intern</text>
   <text x="827" y="470" font-family="sans-serif" font-size="22" fill="#94a3b8" text-anchor="middle">has successfully completed the</text>
-  <text x="827" y="530" font-family="Georgia, serif" font-size="36" fill="#e2e8f0" text-anchor="middle">SkyForge Internship Program</text>
+  <text x="827" y="530" font-family="Georgia, serif" font-size="36" fill="#e2e8f0" text-anchor="middle">SkyForger Internship Program</text>
   <text x="827" y="590" font-family="sans-serif" font-size="20" fill="#94a3b8" text-anchor="middle">Specialization: Full Stack Development</text>
   <g transform="translate(250,760)">
     <rect width="1154" height="6" fill="url(#g)"/>
@@ -24,7 +24,7 @@
   <g transform="translate(1320,820)">
     <text x="0" y="0" font-family="Georgia, serif" font-size="20" fill="#e2e8f0" text-anchor="end">Authorized Signature</text>
     <rect x="-260" y="12" width="240" height="1" fill="#334155"/>
-    <text x="-140" y="40" font-family="Georgia, serif" font-size="18" fill="#94a3b8" text-anchor="middle">Director, SkyForge</text>
+    <text x="-140" y="40" font-family="Georgia, serif" font-size="18" fill="#94a3b8" text-anchor="middle">Director, SkyForger</text>
   </g>
   <g transform="translate(827,950)">
     <circle r="70" fill="none" stroke="url(#g)" stroke-width="6"/>

@@ -2,22 +2,22 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { BrainCircuit, Code2, LayoutTemplate, Clock, Globe, CheckCircle2 } from "lucide-react";
+import { Layout, Code2, LayoutTemplate, Clock, Globe, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 const programs = [
   {
-    id: "ai",
-    title: "Artificial Intelligence",
-    icon: BrainCircuit,
+    id: "uiux",
+    title: "UI/UX Design",
+    icon: Layout,
     color: "from-blue-500 to-cyan-400",
     shadow: "shadow-blue-500/20",
-    description: "Build a strong foundation in AI and Machine Learning through practical Python-based projects.",
+    description: "Design beautiful, user-centric interfaces and create seamless digital experiences.",
     details: [
-      "Data preprocessing and analysis",
-      "Building regression and classification models",
-      "Introduction to Deep Learning",
-      "Deploying ML models"
+      "User research and wireframing",
+      "Visual design principles",
+      "Prototyping in Figma",
+      "Usability testing and feedback"
     ]
   },
   {
@@ -28,10 +28,10 @@ const programs = [
     shadow: "shadow-purple-500/20",
     description: "Learn to build complete web applications from database to UI using modern frameworks.",
     details: [
-      "RESTful API design and creation",
-      "Database modeling and management",
-      "Authentication and Security",
-      "End-to-end application deployment"
+      "Developing web application projects",
+      "Working with databases applications",
+      "Understanding frontend and backend integration",
+      "End-to-end application development"
     ]
   },
   {
@@ -42,9 +42,9 @@ const programs = [
     shadow: "shadow-orange-500/20",
     description: "Master the art of creating beautiful, interactive user interfaces and web experiences.",
     details: [
-      "Advanced CSS and Tailwind",
-      "React state management",
-      "Responsive and accessible design",
+      "Building responsive user interfaces",
+      "Creating interactive web pages",
+      "Improving UI usability and design",
       "Performance optimization"
     ]
   }

@@ -15,7 +15,7 @@ export default function About() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            About <span className="text-primary">SkyForge</span>
+            About <span className="text-primary">SkyForger</span>
           </motion.h1>
           <motion.p 
             className="text-xl text-muted-foreground leading-relaxed"

@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 const faqs = [
   {
     q: "Are the internships fully remote?",
-    a: "Yes, all SkyForge internships are 100% remote. You can complete the tasks from anywhere in the world, on your own schedule, as long as deadlines are met."
+    a: "Yes, all SkyForger internships are 100% remote. You can complete the tasks from anywhere in the world, on your own schedule, as long as deadlines are met."
   },
   {
     q: "What is the duration of the program?",

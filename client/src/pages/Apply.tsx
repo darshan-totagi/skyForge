@@ -154,7 +154,7 @@ export default function Apply() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent className="bg-card border-white/10 text-foreground">
-                                <SelectItem value="Artificial Intelligence">Artificial Intelligence</SelectItem>
+                                <SelectItem value="UI/UX Design">UI/UX Design</SelectItem>
                                 <SelectItem value="Full Stack Development">Full Stack Development</SelectItem>
                                 <SelectItem value="Frontend Development">Frontend Development</SelectItem>
                               </SelectContent>

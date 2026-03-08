@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Rocket, Mail, MapPin, Twitter, Linkedin, Github } from "lucide-react";
+import { Rocket, Mail, MapPin, Linkedin } from "lucide-react";
 
 export function Footer() {
   return (
@@ -12,7 +12,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2 mb-6 group">
               <img 
                 src="/logo.png" 
-                alt="SkyForge Logo" 
+                alt="SkyForger Logo" 
                 className="h-10 w-auto object-contain"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
@@ -23,7 +23,7 @@ export function Footer() {
                 <Rocket size={24} className="text-primary stroke-[2.5]" />
               </div>
               <span className="font-display font-bold text-2xl tracking-wide text-foreground">
-                Sky<span className="text-primary">Forge</span>
+                Sky<span className="text-primary">Forger</span>
               </span>
             </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
@@ -31,13 +31,7 @@ export function Footer() {
             </p>
             <div className="flex gap-4">
               <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-primary/20 hover:text-primary transition-colors">
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-primary/20 hover:text-primary transition-colors">
                 <Linkedin size={20} />
-              </a>
-              <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-primary/20 hover:text-primary transition-colors">
-                <Github size={20} />
               </a>
             </div>
           </div>
@@ -55,7 +49,7 @@ export function Footer() {
           <div>
             <h4 className="font-display font-semibold text-lg mb-6 text-foreground">Domains</h4>
             <ul className="space-y-3">
-              <li className="text-muted-foreground">Artificial Intelligence</li>
+              <li className="text-muted-foreground">UI/UX Design</li>
               <li className="text-muted-foreground">Full Stack Development</li>
               <li className="text-muted-foreground">Frontend Development</li>
             </ul>
@@ -77,10 +71,10 @@ export function Footer() {
         </div>
 
         <div className="pt-8 border-t border-white/10 text-center text-muted-foreground text-sm flex flex-col md:flex-row justify-between items-center gap-4">
-          <p>Copyright © 2026 SkyForge. All rights reserved.</p>
+          <p>Copyright © 2026 SkyForger. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
+            <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

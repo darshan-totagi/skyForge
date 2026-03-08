@@ -23,7 +23,7 @@ export function useSubmitApplication() {
     onSuccess: () => {
       toast({
         title: "Application Submitted",
-        description: "Thank you for applying to SkyForge. We will contact you soon.",
+        description: "Thank you for applying to SkyForger. We will contact you soon.",
       });
     },
     onError: (error: Error) => {
