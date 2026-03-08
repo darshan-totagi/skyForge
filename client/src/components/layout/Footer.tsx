@@ -49,7 +49,7 @@ export function Footer() {
           <div>
             <h4 className="font-display font-semibold text-lg mb-6 text-foreground">Domains</h4>
             <ul className="space-y-3">
-              <li className="text-muted-foreground">UI/UX Design</li>
+              <li className="text-muted-foreground">Artificial Intelligence</li>
               <li className="text-muted-foreground">Full Stack Development</li>
               <li className="text-muted-foreground">Frontend Development</li>
             </ul>

@@ -2,22 +2,22 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { Layout, Code2, LayoutTemplate, Clock, Globe, CheckCircle2 } from "lucide-react";
+import { BrainCircuit, Code2, LayoutTemplate, Clock, Globe, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 const programs = [
   {
-    id: "uiux",
-    title: "UI/UX Design",
-    icon: Layout,
+    id: "ai",
+    title: "Artificial Intelligence",
+    icon: BrainCircuit,
     color: "from-blue-500 to-cyan-400",
     shadow: "shadow-blue-500/20",
-    description: "Design beautiful, user-centric interfaces and create seamless digital experiences.",
+    description: "Build a strong foundation in AI and Machine Learning through practical Python-based projects.",
     details: [
-      "User research and wireframing",
-      "Visual design principles",
-      "Prototyping in Figma",
-      "Usability testing and feedback"
+      "Data preprocessing and analysis",
+      "Building regression and classification models",
+      "Introduction to Deep Learning",
+      "Deploying ML models"
     ]
   },
   {
