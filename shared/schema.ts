@@ -34,6 +34,14 @@ export const ads = pgTable("ads", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const certificates = pgTable("certificates", {
+  id: serial("id").primaryKey(),
+  studentName: text("student_name").notNull(),
+  certificateId: text("certificate_id").notNull().unique(),
+  domain: text("domain").notNull(),
+  issueDate: timestamp("issue_date").defaultNow(),
+});
+
 // === BASE SCHEMAS ===
 export const insertApplicationSchema = createInsertSchema(internshipApplications)
   .omit({ id: true, createdAt: true })
@@ -46,6 +54,14 @@ export const insertContactMessageSchema = createInsertSchema(contactMessages)
 
 export const insertAdSchema = createInsertSchema(ads).omit({ id: true, createdAt: true });
 
+export const insertCertificateSchema = createInsertSchema(certificates).omit({ id: true, issueDate: true });
+export const bulkInsertCertificateSchema = z.object({
+  students: z.array(z.object({
+    studentName: z.string(),
+    domain: z.string(),
+  }))
+});
+
 // === EXPLICIT API CONTRACT TYPES ===
 export type InternshipApplication = typeof internshipApplications.$inferSelect;
 export type InsertApplication = z.infer<typeof insertApplicationSchema>;
@@ -55,6 +71,9 @@ export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
 
 export type Ad = typeof ads.$inferSelect;
 export type InsertAd = z.infer<typeof insertAdSchema>;
+
+export type Certificate = typeof certificates.$inferSelect;
+export type InsertCertificate = z.infer<typeof insertCertificateSchema>;
 
 export type CreateApplicationRequest = InsertApplication;
 export type CreateContactMessageRequest = InsertContactMessage;

@@ -120,7 +120,7 @@ export default function Terms() {
                 <h2 className="text-2xl font-display font-bold text-foreground mb-4">10. Contact Information</h2>
                 <div className="space-y-2 text-foreground">
                   <p><span className="font-semibold">Company Name:</span> SkyForger</p>
-                  <p><span className="font-semibold">Email:</span> skyforge@gmail.com</p>
+                  <p><span className="font-semibold">Email:</span> skyforger@gmail.com</p>
                   <p><span className="font-semibold">Founder:</span> Darshan</p>
                 </div>
               </section>

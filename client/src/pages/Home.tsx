@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, BrainCircuit, Code2, LayoutTemplate, UserPlus, FileCheck2, Send, Award } from "lucide-react";
+import { ArrowRight, BrainCircuit, Code2, LayoutTemplate, UserPlus, FileCheck2, Send, Award, Download } from "lucide-react";
 import { AdSection } from "@/components/AdSection";
 
 export default function Home() {
@@ -179,16 +179,24 @@ export default function Home() {
               { 
                 title: "Verified Certification", 
                 desc: "Receive a professional certificate upon successful completion to showcase your skills to employers.",
-                icon: <Award className="w-8 h-8 text-primary" />
+                icon: <Award className="w-8 h-8 text-primary" />,
+                action: (
+                  <a href="/certificates/sample-certificate.jpeg" download="SkyForger-Sample-Certificate.jpeg">
+                    <Button variant="outline" size="sm" className="mt-4 bg-primary/5 border-primary/20 hover:bg-primary/10 text-primary">
+                      <Download className="w-4 h-4 mr-2" /> Download Sample
+                    </Button>
+                  </a>
+                )
               }
             ].map((benefit, i) => (
               <Card key={i} className="bg-background/50 border-white/10 hover:border-primary/30 transition-all hover:-translate-y-1">
-                <CardContent className="p-8">
+                <CardContent className="p-8 flex flex-col h-full">
                   <div className="mb-6 bg-primary/10 w-16 h-16 rounded-2xl flex items-center justify-center">
                     {benefit.icon}
                   </div>
                   <h3 className="text-xl font-display font-bold mb-3">{benefit.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{benefit.desc}</p>
+                  <p className="text-muted-foreground leading-relaxed flex-grow">{benefit.desc}</p>
+                  {benefit.action && benefit.action}
                 </CardContent>
               </Card>
             ))}

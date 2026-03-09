@@ -46,6 +46,7 @@ export async function apiRequest(
       "Accept": "application/json"
     },
     body: data ? JSON.stringify(data) : undefined,
+    credentials: "include",
   };
 
   try {
@@ -64,7 +65,9 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(toUrl(queryKey.join("/") as string));
+    const res = await fetch(toUrl(queryKey.join("/") as string), {
+      credentials: "include",
+    });
 
     if (unauthorizedBehavior === "returnNull" && res.status === 401) {
       return null;

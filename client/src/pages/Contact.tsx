@@ -70,7 +70,7 @@ export default function Contact() {
                       </div>
                       <div>
                         <h4 className="font-semibold text-foreground mb-1">Email Us</h4>
-                        <p className="text-muted-foreground">skyforgelearn@gmail.com</p>
+                        <p className="text-muted-foreground">skyforgerlearn@gmail.com</p>
                       </div>
                     </div>
                     
@@ -118,7 +118,7 @@ export default function Contact() {
                             <FormItem>
                               <FormLabel>Email Address</FormLabel>
                               <FormControl>
-                                <Input type="email" placeholder="skyforgelearn@gmail.com" className="bg-background/50 border-white/10 focus-visible:ring-primary h-12" {...field} />
+                                <Input type="email" placeholder="skyforgerlearn@gmail.com" className="bg-background/50 border-white/10 focus-visible:ring-primary h-12" {...field} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>

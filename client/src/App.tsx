@@ -29,7 +29,7 @@ function Router() {
       <Route path="/certificate" component={Certificate} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
-      <Route path="/admin" component={Admin} />
+      <Route path="/skyforger-portal-2026" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );

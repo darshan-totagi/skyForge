@@ -1,14 +1,62 @@
-import type { Express } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import type { Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
 import { sendWhatsAppGroupInvite } from "./whatsapp";
+import { bulkInsertCertificateSchema } from "@shared/schema";
+import { nanoid } from "nanoid";
+
+// Middleware to protect admin routes
+function requireAdmin(req: Request, res: Response, next: NextFunction) {
+  if (req.session && (req.session as any).isAdmin) {
+    next();
+  } else {
+    res.status(401).json({ message: "Unauthorized" });
+  }
+}
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  // Admin login endpoint
+  app.post("/api/login", (req, res) => {
+    const { password } = req.body;
+    const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+
+    if (password === adminPassword) {
+      (req.session as any).isAdmin = true;
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res.status(500).json({ message: "Failed to save session" });
+        }
+        res.json({ success: true });
+      });
+    } else {
+      res.status(401).json({ message: "Invalid password" });
+    }
+  });
+
+  app.post("/api/logout", (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Session destroy error:", err);
+        return res.status(500).json({ message: "Failed to logout" });
+      }
+      res.json({ success: true });
+    });
+  });
+
+  app.get("/api/check-auth", (req, res) => {
+    if (req.session && (req.session as any).isAdmin) {
+      res.json({ isAdmin: true });
+    } else {
+      res.json({ isAdmin: false });
+    }
+  });
+
   // Application endpoints
   app.post(api.applications.create.path, async (req, res) => {
     try {
@@ -28,7 +76,7 @@ export async function registerRoutes(
     }
   });
 
-  app.get(api.applications.list.path, async (req, res) => {
+  app.get(api.applications.list.path, requireAdmin, async (req, res) => {
     const apps = await storage.getApplications();
     res.json(apps);
   });
@@ -50,7 +98,7 @@ export async function registerRoutes(
     }
   });
 
-  app.get(api.contact.list.path, async (req, res) => {
+  app.get(api.contact.list.path, requireAdmin, async (req, res) => {
     const messages = await storage.getContactMessages();
     res.json(messages);
   });
@@ -61,7 +109,7 @@ export async function registerRoutes(
     res.json(ads);
   });
 
-  app.post(api.ads.create.path, async (req, res) => {
+  app.post(api.ads.create.path, requireAdmin, async (req, res) => {
     try {
       const input = api.ads.create.input.parse(req.body);
       const ad = await storage.createAd(input);
@@ -77,7 +125,7 @@ export async function registerRoutes(
     }
   });
 
-  app.patch(api.ads.update.path, async (req, res) => {
+  app.patch(api.ads.update.path, requireAdmin, async (req, res) => {
     try {
       const id = Number(req.params.id);
       const input = api.ads.update.input.parse(req.body);
@@ -94,10 +142,50 @@ export async function registerRoutes(
     }
   });
 
-  app.delete(api.ads.delete.path, async (req, res) => {
+  app.delete(api.ads.delete.path, requireAdmin, async (req, res) => {
     const id = Number(req.params.id);
     await storage.deleteAd(id);
     res.status(204).send();
+  });
+
+  // Certificate endpoints
+  app.post("/api/certificates/bulk", requireAdmin, async (req, res) => {
+    try {
+      const { students } = bulkInsertCertificateSchema.parse(req.body);
+      const createdCerts = [];
+      
+      for (const student of students) {
+        const certId = `SF-${nanoid(8).toUpperCase()}`;
+        const cert = await storage.createCertificate({
+          studentName: student.studentName,
+          domain: student.domain,
+          certificateId: certId
+        });
+        createdCerts.push(cert);
+      }
+      
+      res.status(201).json(createdCerts);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({ message: err.errors[0].message });
+      }
+      throw err;
+    }
+  });
+
+  app.get("/api/certificates", requireAdmin, async (req, res) => {
+    const certs = await storage.getCertificates();
+    res.json(certs);
+  });
+
+  app.get("/api/certificates/verify", async (req, res) => {
+    const query = req.query.query as string;
+    if (!query) return res.status(400).json({ message: "Query is required" });
+    
+    const cert = await storage.verifyCertificate(query);
+    if (!cert) return res.status(404).json({ message: "Certificate not found" });
+    
+    res.json(cert);
   });
 
   return httpServer;

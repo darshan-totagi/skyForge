@@ -1,11 +1,32 @@
 import express, { type Request, Response, NextFunction } from "express";
 import cors from "cors";
+import session from "express-session";
+import MemoryStore from "memorystore";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 
 const app = express();
 app.use(cors());
+
+const SessionStore = MemoryStore(session);
+app.use(
+  session({
+    cookie: { 
+      maxAge: 86400000,
+      httpOnly: true,
+      secure: false, // Set to true if using HTTPS
+      sameSite: "lax"
+    },
+    store: new SessionStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.SESSION_SECRET || "skyforger-secret-key",
+  })
+);
+
 const httpServer = createServer(app);
 
 declare module "http" {

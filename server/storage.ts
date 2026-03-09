@@ -9,9 +9,12 @@ import {
   type ContactMessage,
   type CreateAdRequest,
   type UpdateAdRequest,
-  type Ad
+  type Ad,
+  type Certificate,
+  type InsertCertificate,
+  certificates
 } from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 
 export interface IStorage {
   createApplication(application: CreateApplicationRequest): Promise<InternshipApplication>;
@@ -22,6 +25,9 @@ export interface IStorage {
   getAds(): Promise<Ad[]>;
   updateAd(id: number, updates: UpdateAdRequest): Promise<Ad>;
   deleteAd(id: number): Promise<void>;
+  createCertificate(cert: InsertCertificate): Promise<Certificate>;
+  getCertificates(): Promise<Certificate[]>;
+  verifyCertificate(query: string): Promise<Certificate | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -66,6 +72,25 @@ export class DatabaseStorage implements IStorage {
 
   async deleteAd(id: number): Promise<void> {
     await db.delete(ads).where(eq(ads.id, id));
+  }
+
+  async createCertificate(cert: InsertCertificate): Promise<Certificate> {
+    const [created] = await db.insert(certificates).values(cert).returning();
+    return created;
+  }
+
+  async getCertificates(): Promise<Certificate[]> {
+    return await db.select().from(certificates).orderBy(certificates.issueDate);
+  }
+
+  async verifyCertificate(query: string): Promise<Certificate | undefined> {
+    const [cert] = await db.select()
+      .from(certificates)
+      .where(or(
+        eq(certificates.certificateId, query),
+        eq(certificates.studentName, query)
+      ));
+    return cert;
   }
 }
 

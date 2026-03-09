@@ -90,7 +90,7 @@ export default function Apply() {
                           <FormItem>
                             <FormLabel>Email Address *</FormLabel>
                             <FormControl>
-                              <Input type="email" placeholder="skyforgelearn@gmail.com" className="bg-background/50 border-white/10 focus-visible:ring-primary h-12" {...field} />
+                              <Input type="email" placeholder="skyforgerlearn@gmail.com" className="bg-background/50 border-white/10 focus-visible:ring-primary h-12" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
