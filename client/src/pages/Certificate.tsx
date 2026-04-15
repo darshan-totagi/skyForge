@@ -84,87 +84,124 @@ export default function Certificate() {
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 className="mt-16 w-full flex justify-center"
               >
-                <Card className="bg-[#fdfdfa] text-slate-800 overflow-hidden relative shadow-2xl shadow-primary/20 w-full max-w-6xl border-4 border-white/50">
+                <Card className="bg-[#fdfdfa] text-slate-800 overflow-hidden relative shadow-2xl shadow-primary/20 w-full max-w-6xl border-0">
+                  {/* Background Texture/Pattern */}
+                  <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 0.5px, transparent 0.5px)', backgroundSize: '10px 10px' }}></div>
+                  
                   {/* Watermark */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
                     <img 
                       src="/logo.png" 
                       alt="Watermark" 
-                      className="w-1/3 h-1/3 object-contain opacity-5"
+                      className="w-1/2 h-1/2 object-contain opacity-[0.02] -rotate-12"
                     />
                   </div>
 
-                  {/* Borders */}
-                  <div className="relative p-4 border-8 border-amber-100">
-                    <div className="border-2 border-amber-300 p-8">
-                      <div className="relative text-center">
-                        {/* Certificate ID Top Right */}
-                        <div className="absolute top-0 right-0 text-right">
-                            <p className="text-sm text-slate-500 font-semibold uppercase tracking-widest">Certificate ID</p>
-                            <p className="font-mono text-primary font-extrabold text-2xl mt-1 tracking-tighter">{certificate.certificateId}</p>
-                        </div>
+                  {/* Outer Border */}
+                  <div className="relative p-6 border-[12px] border-[#e2d1a7]">
+                    {/* Inner Border */}
+                    <div className="border-[1px] border-[#c5a059] p-1">
+                      <div className="border-[4px] border-double border-[#c5a059] p-10 relative">
+                        {/* Corner Ornaments */}
+                        <div className="absolute -top-1 -left-1 w-8 h-8 border-t-4 border-l-4 border-[#c5a059]"></div>
+                        <div className="absolute -top-1 -right-1 w-8 h-8 border-t-4 border-r-4 border-[#c5a059]"></div>
+                        <div className="absolute -bottom-1 -left-1 w-8 h-8 border-b-4 border-l-4 border-[#c5a059]"></div>
+                        <div className="absolute -bottom-1 -right-1 w-8 h-8 border-b-4 border-r-4 border-[#c5a059]"></div>
 
-                        {/* Header */}
-                        <div className="flex justify-center items-center gap-4 mb-4">
-                          <img src="/logo.png" alt="SkyForger Logo" className="h-14 w-14" />
-                          <h2 className="text-4xl font-bold font-display text-slate-900">SkyForger</h2>
-                        </div>
-                        <p className="text-primary font-semibold tracking-[0.3em] text-sm uppercase mb-12">Internship Verification Result</p>
+                        <div className="relative text-center">
+                          {/* Certificate ID Top Right */}
+                          <div className="absolute top-0 right-0 text-right">
+                              <p className="text-[10px] text-[#c5a059] font-bold uppercase tracking-[0.2em] mb-1">Verification ID</p>
+                              <p className="font-mono text-slate-800 font-bold text-lg border-b border-[#c5a059]/30 pb-1">{certificate.certificateId}</p>
+                          </div>
 
-                        {/* Body */}
-                        <p className="text-xl text-slate-500">Official record confirms that</p>
-                        <h1 className="text-6xl font-bold text-primary my-4" style={{ fontFamily: '"Cormorant Garamond", serif' }}>
-                          {certificate.studentName}
-                        </h1>
-                        <p className="text-xl text-slate-500">is a verified intern who completed the</p>
-                        <p className="text-3xl font-bold text-slate-800 mt-2">{certificate.domain}</p>
-                        <p className="text-xl text-slate-500">at SkyForger Internship Program</p>
-                      </div>
+                          {/* Header */}
+                          <div className="flex flex-col items-center mb-8">
+                            <img src="/logo.png" alt="SkyForger Logo" className="h-20 w-20 mb-4 drop-shadow-sm" />
+                            <h2 className="text-3xl font-bold tracking-tight text-slate-900 uppercase" style={{ fontFamily: 'Oxanium, sans-serif' }}>SkyForger</h2>
+                            <div className="w-48 h-px bg-gradient-to-r from-transparent via-[#c5a059] to-transparent my-4"></div>
+                            <p className="text-[#c5a059] font-bold tracking-[0.4em] text-xs uppercase">Certificate of Excellence</p>
+                          </div>
 
-                      {/* Footer with Seal, Date, Signature */}
-                      <div className="mt-20 grid grid-cols-1 md:grid-cols-3 items-end gap-8 text-center">
-                        {/* Signature */}
-                        <div className="flex flex-col items-center">
-                          <p className="text-3xl" style={{ fontFamily: '"Dancing Script", cursive' }}>Darshan T</p>
-                          <div className="border-t-2 border-slate-400 w-4/5 mt-1"></div>
-                          <p className="text-xs font-bold uppercase mt-2">Founder, SkyForger</p>
-                        </div>
+                          {/* Body */}
+                          <div className="space-y-8 my-16">
+                            <p className="text-xl italic text-slate-500 font-serif">This official record hereby confirms that</p>
+                            
+                            <div className="relative py-4">
+                              <h1 className="text-7xl font-bold text-slate-900" style={{ fontFamily: '"Cormorant Garamond", serif' }}>
+                                {certificate.studentName}
+                              </h1>
+                              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3/4 h-[2px] bg-gradient-to-r from-transparent via-[#c5a059]/40 to-transparent"></div>
+                            </div>
 
-                        {/* Seal */}
-                        <div className="flex justify-center order-first md:order-none">
-                          {/* THE SEAL */}
-                          <div className="relative flex flex-col items-center">
-                            <motion.div 
-                              initial={{ scale: 0, rotate: -20 }}
-                              animate={{ scale: 1, rotate: 0 }}
-                              className="w-32 h-32 relative"
-                            >
-                              <svg viewBox="0 0 100 100" className="w-full h-full animate-spin-slow">
-                                <defs>
-                                  <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
-                                </defs>
-                                <text className="text-[10px] font-bold fill-amber-500/80 uppercase tracking-[0.2em]">
-                                  <textPath href="#circlePath">
-                                    Verified • SkyForger • Authentic • Excellence •
-                                  </textPath>
-                                </text>
-                              </svg>
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-50 via-yellow-100 to-amber-200 border-4 border-double border-amber-400/50 flex items-center justify-center shadow-inner shadow-amber-900/10">
-                                  <CheckCircle2 className="h-10 w-10 text-amber-500 drop-shadow-[0_0_5px_rgba(245,158,11,0.4)]" />
-                                </div>
-                              </div>
-                            </motion.div>
+                            <p className="text-xl text-slate-500 font-serif italic">has successfully demonstrated proficiency and completed the</p>
+                            
+                            <div className="py-2">
+                              <p className="text-4xl font-bold text-slate-800 tracking-tight uppercase" style={{ fontFamily: 'Oxanium, sans-serif' }}>
+                                {certificate.domain}
+                              </p>
+                              <p className="text-sm font-bold text-[#c5a059] mt-2 tracking-[0.2em] uppercase">Professional Internship Program</p>
+                            </div>
                           </div>
                         </div>
 
-                        {/* Date & ID */}
-                        <div className="flex flex-col items-center">
-                          <p className="text-lg font-bold text-slate-700">
-                            {new Date(certificate.issueDate!).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                          </p>
-                          <div className="border-t-2 border-slate-400 w-4/5 mt-1"></div>
-                          <p className="text-xs font-bold uppercase mt-2">Verification Date</p>
+                        {/* Footer with Seal, Date, Signature */}
+                        <div className="mt-24 grid grid-cols-1 md:grid-cols-3 items-end gap-12 text-center">
+                          {/* Signature */}
+                          <div className="flex flex-col items-center">
+                            <div className="h-16 flex items-end justify-center mb-2">
+                              <p className="text-4xl text-slate-800 opacity-90" style={{ fontFamily: '"Dancing Script", cursive' }}>Darshan T</p>
+                            </div>
+                            <div className="w-full h-[1px] bg-slate-300"></div>
+                            <p className="text-[10px] font-bold uppercase mt-3 tracking-widest text-slate-500">Authorized Signatory</p>
+                            <p className="text-[9px] font-bold uppercase text-[#c5a059]">Founder, SkyForger</p>
+                          </div>
+
+                          {/* Seal */}
+                          <div className="flex justify-center order-first md:order-none -mb-4">
+                            <div className="relative flex flex-col items-center group">
+                              <motion.div 
+                                initial={{ scale: 0, rotate: -30 }}
+                                animate={{ scale: 1, rotate: 0 }}
+                                className="w-40 h-40 relative"
+                              >
+                                {/* Outer Spinning Ring */}
+                                <svg viewBox="0 0 100 100" className="w-full h-full animate-spin-slow opacity-80 group-hover:opacity-100 transition-opacity">
+                                  <defs>
+                                    <path id="sealPath" d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" />
+                                  </defs>
+                                  <text className="text-[7.5px] font-bold fill-[#c5a059] uppercase tracking-[0.25em]">
+                                    <textPath href="#sealPath">
+                                      OFFICIAL VERIFIED • SKYFORGER ACADEMY • EXCELLENCE • AUTHENTIC •
+                                    </textPath>
+                                  </text>
+                                </svg>
+                                
+                                {/* Inner Wax Seal Look */}
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#f2e2ba] via-[#c5a059] to-[#8a6d3b] p-1 shadow-xl shadow-amber-900/20">
+                                    <div className="w-full h-full rounded-full bg-[#fdfdfa] flex items-center justify-center border-2 border-[#c5a059]/30 relative overflow-hidden">
+                                      {/* Seal Pattern */}
+                                      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #c5a059 0px, #c5a059 1px, transparent 1px, transparent 10px)' }}></div>
+                                      <CheckCircle2 className="h-12 w-12 text-[#c5a059] relative z-10 drop-shadow-sm" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            </div>
+                          </div>
+
+                          {/* Date */}
+                          <div className="flex flex-col items-center">
+                            <div className="h-16 flex items-end justify-center mb-2">
+                              <p className="text-lg font-bold text-slate-800 font-serif">
+                                {new Date(certificate.issueDate!).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                              </p>
+                            </div>
+                            <div className="w-full h-[1px] bg-slate-300"></div>
+                            <p className="text-[10px] font-bold uppercase mt-3 tracking-widest text-slate-500">Date of Issue</p>
+                            <p className="text-[9px] font-bold uppercase text-[#c5a059]">Karnataka, India</p>
+                          </div>
                         </div>
                       </div>
                     </div>
