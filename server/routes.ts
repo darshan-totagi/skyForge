@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
 import { sendWhatsAppGroupInvite } from "./whatsapp";
-import { bulkInsertCertificateSchema } from "@shared/schema";
+import { bulkInsertCertificateSchema, insertOfferLetterSchema, bulkInsertOfferLetterSchema } from "@shared/schema";
 import { nanoid } from "nanoid";
 
 // Middleware to protect admin routes
@@ -186,6 +186,44 @@ export async function registerRoutes(
     if (!cert) return res.status(404).json({ message: "Certificate not found" });
     
     res.json(cert);
+  });
+
+  // Offer Letter endpoints
+  app.post("/api/offer-letters", requireAdmin, async (req, res) => {
+    try {
+      const input = insertOfferLetterSchema.parse(req.body);
+      const letter = await storage.createOfferLetter(input);
+      res.status(201).json(letter);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({ message: err.errors[0].message });
+      }
+      throw err;
+    }
+  });
+
+  app.get("/api/offer-letters", requireAdmin, async (req, res) => {
+    const letters = await storage.getOfferLetters();
+    res.json(letters);
+  });
+
+  app.post("/api/offer-letters/bulk", requireAdmin, async (req, res) => {
+    try {
+      const { students } = bulkInsertOfferLetterSchema.parse(req.body);
+      const createdLetters = [];
+      
+      for (const student of students) {
+        const letter = await storage.createOfferLetter(student);
+        createdLetters.push(letter);
+      }
+      
+      res.status(201).json(createdLetters);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({ message: err.errors[0].message });
+      }
+      throw err;
+    }
   });
 
   return httpServer;

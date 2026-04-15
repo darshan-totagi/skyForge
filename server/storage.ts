@@ -12,7 +12,10 @@ import {
   type Ad,
   type Certificate,
   type InsertCertificate,
-  certificates
+  certificates,
+  offerLetters,
+  type OfferLetter,
+  type InsertOfferLetter
 } from "@shared/schema";
 import { eq, or } from "drizzle-orm";
 
@@ -28,6 +31,8 @@ export interface IStorage {
   createCertificate(cert: InsertCertificate): Promise<Certificate>;
   getCertificates(): Promise<Certificate[]>;
   verifyCertificate(query: string): Promise<Certificate | undefined>;
+  createOfferLetter(letter: InsertOfferLetter): Promise<OfferLetter>;
+  getOfferLetters(): Promise<OfferLetter[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -91,6 +96,15 @@ export class DatabaseStorage implements IStorage {
         eq(certificates.studentName, query)
       ));
     return cert;
+  }
+
+  async createOfferLetter(letter: InsertOfferLetter): Promise<OfferLetter> {
+    const [created] = await db.insert(offerLetters).values(letter).returning();
+    return created;
+  }
+
+  async getOfferLetters(): Promise<OfferLetter[]> {
+    return await db.select().from(offerLetters).orderBy(offerLetters.createdAt);
   }
 }
 
