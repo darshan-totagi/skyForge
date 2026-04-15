@@ -226,5 +226,36 @@ export async function registerRoutes(
     }
   });
 
+  // Review endpoints
+  app.get(api.reviews.list.path, async (req, res) => {
+    const reviews = await storage.getReviews();
+    res.json(reviews);
+  });
+
+  app.post(api.reviews.create.path, requireAdmin, async (req, res) => {
+    try {
+      console.log("Creating review with input:", req.body);
+      const input = api.reviews.create.input.parse(req.body);
+      const review = await storage.createReview(input);
+      console.log("Review created successfully:", review.id);
+      res.status(201).json(review);
+    } catch (err) {
+      console.error("Error creating review:", err);
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({
+          message: err.errors[0].message,
+          field: err.errors[0].path.join('.'),
+        });
+      }
+      res.status(500).json({ message: "Internal server error saving review" });
+    }
+  });
+
+  app.delete(api.reviews.delete.path, requireAdmin, async (req, res) => {
+    const id = Number(req.params.id);
+    await storage.deleteReview(id);
+    res.status(204).send();
+  });
+
   return httpServer;
 }

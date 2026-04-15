@@ -15,7 +15,10 @@ import {
   certificates,
   offerLetters,
   type OfferLetter,
-  type InsertOfferLetter
+  type InsertOfferLetter,
+  reviews,
+  type Review,
+  type CreateReviewRequest
 } from "@shared/schema";
 import { eq, or } from "drizzle-orm";
 
@@ -33,6 +36,9 @@ export interface IStorage {
   verifyCertificate(query: string): Promise<Certificate | undefined>;
   createOfferLetter(letter: InsertOfferLetter): Promise<OfferLetter>;
   getOfferLetters(): Promise<OfferLetter[]>;
+  createReview(review: CreateReviewRequest): Promise<Review>;
+  getReviews(): Promise<Review[]>;
+  deleteReview(id: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -105,6 +111,19 @@ export class DatabaseStorage implements IStorage {
 
   async getOfferLetters(): Promise<OfferLetter[]> {
     return await db.select().from(offerLetters).orderBy(offerLetters.createdAt);
+  }
+
+  async createReview(review: CreateReviewRequest): Promise<Review> {
+    const [created] = await db.insert(reviews).values(review).returning();
+    return created;
+  }
+
+  async getReviews(): Promise<Review[]> {
+    return await db.select().from(reviews).orderBy(reviews.createdAt);
+  }
+
+  async deleteReview(id: number): Promise<void> {
+    await db.delete(reviews).where(eq(reviews.id, id));
   }
 }
 

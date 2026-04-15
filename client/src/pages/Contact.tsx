@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertContactMessageSchema, type InsertContactMessage } from "@shared/schema";
 import { useSubmitContact } from "@/hooks/use-contact";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Form,
   FormControl,
@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Mail, MapPin, Instagram, Linkedin, Globe } from "lucide-react";
+import { Loader2, Mail, Linkedin, Globe, Send } from "lucide-react";
 
 const FloatingShape = () => {
   return (
@@ -149,84 +149,97 @@ export default function Contact() {
 
   return (
     <MainLayout>
-      <div className="min-h-[calc(100vh-80px)] flex items-center justify-center py-12 px-4 md:px-6 relative overflow-hidden bg-background">
-        {/* Background Gradients */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full opacity-30" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/5 blur-[120px] rounded-full opacity-30" />
+      <div className="min-h-screen relative overflow-hidden bg-[#020617] pt-32 pb-24">
+        {/* Advanced Animative Background - Matching Design System */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <div className="absolute inset-0 z-[1] opacity-[0.15] pointer-events-none noise" />
+          
+          <motion.div
+            animate={{
+              x: ["-25%", "25%", "-25%"],
+              y: ["-15%", "15%", "-15%"],
+              scale: [1, 1.3, 1],
+              rotate: [12, 18, 12],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[-20%] left-[-20%] w-[150%] h-[100%] energy-wave opacity-60 mix-blend-screen bg-primary/40 blur-[100px]"
+          />
+          <motion.div
+            animate={{
+              x: ["25%", "-25%", "25%"],
+              y: ["15%", "-15%", "15%"],
+              scale: [1.2, 1, 1.2],
+              rotate: [-6, -15, -6],
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-[-20%] right-[-20%] w-[150%] h-[90%] energy-wave opacity-50 mix-blend-screen bg-secondary/40 blur-[100px]"
+          />
+
+          <div 
+            className="absolute inset-0 opacity-[0.15] pointer-events-none"
+            style={{ 
+              backgroundImage: `linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
+              backgroundSize: '40px 40px'
+            }}
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black" />
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-          className="container max-w-7xl mx-auto relative z-10"
-        >
-          {/* Main Container with Border */}
-          <div className="glass-card border border-white/5 rounded-[2rem] overflow-hidden relative shadow-2xl bg-black/40 backdrop-blur-3xl p-8 md:p-12 lg:p-16">
-            
-            {/* Top Indicator */}
-            <div className="flex justify-center mb-12">
-              <motion.div 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10"
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            {/* Header Section */}
+            <div className="mb-20">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="flex items-center gap-3 mb-6"
               >
-                <div className="w-2 h-2 rounded-full bg-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)]" />
-                <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground/80">Our Users</span>
+                <div className="w-1.5 h-1.5 bg-primary" />
+                <span className="text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase text-muted-foreground/80">
+                  Contact Support
+                </span>
               </motion.div>
-            </div>
 
-            {/* Header */}
-            <div className="text-center mb-16">
               <motion.h1 
+                className="text-[10vw] md:text-[7vw] lg:text-[6vw] font-display font-extrabold mb-8 leading-[0.9] tracking-tighter"
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
+              >
+                Get In <br />
+                <span className="text-foreground/90">Touch With</span> <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]">Us</span>
+              </motion.h1>
+              
+              <motion.p 
+                className="text-xl md:text-2xl text-muted-foreground/80 max-w-2xl font-medium border-l border-white/10 pl-8 leading-relaxed"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
-                className="text-4xl md:text-6xl lg:text-7xl font-display font-extrabold mb-6 tracking-tight"
               >
-                We're Here to Help
-              </motion.h1>
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto font-medium"
-              >
-                Questions, ideas, or feedback—let's make progress together.
+                Questions, ideas, or feedback—let's make progress together. Reach out through the form below.
               </motion.p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
               
-              {/* Left Column: Details & Visual */}
+              {/* Left Column: Visual & Social */}
               <div className="space-y-12">
                 <div className="flex flex-col items-center lg:items-start">
                   <FloatingShape />
                   
-                  <div className="mt-12 space-y-8 w-full max-w-md mx-auto lg:mx-0">
+                  <div className="mt-12 space-y-10 w-full max-w-md mx-auto lg:mx-0">
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.6 }}
                       className="group"
                     >
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 mb-2">Email</p>
-                      <a href="mailto:skyforgertechnologies@gmail.com" className="text-xl md:text-2xl font-display font-bold text-foreground hover:text-primary transition-colors flex items-center gap-3">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 mb-3">Email Address</p>
+                      <a href="mailto:skyforgertechnologies@gmail.com" className="text-xl md:text-3xl font-display font-extrabold text-foreground hover:text-primary transition-all tracking-tight break-all">
                         skyforgertechnologies@gmail.com
                       </a>
-                    </motion.div>
-
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.7 }}
-                    >
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 mb-2">Location</p>
-                      <div className="text-xl md:text-2xl font-display font-bold text-foreground flex items-center gap-3">
-                        Tech Innovation Hub, <br /> Innovation Street, Remote-First
-                      </div>
                     </motion.div>
 
                     <motion.div
@@ -235,15 +248,13 @@ export default function Contact() {
                       transition={{ delay: 0.8 }}
                       className="space-y-4"
                     >
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 mb-2">Social Media</p>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 mb-3">Professional Network</p>
                       <div className="flex gap-6">
-                        <a href="https://www.linkedin.com/company/skyforger/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group">
-                          <Linkedin className="w-5 h-5" />
-                          <span className="font-semibold">skyforger</span>
-                        </a>
-                        <a href="#" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group">
-                          <Instagram className="w-5 h-5" />
-                          <span className="font-semibold">@skyforger.tech</span>
+                        <a href="https://www.linkedin.com/company/skyforger/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-all group">
+                          <div className="w-10 h-10 rounded-none border border-white/10 flex items-center justify-center group-hover:border-primary transition-colors">
+                            <Linkedin className="w-5 h-5" />
+                          </div>
+                          <span className="font-bold tracking-tight text-lg">skyforger</span>
                         </a>
                       </div>
                     </motion.div>
@@ -253,109 +264,118 @@ export default function Contact() {
 
               {/* Right Column: Form */}
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
+                initial={{ opacity: 0, y: 40, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: 0.5, duration: 1, ease: [0.23, 1, 0.32, 1] }}
                 className="relative"
               >
-                {/* Yellow dot above form */}
-                <div className="flex items-center gap-2 mb-8 ml-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
+                {/* Decorative Corner Elements */}
+                <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-primary/30 z-20" />
+                <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-primary/30 z-20" />
+
+                <div className="glass-card border border-white/5 bg-black/40 backdrop-blur-3xl p-8 md:p-12 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
+                  
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem className="space-y-3">
+                            <FormLabel className="text-muted-foreground/60 text-[10px] font-bold uppercase tracking-[0.2em]">Full name</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="e.g. John Doe" 
+                                className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-lg placeholder:text-muted-foreground/20" 
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem className="space-y-3">
+                            <FormLabel className="text-muted-foreground/60 text-[10px] font-bold uppercase tracking-[0.2em]">Email address</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="email"
+                                placeholder="e.g. john@example.com" 
+                                className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-lg placeholder:text-muted-foreground/20" 
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="company"
+                        render={({ field }) => (
+                          <FormItem className="space-y-3">
+                            <FormLabel className="text-muted-foreground/60 text-[10px] font-bold uppercase tracking-[0.2em]">Company / Institution</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="e.g. Tech University" 
+                                className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-lg placeholder:text-muted-foreground/20" 
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="message"
+                        render={({ field }) => (
+                          <FormItem className="space-y-3">
+                            <FormLabel className="text-muted-foreground/60 text-[10px] font-bold uppercase tracking-[0.2em]">Message or Inquiry</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                placeholder="How can we help you?" 
+                                className="bg-transparent border border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all min-h-[120px] p-4 text-lg placeholder:text-muted-foreground/20 resize-none" 
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <div className="pt-6">
+                        <Button 
+                          type="submit" 
+                          className="w-full h-16 rounded-none bg-primary text-black hover:bg-white transition-all font-bold text-base tracking-[0.2em] uppercase group flex items-center justify-center gap-4 relative overflow-hidden"
+                          disabled={mutation.isPending}
+                        >
+                          {mutation.isPending ? (
+                            <Loader2 className="w-6 h-6 animate-spin" />
+                          ) : (
+                            <>
+                              <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                              <span>Send Message</span>
+                            </>
+                          )}
+                          <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black/10" />
+                        </Button>
+                      </div>
+                    </form>
+                  </Form>
                 </div>
-
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-muted-foreground/60 text-xs font-bold uppercase tracking-widest ml-1">Full name</FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="" 
-                              className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-colors h-10 px-1 placeholder:text-muted-foreground/30" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-muted-foreground/60 text-xs font-bold uppercase tracking-widest ml-1">Email</FormLabel>
-                          <FormControl>
-                            <Input 
-                              type="email"
-                              placeholder="" 
-                              className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-colors h-10 px-1 placeholder:text-muted-foreground/30" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="company"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-muted-foreground/60 text-xs font-bold uppercase tracking-widest ml-1">Company</FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="" 
-                              className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-colors h-10 px-1 placeholder:text-muted-foreground/30" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="message"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-muted-foreground/60 text-xs font-bold uppercase tracking-widest ml-1">Message or Inquiry</FormLabel>
-                          <FormControl>
-                            <Textarea 
-                              placeholder="" 
-                              className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-colors min-h-[120px] px-1 resize-none placeholder:text-muted-foreground/30" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-white text-black hover:bg-white/90 font-bold h-14 rounded-xl text-lg transition-transform active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-                      disabled={mutation.isPending}
-                    >
-                      {mutation.isPending ? (
-                        <Loader2 className="w-6 h-6 animate-spin" />
-                      ) : (
-                        "Submit"
-                      )}
-                    </Button>
-                  </form>
-                </Form>
               </motion.div>
+              </div>
             </div>
           </div>
-        </motion.div>
-      </div>
-    </MainLayout>
-  );
+        </div>
+      </MainLayout>
+    );
 }

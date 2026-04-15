@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, boolean, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -53,6 +53,17 @@ export const offerLetters = pgTable("offer_letters", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const reviews = pgTable("reviews", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  role: text("role").notNull(),
+  content: text("content").notNull(),
+  linkedinUrl: text("linkedin_url"),
+  imageUrl: text("image_url"),
+  rating: integer("rating").default(5),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // === BASE SCHEMAS ===
 export const insertApplicationSchema = createInsertSchema(internshipApplications)
   .omit({ id: true, createdAt: true })
@@ -64,6 +75,14 @@ export const insertContactMessageSchema = createInsertSchema(contactMessages)
   .omit({ id: true, createdAt: true });
 
 export const insertAdSchema = createInsertSchema(ads).omit({ id: true, createdAt: true });
+
+export const insertReviewSchema = createInsertSchema(reviews)
+  .omit({ id: true, createdAt: true })
+  .extend({
+    linkedinUrl: z.string().optional().nullable().transform(v => v === "" ? null : v),
+    imageUrl: z.string().optional().nullable().transform(v => v === "" ? null : v),
+    rating: z.number().optional().default(5),
+  });
 
 export const insertCertificateSchema = createInsertSchema(certificates).omit({ id: true, issueDate: true });
 export const bulkInsertCertificateSchema = z.object({
@@ -94,6 +113,9 @@ export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
 export type Ad = typeof ads.$inferSelect;
 export type InsertAd = z.infer<typeof insertAdSchema>;
 
+export type Review = typeof reviews.$inferSelect;
+export type InsertReview = z.infer<typeof insertReviewSchema>;
+
 export type Certificate = typeof certificates.$inferSelect;
 export type InsertCertificate = z.infer<typeof insertCertificateSchema>;
 
@@ -104,3 +126,4 @@ export type CreateApplicationRequest = InsertApplication;
 export type CreateContactMessageRequest = InsertContactMessage;
 export type CreateAdRequest = InsertAd;
 export type UpdateAdRequest = Partial<InsertAd>;
+export type CreateReviewRequest = InsertReview;
