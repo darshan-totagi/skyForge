@@ -3,78 +3,72 @@ import { Rocket, Mail, MapPin, Linkedin } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-card/50 border-t border-white/5 pt-16 pb-8 relative overflow-hidden">
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/10 blur-[100px] rounded-full pointer-events-none" />
-      
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-6 group">
-              <img 
-                src="/logo.png" 
-                alt="SkyForger Logo" 
-                className="h-10 w-auto object-contain"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                }}
-              />
-              <div className="bg-primary/20 p-2 rounded-xl text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors hidden">
-                <Rocket size={24} className="text-primary stroke-[2.5]" />
-              </div>
-              <span className="font-display font-bold text-2xl tracking-wide text-foreground">
-                Sky<span className="text-primary">Forger</span>
+    <footer className="bg-black border-t border-white/5 pt-24 pb-12 relative overflow-hidden">
+      <div className="container mx-auto px-6 md:px-12 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
+          <div className="lg:col-span-1">
+            <Link href="/" className="flex flex-col group mb-8">
+              <span className="font-display font-extrabold text-2xl tracking-tighter text-white leading-none">
+                SKYFORGER
+              </span>
+              <span className="text-[10px] font-bold tracking-[0.3em] text-primary uppercase mt-1">
+                Technologies
               </span>
             </Link>
-            <p className="text-muted-foreground mb-6 max-w-sm">
+            <p className="text-muted-foreground/80 mb-8 max-w-xs text-lg font-medium leading-relaxed">
               Empowering the next generation of developers with real-world tech internships and hands-on experience.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-primary/20 hover:text-primary transition-colors">
-                <Linkedin size={20} />
+              <a 
+                href="https://www.linkedin.com/company/skyforger/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 border border-white/10 flex items-center justify-center hover:border-primary hover:text-primary transition-all group"
+              >
+                <Linkedin size={18} />
               </a>
             </div>
           </div>
 
           <div>
-            <h4 className="font-display font-semibold text-lg mb-6 text-foreground">Quick Links</h4>
-            <ul className="space-y-3">
-              <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
-              <li><Link href="/programs" className="text-muted-foreground hover:text-primary transition-colors">Internship Programs</Link></li>
-              <li><Link href="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQs</Link></li>
-              <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact Support</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-display font-semibold text-lg mb-6 text-foreground">Domains</h4>
-            <ul className="space-y-3">
-              <li className="text-muted-foreground">Artificial Intelligence</li>
-              <li className="text-muted-foreground">Full Stack Development</li>
-              <li className="text-muted-foreground">Frontend Development</li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-display font-semibold text-lg mb-6 text-foreground">Contact Us</h4>
+            <h4 className="text-[10px] font-bold tracking-[0.3em] uppercase text-white mb-8">Quick Links</h4>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-muted-foreground">
-                <Mail size={20} className="text-primary shrink-0 mt-0.5" />
-                <span>skyforgerlearn@gmail.com</span>
-              </li>
-              <li className="flex items-start gap-3 text-muted-foreground">
-                
-                
+              <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-all text-sm font-bold tracking-[0.1em] uppercase">About Us</Link></li>
+              <li><Link href="/programs" className="text-muted-foreground hover:text-primary transition-all text-sm font-bold tracking-[0.1em] uppercase">Internship Programs</Link></li>
+              <li><Link href="/faq" className="text-muted-foreground hover:text-primary transition-all text-sm font-bold tracking-[0.1em] uppercase">FAQs</Link></li>
+              <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-all text-sm font-bold tracking-[0.1em] uppercase">Contact Support</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-[10px] font-bold tracking-[0.3em] uppercase text-white mb-8">Domains</h4>
+            <ul className="space-y-4">
+              <li className="text-muted-foreground text-sm font-bold tracking-[0.1em] uppercase">Artificial Intelligence</li>
+              <li className="text-muted-foreground text-sm font-bold tracking-[0.1em] uppercase">Full Stack Development</li>
+              <li className="text-muted-foreground text-sm font-bold tracking-[0.1em] uppercase">Frontend Development</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-[10px] font-bold tracking-[0.3em] uppercase text-white mb-8">Contact Us</h4>
+            <ul className="space-y-6">
+              <li className="flex items-start gap-4">
+                <div className="w-8 h-8 border border-white/10 flex items-center justify-center text-primary shrink-0">
+                  <Mail size={14} />
+                </div>
+                <a href="mailto:skyforgertechnologies@gmail.com" className="text-muted-foreground hover:text-primary transition-all text-sm font-bold break-all leading-relaxed">
+                  skyforgertechnologies@gmail.com
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-white/10 text-center text-muted-foreground text-sm flex flex-col md:flex-row justify-between items-center gap-4">
-          <p>Copyright © 2026 SkyForger. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-muted-foreground/40">Copyright © 2026 SkyForger. All rights reserved.</p>
+          <div className="flex gap-8">
+            <Link href="/privacy" className="text-[10px] font-bold tracking-[0.2em] uppercase text-muted-foreground/40 hover:text-primary transition-all">Privacy Policy</Link>
+            <Link href="/terms" className="text-[10px] font-bold tracking-[0.2em] uppercase text-muted-foreground/40 hover:text-primary transition-all">Terms of Service</Link>
           </div>
         </div>
       </div>

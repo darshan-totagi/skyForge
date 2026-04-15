@@ -33,51 +33,54 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 border-b ${
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-background/80 backdrop-blur-lg border-white/10 py-3 shadow-lg shadow-black/20"
-          : "bg-transparent border-transparent py-5"
+          ? "bg-black/60 backdrop-blur-xl border-b border-white/5 py-3"
+          : "bg-transparent py-6"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-6 md:px-10">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link href="/" className="flex items-center gap-4 group">
             <img 
               src="/logo.png" 
               alt="SkyForger Logo" 
-              className="h-12 w-auto object-contain"
+              className="h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-105"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
-                e.currentTarget.nextElementSibling?.classList.remove('hidden');
               }}
             />
-            <div className="bg-primary/20 p-2 rounded-xl text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors hidden">
-              <Rocket size={8} className="stroke-[2.5]" />
+            <div className="flex flex-col">
+              <span className="font-display font-extrabold text-xl md:text-2xl tracking-tighter text-foreground leading-none">
+                SKYFORGER
+              </span>
+              <span className="text-[10px] font-bold tracking-[0.3em] text-primary uppercase mt-1 opacity-80 group-hover:opacity-100 transition-opacity">
+                Technologies
+              </span>
             </div>
-            <span className="font-display font-bold text-2xl tracking-wide text-foreground">
-              Sky<span className="text-primary">Forger</span>
-            </span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  location === link.href ? "text-primary" : "text-muted-foreground"
+                className={`text-[11px] font-bold tracking-[0.2em] uppercase transition-all hover:text-primary relative group ${
+                  location === link.href ? "text-primary" : "text-muted-foreground/70"
                 }`}
               >
                 {link.label}
+                <span className={`absolute -bottom-1 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full ${location === link.href ? "w-full" : ""}`} />
               </Link>
             ))}
           </nav>
 
           <div className="hidden md:block">
-            <Link href="/apply">
-              <Button className="font-semibold bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 shadow-lg shadow-primary/25 border-0">
-                Apply Now
+            <Link href="/contact">
+              <Button variant="outline" className="text-[11px] font-bold tracking-[0.2em] uppercase border-white/20 hover:border-primary hover:bg-primary/10 transition-all px-8 h-12 rounded-none flex items-center gap-2 group">
+                <div className="w-1.5 h-1.5 bg-primary group-hover:shadow-[0_0_10px_rgba(var(--primary),0.8)] transition-all" />
+                Get in Touch
               </Button>
             </Link>
           </div>
