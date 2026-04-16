@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Mail, Linkedin, Globe, Send } from "lucide-react";
+import { Loader2, Linkedin, Globe, Send } from "lucide-react";
 
 const FloatingShape = () => {
   return (
@@ -326,6 +326,7 @@ export default function Contact() {
                                 placeholder="e.g. Tech University" 
                                 className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-lg placeholder:text-muted-foreground/20" 
                                 {...field} 
+                                value={field.value || ""}
                               />
                             </FormControl>
                             <FormMessage />

@@ -405,8 +405,8 @@ export default function AdminPage() {
                           const [name, pos, dept, start, end] = line.split(',').map(s => s.trim());
                           return { 
                             studentName: name, 
-                            position: pos || "Full Stack Development Intern", 
-                            department: dept || "Tech Team",
+                            position: pos || newOfferLetter.position, 
+                            department: dept || newOfferLetter.department,
                             startDate: start || newOfferLetter.startDate,
                             endDate: end || newOfferLetter.endDate
                           };
@@ -577,9 +577,9 @@ export default function AdminPage() {
                   className="w-full" 
                   disabled={createCertMutation.isPending}
                   onClick={() => {
-                    let students = [];
+                    let studentsList: { studentName: string; domain: string }[] = [];
                     if (isBulk) {
-                      students = bulkInput.split('\n')
+                      studentsList = bulkInput.split('\n')
                         .filter(line => line.includes(','))
                         .map(line => {
                           const [name, domain] = line.split(',');
@@ -587,11 +587,11 @@ export default function AdminPage() {
                         });
                     } else {
                       if (singleStudent.name) {
-                        students = [{ studentName: singleStudent.name, domain: singleStudent.domain }];
+                        studentsList = [{ studentName: singleStudent.name, domain: singleStudent.domain }];
                       }
                     }
-                    if (students.length > 0) {
-                      createCertMutation.mutate({ students });
+                    if (studentsList.length > 0) {
+                      createCertMutation.mutate({ students: studentsList });
                     }
                   }}
                 >
