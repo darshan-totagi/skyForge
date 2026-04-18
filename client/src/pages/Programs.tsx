@@ -126,6 +126,48 @@ export default function Programs() {
         </div>
       </section>
 
+      {/* Introduction Section */}
+      <section className="py-12 bg-black/50 border-b border-white/5">
+        <div className="container mx-auto px-6 md:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-1.5 h-1.5 bg-primary" />
+              <span className="text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase text-muted-foreground/80">
+                Nationwide Opportunities
+              </span>
+            </div>
+            
+            <h1 className="text-3xl md:text-5xl font-display font-extrabold tracking-tighter text-white mb-8">
+              Internship Programs in <span className="text-primary">India 2026</span>
+            </h1>
+
+            <div className="grid md:grid-cols-2 gap-8 items-start">
+              <div className="border-l border-primary/20 pl-6 space-y-4">
+               <p className="text-lg text-muted-foreground/70 leading-relaxed font-medium">
+  Whether you are looking for a <strong>web development internship</strong>,
+  <strong>AI internship</strong>, or a <strong>remote internship with certificate</strong>,
+  our programs help you build strong technical skills, work on live projects,
+  and earn a verified internship certificate to boost your career.
+</p>
+              </div>
+              <div className="border-l border-white/10 pl-6 space-y-4">
+                <p className="text-lg text-muted-foreground/70 leading-relaxed font-medium">
+                  Whether you are a beginner or an experienced learner, our internship programs help
+                  you build strong technical skills, work on live projects, and earn an internship
+                  certificate that boosts your career.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Programs Content Section - More Compact Grid Layout */}
       <section className="py-24 bg-black relative overflow-hidden" ref={containerRef}>
         <div className="container mx-auto px-6 md:px-12 relative z-10">
@@ -229,7 +271,14 @@ export default function Programs() {
             </Link>
           </div>
         </div>
+
+        <div className="hidden">
+        free internship India, remote internship for students, internship certificate,
+        web development internship, AI internship India
+        </div>
       </section>
     </MainLayout>
   );
+
+  
 }
