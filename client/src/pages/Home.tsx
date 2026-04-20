@@ -459,7 +459,7 @@ export default function Home() {
                 icon: <Award className="w-6 h-6" />,
                 delay: 0.3,
                 action: (
-                  <a href="/certificates/sample-certificate.jpeg" download="SkyForger-Sample-Certificate.jpeg" className="inline-block">
+                  <a href="/certificates/sample-certificate.png" download="SkyForger-Sample-Certificate.jpeg" className="inline-block">
                     <Button variant="outline" size="sm" className="mt-8 bg-transparent border-white/10 hover:border-primary hover:bg-primary/5 text-muted-foreground hover:text-primary rounded-none font-bold tracking-[0.1em] uppercase h-12 px-8">
                       <Download className="w-4 h-4 mr-2" /> Download Sample
                     </Button>
