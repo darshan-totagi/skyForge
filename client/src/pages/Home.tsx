@@ -384,8 +384,8 @@ export default function Home() {
         <div className="container mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 border border-white/5 bg-black">
             {[
-              { label: "Interns Joined", value: "100+", icon: Sparkles },
-              { label: "Projects Completed", value: "50+", icon: Code2 },
+              { label: "Interns Joined", value: "200+", icon: Sparkles },
+              { label: "Projects Completed", value: "100+", icon: Code2 },
               { label: "Learning Tasks", value: "200+", icon: FileCheck2 },
               { label: "Success Rate", value: "98%", icon: Award }
             ].map((stat, i) => (
