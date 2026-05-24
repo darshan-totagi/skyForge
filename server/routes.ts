@@ -45,8 +45,9 @@ const upload = multer({
 // Setup nodemailer transporter (assuming user provides env vars)
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // use SSL
+  port: 587,
+  secure: false,
+  requireTLS: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -57,6 +58,8 @@ const transporter = nodemailer.createTransport({
   connectionTimeout: 10000, // 10 seconds
   greetingTimeout: 10000,
   socketTimeout: 15000,
+    rejectUnauthorized: false,
+  },
 });
 
 // Middleware to protect admin routes
