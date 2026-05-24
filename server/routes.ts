@@ -3,6 +3,7 @@ import type { Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
+
 import { sendWhatsAppGroupInvite } from "./whatsapp";
 import { 
   bulkInsertCertificateSchema, 
@@ -15,13 +16,20 @@ import {
   insertUserSchema
 } from "@shared/schema";
 import { nanoid } from "nanoid";
-import nodemailer from "nodemailer";
 import bcrypt from "bcryptjs";
 import multer from "multer";
 import path from "path";
 import express from "express";
 import Razorpay from "razorpay";
 import crypto from "crypto";
+// @ts-ignore
+import SibApiV3Sdk from "sib-api-v3-sdk";
+
+// Setup Brevo SDK
+const defaultClient = SibApiV3Sdk.ApiClient.instance;
+const apiKey = defaultClient.authentications["api-key"];
+apiKey.apiKey = process.env.BREVO_API_KEY || process.env.BREVO_PASS;
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
 // Setup Razorpay
 const razorpay = new Razorpay({
@@ -42,25 +50,25 @@ const upload = multer({
   limits: { fileSize: 100 * 1024 * 1024 } // 100MB limit
 });
 
-// Setup nodemailer transporter (assuming user provides env vars)
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  requireTLS: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false // Helps with some hosting provider network restrictions
-  },
-  connectionTimeout: 10000, // 10 seconds
-  greetingTimeout: 10000,
-  socketTimeout: 15000,
-    rejectUnauthorized: false,
-  },
-});
+// Use verified sender from env or fallback
+const SENDER_EMAIL = process.env.EMAIL_USER || "skyforgertechnologies@gmail.com";
+
+// Reliable email sending using Brevo SDK (bypasses Render port blocks)
+const sendEmail = async (to: string, subject: string, text: string, html: string) => {
+  try {
+    await apiInstance.sendTransacEmail({
+      sender: { name: "SkyForger Technologies", email: SENDER_EMAIL },
+      to: [{ email: to }],
+      subject: subject,
+      textContent: text,
+      htmlContent: html,
+    });
+  } catch (err) {
+    console.error("Brevo SDK Error:", err);
+    throw err;
+  }
+};
+   
 
 // Middleware to protect admin routes
 function requireAdmin(req: Request, res: Response, next: NextFunction) {
@@ -97,40 +105,28 @@ export async function registerRoutes(
     const expiry = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
 
     try {
-      // Verify connection before sending
-      await transporter.verify();
-      
       await storage.updateUserOtp(email, otp, expiry);
       
-      const mailOptions = {
-        from: `"SkyForger Technologies" <${process.env.EMAIL_USER}>`,
-        to: email,
-        subject: "SkyForger - Verification Code",
-        text: `Your verification code is: ${otp}. It will expire in 10 minutes.`,
-        html: `
-          <div style="font-family: sans-serif; padding: 20px; color: #333;">
-            <h2 style="color: #0066cc;">Verification Code</h2>
-            <p>Hello,</p>
-            <p>Your verification code for SkyForger Technologies is:</p>
-            <div style="font-size: 32px; font-weight: bold; letter-spacing: 5px; margin: 20px 0; color: #000;">${otp}</div>
-            <p>This code will expire in 10 minutes.</p>
-            <p>If you didn't request this code, please ignore this email.</p>
-            <hr style="border: none; border-top: 1px solid #eee; margin-top: 20px;" />
-            <p style="font-size: 12px; color: #888;">SkyForger Technologies - Empowering Your Future</p>
-          </div>
-        `
-      };
+      const subject = "SkyForger - Verification Code";
+      const text = `Your verification code is: ${otp}. It will expire in 10 minutes.`;
+      const html = `
+        <div style="font-family: sans-serif; padding: 20px; color: #333;">
+          <h2 style="color: #0066cc;">Verification Code</h2>
+          <p>Hello,</p>
+          <p>Your verification code for SkyForger Technologies is:</p>
+          <div style="font-size: 32px; font-weight: bold; letter-spacing: 5px; margin: 20px 0; color: #000;">${otp}</div>
+          <p>This code will expire in 10 minutes.</p>
+          <p>If you didn't request this code, please ignore this email.</p>
+          <hr style="border: none; border-top: 1px solid #eee; margin-top: 20px;" />
+          <p style="font-size: 12px; color: #888;">SkyForger Technologies - Empowering Your Future</p>
+        </div>
+      `;
 
-      await transporter.sendMail(mailOptions);
+      await sendEmail(email, subject, text, html);
       
       res.json({ success: true, message: "OTP sent to your email" });
     } catch (err: any) {
-      console.error("Detailed SMTP/OTP Error:", {
-        message: err.message,
-        code: err.code,
-        command: err.command,
-        response: err.response
-      });
+      console.error("Detailed OTP Error:", err);
       res.status(500).json({ 
         message: "Failed to send OTP. Please ensure your email is correct and try again.",
         error: process.env.NODE_ENV === 'development' ? err.message : undefined
@@ -205,30 +201,28 @@ export async function registerRoutes(
 
     try {
       await storage.updateUserOtp(email, otp, expiry);
-      await transporter.sendMail({
-        from: `"SkyForger Technologies" <${process.env.EMAIL_USER}>`,
-        to: email,
-        subject: "SkyForger - Password Reset Code",
-        text: `Your password reset code is: ${otp}. It will expire in 10 minutes.`,
-        html: `
-          <div style="font-family: sans-serif; padding: 20px; color: #333;">
-            <h2 style="color: #d32f2f;">Password Reset Code</h2>
-            <p>Hello,</p>
-            <p>You requested a password reset for your SkyForger account. Your reset code is:</p>
-            <div style="font-size: 32px; font-weight: bold; letter-spacing: 5px; margin: 20px 0; color: #000;">${otp}</div>
-            <p>This code will expire in 10 minutes.</p>
-            <p>If you didn't request this, please secure your account immediately.</p>
-            <hr style="border: none; border-top: 1px solid #eee; margin-top: 20px;" />
-            <p style="font-size: 12px; color: #888;">SkyForger Technologies - Security Team</p>
-          </div>
-        `
-      });
+      const subject = "SkyForger - Password Reset Code";
+      const text = `Your password reset code is: ${otp}. It will expire in 10 minutes.`;
+      const html = `
+        <div style="font-family: sans-serif; padding: 20px; color: #333;">
+          <h2 style="color: #d32f2f;">Password Reset Code</h2>
+          <p>Hello,</p>
+          <p>You requested a password reset for your SkyForger account. Your reset code is:</p>
+          <div style="font-size: 32px; font-weight: bold; letter-spacing: 5px; margin: 20px 0; color: #000;">${otp}</div>
+          <p>This code will expire in 10 minutes.</p>
+          <p>If you didn't request this, please secure your account immediately.</p>
+          <hr style="border: none; border-top: 1px solid #eee; margin-top: 20px;" />
+          <p style="font-size: 12px; color: #888;">SkyForger Technologies - Security Team</p>
+        </div>
+      `;
+
+      await sendEmail(email, subject, text, html);
       res.json({ success: true, message: "Reset OTP sent" });
     } catch (err: any) {
       console.error("Forgot Password Error:", err);
       res.status(500).json({ 
         message: "Failed to send reset OTP",
-        error: process.env.NODE_ENV === 'development' ? err.message : undefined
+        error: process.env.NODE_ENV === 'production' ? undefined : err.message
       });
     }
   });
