@@ -79,24 +79,43 @@ export async function registerRoutes(
   // === AUTH ENDPOINTS ===
   
   app.post("/api/auth/send-otp", async (req, res) => {
-    const { email } = req.body;
+    let { email } = req.body;
+    if (email) email = email.trim().toLowerCase();
+    
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiry = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
 
     try {
       await storage.updateUserOtp(email, otp, expiry);
       
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
+      const mailOptions = {
+        from: `"SkyForger Technologies" <${process.env.EMAIL_USER}>`,
         to: email,
         subject: "SkyForger - Verification Code",
         text: `Your verification code is: ${otp}. It will expire in 10 minutes.`,
-      });
+        html: `
+          <div style="font-family: sans-serif; padding: 20px; color: #333;">
+            <h2 style="color: #0066cc;">Verification Code</h2>
+            <p>Hello,</p>
+            <p>Your verification code for SkyForger Technologies is:</p>
+            <div style="font-size: 32px; font-weight: bold; letter-spacing: 5px; margin: 20px 0; color: #000;">${otp}</div>
+            <p>This code will expire in 10 minutes.</p>
+            <p>If you didn't request this code, please ignore this email.</p>
+            <hr style="border: none; border-top: 1px solid #eee; margin-top: 20px;" />
+            <p style="font-size: 12px; color: #888;">SkyForger Technologies - Empowering Your Future</p>
+          </div>
+        `
+      };
+
+      await transporter.sendMail(mailOptions);
       
       res.json({ success: true, message: "OTP sent to your email" });
-    } catch (err) {
-      console.error("OTP Error:", err);
-      res.status(500).json({ message: "Failed to send OTP" });
+    } catch (err: any) {
+      console.error("Detailed OTP Error:", err);
+      res.status(500).json({ 
+        message: "Failed to send OTP. Please ensure your email is correct and try again.",
+        error: process.env.NODE_ENV === 'development' ? err.message : undefined
+      });
     }
   });
 
@@ -156,7 +175,9 @@ export async function registerRoutes(
   });
 
   app.post("/api/auth/forgot-password", async (req, res) => {
-    const { email } = req.body;
+    let { email } = req.body;
+    if (email) email = email.trim().toLowerCase();
+    
     const user = await storage.getUserByEmail(email);
     if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -166,14 +187,30 @@ export async function registerRoutes(
     try {
       await storage.updateUserOtp(email, otp, expiry);
       await transporter.sendMail({
-        from: process.env.EMAIL_USER,
+        from: `"SkyForger Technologies" <${process.env.EMAIL_USER}>`,
         to: email,
         subject: "SkyForger - Password Reset Code",
         text: `Your password reset code is: ${otp}. It will expire in 10 minutes.`,
+        html: `
+          <div style="font-family: sans-serif; padding: 20px; color: #333;">
+            <h2 style="color: #d32f2f;">Password Reset Code</h2>
+            <p>Hello,</p>
+            <p>You requested a password reset for your SkyForger account. Your reset code is:</p>
+            <div style="font-size: 32px; font-weight: bold; letter-spacing: 5px; margin: 20px 0; color: #000;">${otp}</div>
+            <p>This code will expire in 10 minutes.</p>
+            <p>If you didn't request this, please secure your account immediately.</p>
+            <hr style="border: none; border-top: 1px solid #eee; margin-top: 20px;" />
+            <p style="font-size: 12px; color: #888;">SkyForger Technologies - Security Team</p>
+          </div>
+        `
       });
       res.json({ success: true, message: "Reset OTP sent" });
-    } catch (err) {
-      res.status(500).json({ message: "Failed to send reset OTP" });
+    } catch (err: any) {
+      console.error("Forgot Password Error:", err);
+      res.status(500).json({ 
+        message: "Failed to send reset OTP",
+        error: process.env.NODE_ENV === 'development' ? err.message : undefined
+      });
     }
   });
 
