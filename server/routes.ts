@@ -16,7 +16,6 @@ import {
   insertUserSchema
 } from "@shared/schema";
 import { nanoid } from "nanoid";
-import nodemailer from "nodemailer";
 import bcrypt from "bcryptjs";
 import multer from "multer";
 import path from "path";
@@ -43,26 +42,19 @@ const upload = multer({
   limits: { fileSize: 100 * 1024 * 1024 } // 100MB limit
 });
 
-// Setup nodemailer transporter (assuming user provides env vars)
-
-import dns from "dns";
-
-dns.setDefaultResultOrder("ipv4first");
-
+// Setup nodemailer transporter for Brevo (Sendinblue)
 const transporter = nodemailer.createTransport({
-  service: "gmail",
-
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false, // true for 465, false for other ports
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.BREVO_USER,
+    pass: process.env.BREVO_PASS,
   },
-
-  family: 4,
-
-  connectionTimeout: 30000,
-  greetingTimeout: 30000,
-  socketTimeout: 30000,
 });
+
+// Use verified sender from env or fallback
+const SENDER_EMAIL = process.env.EMAIL_USER || process.env.BREVO_USER;
    
 
 // Middleware to protect admin routes
@@ -106,7 +98,7 @@ export async function registerRoutes(
       await storage.updateUserOtp(email, otp, expiry);
       
       const mailOptions = {
-        from: `"SkyForger Technologies" <${process.env.EMAIL_USER}>`,
+        from: `"SkyForger Technologies" <${SENDER_EMAIL}>`,
         to: email,
         subject: "SkyForger - Verification Code",
         text: `Your verification code is: ${otp}. It will expire in 10 minutes.`,
@@ -209,7 +201,7 @@ export async function registerRoutes(
     try {
       await storage.updateUserOtp(email, otp, expiry);
       await transporter.sendMail({
-        from: `"SkyForger Technologies" <${process.env.EMAIL_USER}>`,
+        from: `"SkyForger Technologies" <${SENDER_EMAIL}>`,
         to: email,
         subject: "SkyForger - Password Reset Code",
         text: `Your password reset code is: ${otp}. It will expire in 10 minutes.`,
