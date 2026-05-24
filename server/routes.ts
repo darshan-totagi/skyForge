@@ -51,6 +51,9 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  tls: {
+    rejectUnauthorized: false // Helps with some hosting provider network restrictions
+  },
   connectionTimeout: 10000, // 10 seconds
   greetingTimeout: 10000,
   socketTimeout: 15000,
@@ -91,6 +94,9 @@ export async function registerRoutes(
     const expiry = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
 
     try {
+      // Verify connection before sending
+      await transporter.verify();
+      
       await storage.updateUserOtp(email, otp, expiry);
       
       const mailOptions = {
@@ -116,7 +122,12 @@ export async function registerRoutes(
       
       res.json({ success: true, message: "OTP sent to your email" });
     } catch (err: any) {
-      console.error("Detailed OTP Error:", err);
+      console.error("Detailed SMTP/OTP Error:", {
+        message: err.message,
+        code: err.code,
+        command: err.command,
+        response: err.response
+      });
       res.status(500).json({ 
         message: "Failed to send OTP. Please ensure your email is correct and try again.",
         error: process.env.NODE_ENV === 'development' ? err.message : undefined
@@ -381,13 +392,52 @@ export async function registerRoutes(
     res.json({ success: true, user: { id: updatedUser.id, fullName: updatedUser.fullName } });
   });
 
-  app.get("/api/user/enrollments", requireAuth, async (req, res) => {
+  app.get("/api/user/progress/:courseId", requireAuth, async (req, res) => {
     const userId = (req.session as any).userId;
-    const enrollments = await storage.getUserEnrollments(userId);
-    res.json(enrollments);
+    const progress = await storage.getProgress(userId, Number(req.params.courseId));
+    res.json(progress);
+  });
+
+  app.post("/api/certificates/generate", requireAuth, async (req, res) => {
+    const userId = (req.session as any).userId;
+    const { courseId } = req.body;
+    
+    // Check if user finished all lessons in course
+    const courseModules = await storage.getModules(Number(courseId));
+    let totalLessons = 0;
+    for (const mod of courseModules) {
+      const modLessons = await storage.getLessons(mod.id);
+      totalLessons += modLessons.length;
+    }
+    
+    const userProgress = await storage.getProgress(userId, Number(courseId));
+    const completedCount = userProgress.filter(p => p.isCompleted).length;
+    
+    if (completedCount < totalLessons) {
+      return res.status(400).json({ message: "Course not yet complete" });
+    }
+    
+    const user = await storage.getUser(userId);
+    const course = await storage.getCourse(Number(courseId));
+    
+    const cert = await storage.createCertificate({
+      studentName: user!.fullName,
+      domain: course!.title,
+      certificateId: `CERT-${nanoid(10).toUpperCase()}`
+    });
+    
+    res.json(cert);
   });
 
   app.post("/api/upload", requireAdmin, upload.single("video"), (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+    const fileUrl = `/uploads/${req.file.filename}`;
+    res.json({ url: fileUrl });
+  });
+
+  app.post("/api/upload-image", requireAdmin, upload.single("image"), (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
     }

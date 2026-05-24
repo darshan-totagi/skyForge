@@ -27,7 +27,12 @@ export default function CourseList() {
                 <div className="flex items-center gap-4 mt-4 text-xs text-muted-foreground"><span className="flex items-center gap-1"><Clock size={14} /> Lifetime</span><span className="flex items-center gap-1"><Award size={14} /> Certificate</span></div>
               </CardContent>
               <CardFooter className="flex items-center justify-between border-t border-white/5 pt-4">
-                <span className="text-2xl font-bold">₹{course.price}</span>
+                <div className="flex flex-col">
+                  {course.originalPrice && (
+                    <span className="text-sm text-muted-foreground line-through">₹{course.originalPrice}</span>
+                  )}
+                  <span className="text-2xl font-bold">₹{course.price}</span>
+                </div>
                 <Link href={`/course/${course.id}`}><Button>Details</Button></Link>
               </CardFooter>
             </Card>

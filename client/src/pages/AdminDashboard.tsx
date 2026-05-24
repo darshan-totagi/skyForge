@@ -38,8 +38,15 @@ export default function AdminDashboard() {
     title: "",
     description: "",
     price: "499",
+    originalPrice: "1999",
     thumbnail: "",
     demoVideoUrl: "",
+    tutorName: "",
+    tutorImage: "",
+    tutorLinkedin: "",
+    tutorDesignation: "",
+    whatWillLearn: "",
+    prerequisites: "",
     isPublished: true
   });
 
@@ -157,47 +164,21 @@ export default function AdminDashboard() {
   });
 
   const uploadMutation = useMutation({
-    mutationFn: async (file: File) => {
+    mutationFn: async ({ file, type }: { file: File, type: 'video' | 'image' }) => {
       const formData = new FormData();
-      formData.append("video", file);
+      formData.append(type === 'video' ? "video" : "image", file);
       
-      const res = await fetch("/api/upload", {
+      const endpoint = type === 'video' ? "/api/upload" : "/api/upload-image";
+      const res = await fetch(endpoint, {
         method: "POST",
         body: formData,
-        // Ensure credentials are included if using sessions
       });
 
-      if (!res.ok) {
-        let errorMessage = "Upload failed";
-        try {
-          const errorData = await res.json();
-          errorMessage = errorData.message || errorMessage;
-        } catch (e) {
-          // If response is HTML, fetch the text to see the error
-          const text = await res.text();
-          if (text.includes("<!DOCTYPE")) {
-            errorMessage = `Server Error (${res.status}): The server returned an HTML page instead of JSON. Make sure the route is registered and the server was restarted.`;
-          }
-        }
-        throw new Error(errorMessage);
-      }
-
-      const contentType = res.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Server returned non-JSON response. Please restart your server.");
-      }
-
+      if (!res.ok) throw new Error("Upload failed");
       return res.json();
     },
-    onSuccess: (data) => {
-      toast({ title: "Success", description: "Video uploaded successfully" });
-    },
-    onError: (error: Error) => {
-      toast({ 
-        title: "Upload Error", 
-        description: error.message || "Failed to upload video", 
-        variant: "destructive" 
-      });
+    onSuccess: () => {
+      toast({ title: "Success", description: "File uploaded successfully" });
     }
   });
 
@@ -383,8 +364,15 @@ export default function AdminDashboard() {
                               title: c.title,
                               description: c.description,
                               price: c.price,
+                              originalPrice: c.originalPrice || "",
                               thumbnail: c.thumbnail,
                               demoVideoUrl: c.demoVideoUrl || "",
+                              tutorName: c.tutorName || "",
+                              tutorImage: c.tutorImage || "",
+                              tutorLinkedin: c.tutorLinkedin || "",
+                              tutorDesignation: c.tutorDesignation || "",
+                              whatWillLearn: c.whatWillLearn || "",
+                              prerequisites: c.prerequisites || "",
                               isPublished: c.isPublished || false
                             });
                           }}
@@ -415,31 +403,108 @@ export default function AdminDashboard() {
                   </div>
 
                   <Dialog open={isEditingCourse} onOpenChange={setIsEditingCourse}>
-                    <DialogContent className="max-w-2xl">
+                    <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                       <DialogHeader>
                         <DialogTitle>{selectedCourse ? "Edit Course" : "Add New Course"}</DialogTitle>
                       </DialogHeader>
                       <div className="grid grid-cols-2 gap-4 py-4">
-                        <div className="space-y-2">
-                          <Label>Title</Label>
+                        <div className="col-span-2 space-y-2">
+                          <Label>Course Title</Label>
                           <Input value={courseForm.title} onChange={e => setCourseForm({...courseForm, title: e.target.value})} placeholder="e.g. Java Masterclass" />
                         </div>
                         <div className="space-y-2">
-                          <Label>Price (₹)</Label>
+                          <Label>Discounted Price (₹)</Label>
                           <Input value={courseForm.price} onChange={e => setCourseForm({...courseForm, price: e.target.value})} placeholder="499" />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Original Price (Strike-through) (₹)</Label>
+                          <Input value={courseForm.originalPrice} onChange={e => setCourseForm({...courseForm, originalPrice: e.target.value})} placeholder="1999" />
                         </div>
                         <div className="col-span-2 space-y-2">
                           <Label>Description</Label>
                           <Textarea value={courseForm.description} onChange={e => setCourseForm({...courseForm, description: e.target.value})} placeholder="What will students learn?" />
                         </div>
-                        <div className="space-y-2">
-                          <Label>Thumbnail URL (Poster)</Label>
-                          <Input value={courseForm.thumbnail} onChange={e => setCourseForm({...courseForm, thumbnail: e.target.value})} placeholder="https://..." />
+                        <div className="col-span-2 space-y-2">
+                          <Label>What you'll learn (One per line)</Label>
+                          <Textarea value={courseForm.whatWillLearn} onChange={e => setCourseForm({...courseForm, whatWillLearn: e.target.value})} placeholder="- Hands-on industry projects&#10;- Expert-led video sessions" />
                         </div>
-                        <div className="space-y-2">
-                          <Label>Demo Video URL</Label>
-                          <Input value={courseForm.demoVideoUrl} onChange={e => setCourseForm({...courseForm, demoVideoUrl: e.target.value})} placeholder="YouTube Link" />
+                        <div className="col-span-2 space-y-2">
+                          <Label>Prerequisites</Label>
+                          <Input value={courseForm.prerequisites} onChange={e => setCourseForm({...courseForm, prerequisites: e.target.value})} placeholder="e.g. No prior experience required" />
                         </div>
+                        
+                        {/* Course Thumbnail Upload */}
+                        <div className="space-y-2">
+                          <Label>Course Poster (Thumbnail)</Label>
+                          <div className="flex gap-2">
+                            <Input 
+                              type="file" 
+                              accept="image/*" 
+                              onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const res = await uploadMutation.mutateAsync({ file, type: 'image' });
+                                  setCourseForm({...courseForm, thumbnail: res.url});
+                                }
+                              }} 
+                            />
+                          </div>
+                          {courseForm.thumbnail && <p className="text-[10px] text-primary truncate">{courseForm.thumbnail}</p>}
+                        </div>
+
+                        {/* Demo Video Upload */}
+                        <div className="space-y-2">
+                          <Label>Demo Video (Free Preview)</Label>
+                          <div className="flex gap-2">
+                            <Input 
+                              type="file" 
+                              accept="video/*" 
+                              onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const res = await uploadMutation.mutateAsync({ file, type: 'video' });
+                                  setCourseForm({...courseForm, demoVideoUrl: res.url});
+                                }
+                              }} 
+                            />
+                          </div>
+                          {courseForm.demoVideoUrl && <p className="text-[10px] text-primary truncate">{courseForm.demoVideoUrl}</p>}
+                        </div>
+
+                        {/* Tutor Details */}
+                        <div className="col-span-2 border-t border-white/5 pt-4 mt-2">
+                          <h4 className="text-sm font-bold mb-4">Tutor Details</h4>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label>Tutor Name</Label>
+                              <Input value={courseForm.tutorName} onChange={e => setCourseForm({...courseForm, tutorName: e.target.value})} placeholder="e.g. Dr. John Doe" />
+                            </div>
+                            <div className="space-y-2">
+                              <Label>Tutor Designation</Label>
+                              <Input value={courseForm.tutorDesignation} onChange={e => setCourseForm({...courseForm, tutorDesignation: e.target.value})} placeholder="e.g. Senior Software Engineer" />
+                            </div>
+                            <div className="space-y-2">
+                              <Label>Tutor LinkedIn URL</Label>
+                              <Input value={courseForm.tutorLinkedin} onChange={e => setCourseForm({...courseForm, tutorLinkedin: e.target.value})} placeholder="https://linkedin.com/in/..." />
+                            </div>
+                            <div className="space-y-2">
+                              <Label>Tutor Profile Image</Label>
+                              <Input 
+                                type="file" 
+                                accept="image/*" 
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    const res = await uploadMutation.mutateAsync({ file, type: 'image' });
+                                    setCourseForm({...courseForm, tutorImage: res.url});
+                                  }
+                                }} 
+                              />
+                              {courseForm.tutorImage && <p className="text-[10px] text-primary truncate">{courseForm.tutorImage}</p>}
+                            </div>
+                          </div>
+                        </div>
+
                         <div className="flex items-center gap-2 pt-4">
                           <Switch checked={courseForm.isPublished} onCheckedChange={checked => setCourseForm({...courseForm, isPublished: checked})} />
                           <Label>Published</Label>
@@ -456,7 +521,21 @@ export default function AdminDashboard() {
 
                   <Button variant="secondary" className="w-full" onClick={() => {
                     setSelectedCourse(null);
-                    setCourseForm({ title: "", description: "", price: "499", thumbnail: "", demoVideoUrl: "", isPublished: true });
+                    setCourseForm({ 
+                        title: "", 
+                        description: "", 
+                        price: "499", 
+                        originalPrice: "1999", 
+                        thumbnail: "", 
+                        demoVideoUrl: "", 
+                        tutorName: "",
+                        tutorImage: "",
+                        tutorLinkedin: "",
+                        tutorDesignation: "",
+                        whatWillLearn: "",
+                        prerequisites: "",
+                        isPublished: true 
+                      });
                     setIsEditingCourse(true);
                   }}>
                     <Plus size={16} className="mr-2"/> Add New Course
