@@ -13,18 +13,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Loader2, Plus, Trash2, LayoutDashboard, Megaphone, Users, Mail, 
   LogOut, Award, UserPlus, Upload, FileText, Eye, X, Download, 
-  Printer, RefreshCw, BookOpen, Video, Layers 
+  Printer, RefreshCw, BookOpen, Video, Layers, MessageSquareQuote, Linkedin 
 } from "lucide-react";
-import type { Ad, InternshipApplication, ContactMessage, Certificate, OfferLetter, Course, Module, Lesson } from "@shared/schema";
+import type { Ad, InternshipApplication, ContactMessage, Certificate, OfferLetter, Course, Module, Lesson, Review } from "@shared/schema";
 import { MainLayout } from "@/components/layout/MainLayout";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { useLocation } from "wouter";
 
 export default function AdminDashboard() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   const [bulkInput, setBulkInput] = useState("");
-  const [singleStudent, setSingleStudent] = useState({ name: "", domain: "Full Stack Development" });
+  const [singleStudent, setSingleStudent] = useState({ name: "", domain: "MERN Stack Development" });
   const [isBulk, setIsBulk] = useState(false);
   const [isBulkOffer, setIsBulkOffer] = useState(false);
   const [bulkOfferInput, setBulkOfferInput] = useState("");
@@ -45,7 +45,7 @@ export default function AdminDashboard() {
 
   const [newOfferLetter, setNewOfferLetter] = useState({
     studentName: "",
-    position: "Full Stack Development Intern",
+    position: "MERN Stack Development Intern",
     department: "Tech Team",
     startDate: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -59,6 +59,15 @@ export default function AdminDashboard() {
     isActive: true
   });
 
+  const [newReview, setNewReview] = useState({
+    name: "",
+    role: "",
+    content: "",
+    linkedinUrl: "",
+    imageUrl: "",
+    rating: 5
+  });
+
   // Queries
   const { data: user, isLoading: userLoading, isError: userError } = useQuery({ 
     queryKey: ["/api/user"],
@@ -69,7 +78,8 @@ export default function AdminDashboard() {
   const { data: applications } = useQuery<InternshipApplication[]>({ queryKey: [api.applications.list.path] });
   const { data: messages } = useQuery<ContactMessage[]>({ queryKey: [api.contact.list.path] });
   const { data: certificates } = useQuery<Certificate[]>({ queryKey: ["/api/certificates"] });
-  const { data: offerLetters } = useQuery<OfferLetter[]>({ queryKey: ["/api/offer-letters"] });
+  const { data: offerLetters, isLoading: offersLoading } = useQuery<OfferLetter[]>({ queryKey: ["/api/offer-letters"] });
+  const { data: reviews } = useQuery<Review[]>({ queryKey: [api.reviews.list.path] });
   
   // LMS Queries
   const { data: courses } = useQuery<Course[]>({ queryKey: ["/api/courses"] });
@@ -196,8 +206,81 @@ export default function AdminDashboard() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/certificates"] });
       setBulkInput("");
-      setSingleStudent({ name: "", domain: "Full Stack Development" });
+      setSingleStudent({ name: "", domain: "MERN Stack Development" });
       toast({ title: "Success", description: "Certificates created" });
+    }
+  });
+
+  const createOfferLetterMutation = useMutation({
+    mutationFn: async (data: any) => {
+      if (isBulkOffer) {
+        await apiRequest("POST", "/api/offer-letters/bulk", data);
+      } else {
+        await apiRequest("POST", "/api/offer-letters", data);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/offer-letters"] });
+      setNewOfferLetter({
+        studentName: "",
+        position: "MERN Stack Development Intern",
+        department: "Tech Team",
+        startDate: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
+        endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+      });
+      setBulkOfferInput("");
+      toast({ title: "Success", description: "Offer letter(s) generated successfully" });
+    }
+  });
+
+  const createAdMutation = useMutation({
+    mutationFn: async (ad: typeof newAd) => {
+      await apiRequest("POST", api.ads.create.path, ad);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.ads.list.path] });
+      setNewAd({ title: "", description: "", imageUrl: "", linkUrl: "", isActive: true });
+      toast({ title: "Success", description: "Ad created successfully" });
+    }
+  });
+
+  const toggleAdMutation = useMutation({
+    mutationFn: async ({ id, isActive }: { id: number, isActive: boolean }) => {
+      await apiRequest("PATCH", `/api/ads/${id}`, { isActive });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.ads.list.path] });
+    }
+  });
+
+  const deleteAdMutation = useMutation({
+    mutationFn: async (id: number) => {
+      await apiRequest("DELETE", `/api/ads/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.ads.list.path] });
+      toast({ title: "Deleted", description: "Ad removed successfully" });
+    }
+  });
+
+  const createReviewMutation = useMutation({
+    mutationFn: async (review: typeof newReview) => {
+      await apiRequest("POST", api.reviews.create.path, review);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.reviews.list.path] });
+      setNewReview({ name: "", role: "", content: "", linkedinUrl: "", imageUrl: "", rating: 5 });
+      toast({ title: "Success", description: "Review added successfully" });
+    }
+  });
+
+  const deleteReviewMutation = useMutation({
+    mutationFn: async (id: number) => {
+      await apiRequest("DELETE", `/api/reviews/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.reviews.list.path] });
+      toast({ title: "Deleted", description: "Review removed successfully" });
     }
   });
 
@@ -224,7 +307,7 @@ export default function AdminDashboard() {
     return null;
   }
 
-  if (user.role !== "admin") {
+  if (user.role?.trim() !== "admin") {
     return (
       <MainLayout>
         <div className="container mx-auto px-4 py-24 text-center">
@@ -522,24 +605,223 @@ export default function AdminDashboard() {
              <Card className="bg-card/50 border-primary/20">
               <CardHeader><CardTitle>Issue Certificates</CardTitle></CardHeader>
               <CardContent className="space-y-4">
-                <Textarea 
-                  placeholder="Bulk: Name, Domain (one per line)" 
-                  value={bulkInput} 
-                  onChange={(e) => setBulkInput(e.target.value)}
-                  className="min-h-[100px]"
-                />
+                <div className="flex gap-4 mb-4">
+                  <Button variant={!isBulk ? "default" : "outline"} onClick={() => setIsBulk(false)} className="flex-1">Single Issue</Button>
+                  <Button variant={isBulk ? "default" : "outline"} onClick={() => setIsBulk(true)} className="flex-1">Bulk Upload</Button>
+                </div>
+                {!isBulk ? (
+                  <div className="grid grid-cols-2 gap-4">
+                    <Input placeholder="Student Name" value={singleStudent.name} onChange={(e) => setSingleStudent({...singleStudent, name: e.target.value})} />
+                    <select 
+                      className="flex h-10 w-full rounded-md border border-primary/20 bg-background px-3 py-2 text-sm"
+                      value={singleStudent.domain}
+                      onChange={(e) => setSingleStudent({...singleStudent, domain: e.target.value})}
+                    >
+                      <option>MERN Stack Development</option>
+                      <option>Web Development</option>
+                      <option>Artificial Intelligence</option>
+                      <option>UI/UX Design</option>
+                    </select>
+                  </div>
+                ) : (
+                  <Textarea 
+                    placeholder="Bulk: Name, Domain (one per line)" 
+                    value={bulkInput} 
+                    onChange={(e) => setBulkInput(e.target.value)}
+                    className="min-h-[100px]"
+                  />
+                )}
                 <Button className="w-full" onClick={() => {
-                  const students = bulkInput.split('\n').filter(l => l.includes(',')).map(l => {
-                    const [name, domain] = l.split(',');
-                    return { studentName: name.trim(), domain: domain.trim() };
-                  });
-                  if (students.length) createCertMutation.mutate({ students });
-                }}>Issue Bulk</Button>
+                  if (isBulk) {
+                    const students = bulkInput.split('\n').filter(l => l.includes(',')).map(l => {
+                      const [name, domain] = l.split(',');
+                      return { studentName: name.trim(), domain: domain.trim() };
+                    });
+                    if (students.length) createCertMutation.mutate({ students });
+                  } else {
+                    if (singleStudent.name) createCertMutation.mutate({ students: [{ studentName: singleStudent.name, domain: singleStudent.domain }] });
+                  }
+                }}>Issue Certificate(s)</Button>
               </CardContent>
             </Card>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+              {certificates?.map((cert) => (
+                <Card key={cert.id} className="bg-card/50 border-primary/20">
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-between items-start">
+                      <CardTitle className="text-lg font-bold">{cert.studentName}</CardTitle>
+                      <Award className="h-5 w-5 text-primary" />
+                    </div>
+                    <p className="text-sm font-mono text-primary/70">{cert.certificateId}</p>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{cert.domain}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="offers" className="space-y-6">
+            <Card className="bg-card/50 border-primary/20">
+              <CardHeader><CardTitle className="flex items-center gap-2"><FileText className="h-5 w-5" /> Generate Offer Letter</CardTitle></CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex gap-4 mb-4">
+                  <Button variant={!isBulkOffer ? "default" : "outline"} onClick={() => setIsBulkOffer(false)} className="flex-1">Single Offer</Button>
+                  <Button variant={isBulkOffer ? "default" : "outline"} onClick={() => setIsBulkOffer(true)} className="flex-1">Bulk Upload</Button>
+                </div>
+                {!isBulkOffer ? (
+                  <div className="grid grid-cols-2 gap-4">
+                    <Input placeholder="Student Name" value={newOfferLetter.studentName} onChange={(e) => setNewOfferLetter({...newOfferLetter, studentName: e.target.value})} />
+                    <Input placeholder="Position" value={newOfferLetter.position} onChange={(e) => setNewOfferLetter({...newOfferLetter, position: e.target.value})} />
+                  </div>
+                ) : (
+                  <Textarea 
+                    placeholder="Format: Name, Position, Department, Start Date, End Date" 
+                    value={bulkOfferInput} 
+                    onChange={(e) => setBulkOfferInput(e.target.value)}
+                    className="min-h-[100px]"
+                  />
+                )}
+                <Button className="w-full" onClick={() => {
+                  if (isBulkOffer) {
+                    const students = bulkOfferInput.split('\n').filter(l => l.includes(',')).map(l => {
+                      const [name, pos, dept, start, end] = l.split(',').map(s => s.trim());
+                      return { studentName: name, position: pos, department: dept, startDate: start, endDate: end };
+                    });
+                    if (students.length) createOfferLetterMutation.mutate({ students });
+                  } else if (newOfferLetter.studentName) {
+                    createOfferLetterMutation.mutate(newOfferLetter);
+                  }
+                }}>Generate Offer Letter(s)</Button>
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+              {offerLetters?.map((offer) => (
+                <Card key={offer.id} className="bg-card/50 border-primary/20">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-lg font-bold">{offer.studentName}</CardTitle>
+                    <p className="text-sm text-primary/70">{offer.position}</p>
+                  </CardHeader>
+                  <CardContent>
+                    <Button variant="outline" size="sm" className="w-full" onClick={() => setSelectedOfferLetter(offer)}>View / Print</Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="ads" className="space-y-8">
+            <Card className="bg-card/50 border-primary/20">
+              <CardHeader><CardTitle>Create New Ad</CardTitle></CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <Input placeholder="Title" value={newAd.title} onChange={(e) => setNewAd({...newAd, title: e.target.value})} />
+                  <Input placeholder="Image URL" value={newAd.imageUrl} onChange={(e) => setNewAd({...newAd, imageUrl: e.target.value})} />
+                </div>
+                <Textarea placeholder="Description" value={newAd.description} onChange={(e) => setNewAd({...newAd, description: e.target.value})} />
+                <Input placeholder="Link URL" value={newAd.linkUrl} onChange={(e) => setNewAd({...newAd, linkUrl: e.target.value})} />
+                <div className="flex items-center gap-2">
+                  <Switch checked={newAd.isActive} onCheckedChange={(checked) => setNewAd({...newAd, isActive: checked})} />
+                  <Label>Active</Label>
+                </div>
+                <Button className="w-full" onClick={() => createAdMutation.mutate(newAd)}>Create Ad</Button>
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {ads?.map((ad) => (
+                <Card key={ad.id} className="overflow-hidden bg-card/50 border-primary/20">
+                  <img src={ad.imageUrl} alt={ad.title} className="aspect-video object-cover" />
+                  <CardHeader className="p-4">
+                    <CardTitle className="text-lg">{ad.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-4 pt-0 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <Switch checked={!!ad.isActive} onCheckedChange={(checked) => toggleAdMutation.mutate({ id: ad.id, isActive: checked })} />
+                      <Button variant="destructive" size="icon" onClick={() => deleteAdMutation.mutate(ad.id)}><Trash2 size={14} /></Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="messages" className="space-y-4">
+            {messages?.map((msg) => (
+              <Card key={msg.id} className="bg-card/50 border-primary/20">
+                <CardHeader>
+                  <CardTitle className="text-xl text-primary">{msg.name}</CardTitle>
+                  <p className="text-sm text-muted-foreground">{msg.email}</p>
+                </CardHeader>
+                <CardContent><p className="italic">"{msg.message}"</p></CardContent>
+              </Card>
+            ))}
+          </TabsContent>
+
+          <TabsContent value="reviews" className="space-y-8">
+             <Card className="bg-card/50 border-primary/20">
+              <CardHeader><CardTitle>Add New Review</CardTitle></CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <Input placeholder="Name" value={newReview.name} onChange={(e) => setNewReview({...newReview, name: e.target.value})} />
+                  <Input placeholder="Role" value={newReview.role} onChange={(e) => setNewReview({...newReview, role: e.target.value})} />
+                </div>
+                <Textarea placeholder="Content" value={newReview.content} onChange={(e) => setNewReview({...newReview, content: e.target.value})} />
+                <Button className="w-full" onClick={() => createReviewMutation.mutate(newReview)}>Add Review</Button>
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {reviews?.map((review) => (
+                <Card key={review.id} className="bg-card/50 border-primary/20 p-4">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 className="font-bold text-primary">{review.name}</h3>
+                      <p className="text-xs text-muted-foreground">{review.role}</p>
+                    </div>
+                    <Button variant="destructive" size="icon" onClick={() => deleteReviewMutation.mutate(review.id)}><Trash2 size={14} /></Button>
+                  </div>
+                  <p className="text-sm italic">"{review.content}"</p>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
 
         </Tabs>
+
+        {/* Offer Letter Preview Modal */}
+        <Dialog open={!!selectedOfferLetter} onOpenChange={(open) => !open && setSelectedOfferLetter(null)}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white p-8 text-black">
+            <div id="offer-letter-content">
+               {/* Simple Offer Letter Template */}
+               <div className="text-center mb-8">
+                 <h1 className="text-3xl font-bold uppercase tracking-widest text-blue-900">Offer Letter</h1>
+                 <div className="h-1 w-24 bg-blue-900 mx-auto mt-2"></div>
+               </div>
+               <div className="space-y-6 text-sm leading-relaxed">
+                 <p className="font-bold">Date: {new Date().toLocaleDateString()}</p>
+                 <p>To,<br/><span className="text-lg font-bold">{selectedOfferLetter?.studentName}</span></p>
+                 <p>Subject: Offer for <span className="font-bold">{selectedOfferLetter?.position}</span></p>
+                 <p>Dear {selectedOfferLetter?.studentName},</p>
+                 <p>We are pleased to offer you an internship at <span className="font-bold text-blue-900">SkyForger Technologies</span> as a <span className="font-bold">{selectedOfferLetter?.position}</span>. Your internship is scheduled to begin on <span className="font-bold">{selectedOfferLetter?.startDate}</span> and end on <span className="font-bold">{selectedOfferLetter?.endDate}</span>.</p>
+                 <p>During this period, you will be part of the <span className="font-bold">{selectedOfferLetter?.department}</span> and will work on various real-world projects under industry mentorship.</p>
+                 <p>We look forward to having you on our team.</p>
+                 <div className="pt-12">
+                   <p>Best Regards,</p>
+                   <p className="font-bold mt-4">HR Department</p>
+                   <p className="text-blue-900 font-bold">SkyForger Technologies</p>
+                 </div>
+               </div>
+            </div>
+            <div className="flex gap-4 mt-8 print:hidden">
+              <Button onClick={() => window.print()} className="flex-1">Print / Save as PDF</Button>
+              <Button variant="outline" onClick={() => setSelectedOfferLetter(null)} className="flex-1">Close</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </MainLayout>
   );

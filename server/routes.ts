@@ -120,7 +120,7 @@ export async function registerRoutes(
     });
 
     (req.session as any).userId = updatedUser.id;
-    (req.session as any).isAdmin = updatedUser.role === "admin";
+    (req.session as any).isAdmin = updatedUser.role?.trim() === "admin";
     
     req.session.save((err) => {
       if (err) return res.status(500).json({ message: "Session save failed" });
@@ -137,7 +137,7 @@ export async function registerRoutes(
     }
 
     (req.session as any).userId = user.id;
-    (req.session as any).isAdmin = user.role === "admin";
+    (req.session as any).isAdmin = user.role?.trim() === "admin";
     
     req.session.save((err) => {
       if (err) return res.status(500).json({ message: "Session save failed" });

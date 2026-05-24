@@ -12,7 +12,6 @@ import Apply from "./pages/Apply";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
-import Admin from "./pages/Admin";
 import Certificate from "./pages/Certificate";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";

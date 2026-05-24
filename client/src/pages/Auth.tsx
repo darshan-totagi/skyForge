@@ -23,7 +23,7 @@ export default function Auth() {
 
   useEffect(() => {
     if (user) {
-      if (user.role === "admin") {
+      if (user.role?.trim() === "admin") {
         setLocation("/admin");
       } else {
         setLocation("/courses");
@@ -38,7 +38,7 @@ export default function Auth() {
     },
     onSuccess: (res: any) => { 
       toast({ title: "Welcome back!" }); 
-      if (res.user?.role === "admin") {
+      if (res.user?.role?.trim() === "admin") {
         setLocation("/admin");
       } else {
         setLocation("/courses");
@@ -63,7 +63,7 @@ export default function Auth() {
     },
     onSuccess: (res: any) => { 
       toast({ title: "Welcome!" }); 
-      if (res.user?.role === "admin") {
+      if (res.user?.role?.trim() === "admin") {
         setLocation("/admin");
       } else {
         setLocation("/courses");
