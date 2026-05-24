@@ -68,7 +68,7 @@ export const reviews = pgTable("reviews", {
 export const insertApplicationSchema = createInsertSchema(internshipApplications)
   .omit({ id: true, createdAt: true })
   .extend({
-    domain: z.enum(['Artificial Intelligence', 'Full Stack Development', 'Frontend Development']),
+    domain: z.enum(['Artificial Intelligence', 'MERN Stack Development', 'Web Development', 'UI/UX Design']),
   });
 
 export const insertContactMessageSchema = createInsertSchema(contactMessages)
@@ -202,12 +202,3 @@ export type Certificate = typeof certificates.$inferSelect;
 export type InsertCertificate = z.infer<typeof insertCertificateSchema>;
 export type OfferLetter = typeof offerLetters.$inferSelect;
 export type InsertOfferLetter = z.infer<typeof insertOfferLetterSchema>;
-<<<<<<< HEAD
-=======
-
-export type CreateApplicationRequest = InsertApplication;
-export type CreateContactMessageRequest = InsertContactMessage;
-export type CreateAdRequest = InsertAd;
-export type UpdateAdRequest = Partial<InsertAd>;
-export type CreateReviewRequest = InsertReview;
->>>>>>> 0e2907bd68bc744b0421b8b8b6e74ec63d4e3626

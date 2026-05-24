@@ -31,35 +31,12 @@ export function Footer() {
           </div>
 
           <div>
-<<<<<<< HEAD
-            <h4 className="font-display font-semibold text-lg mb-6 text-foreground">Quick Links</h4>
-            <ul className="space-y-3">
-              <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
-              <li><Link href="/programs" className="text-muted-foreground hover:text-primary transition-colors">Internship Programs</Link></li>
-              <li><Link href="/courses" className="text-muted-foreground hover:text-primary transition-colors">LMS Courses</Link></li>
-              <li><Link href="/auth" className="text-muted-foreground hover:text-primary transition-colors">Student Login</Link></li>
-              <li><Link href="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQs</Link></li>
-              <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact Support</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-display font-semibold text-lg mb-6 text-foreground">Domains</h4>
-            <ul className="space-y-3">
-              <li className="text-muted-foreground">Artificial Intelligence</li>
-              <li className="text-muted-foreground">Full Stack Development</li>
-              <li className="text-muted-foreground">Frontend Development</li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-display font-semibold text-lg mb-6 text-foreground">Contact Us</h4>
-=======
             <h4 className="text-[10px] font-bold tracking-[0.3em] uppercase text-white mb-8">Quick Links</h4>
->>>>>>> 0e2907bd68bc744b0421b8b8b6e74ec63d4e3626
             <ul className="space-y-4">
               <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-all text-sm font-bold tracking-[0.1em] uppercase">About Us</Link></li>
               <li><Link href="/programs" className="text-muted-foreground hover:text-primary transition-all text-sm font-bold tracking-[0.1em] uppercase">Internship Programs</Link></li>
+              <li><Link href="/courses" className="text-muted-foreground hover:text-primary transition-all text-sm font-bold tracking-[0.1em] uppercase">LMS Courses</Link></li>
+              <li><Link href="/auth" className="text-muted-foreground hover:text-primary transition-all text-sm font-bold tracking-[0.1em] uppercase">Student Login</Link></li>
               <li><Link href="/faq" className="text-muted-foreground hover:text-primary transition-all text-sm font-bold tracking-[0.1em] uppercase">FAQs</Link></li>
               <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-all text-sm font-bold tracking-[0.1em] uppercase">Contact Support</Link></li>
             </ul>
@@ -69,8 +46,9 @@ export function Footer() {
             <h4 className="text-[10px] font-bold tracking-[0.3em] uppercase text-white mb-8">Domains</h4>
             <ul className="space-y-4">
               <li className="text-muted-foreground text-sm font-bold tracking-[0.1em] uppercase">Artificial Intelligence</li>
-              <li className="text-muted-foreground text-sm font-bold tracking-[0.1em] uppercase">Full Stack Development</li>
-              <li className="text-muted-foreground text-sm font-bold tracking-[0.1em] uppercase">Frontend Development</li>
+              <li className="text-muted-foreground text-sm font-bold tracking-[0.1em] uppercase">MERN Stack Development</li>
+              <li className="text-muted-foreground text-sm font-bold tracking-[0.1em] uppercase">Web Development</li>
+              <li className="text-muted-foreground text-sm font-bold tracking-[0.1em] uppercase">UI/UX Design</li>
             </ul>
           </div>
 

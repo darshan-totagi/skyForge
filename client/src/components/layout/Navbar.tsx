@@ -93,7 +93,6 @@ export function Navbar() {
             ))}
           </nav>
 
-<<<<<<< HEAD
           <div className="hidden md:flex items-center gap-4">
             {user ? (
               <div className="relative">
@@ -150,13 +149,6 @@ export function Navbar() {
             <Link href="/apply">
               <Button className="font-semibold bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 shadow-lg shadow-primary/25 border-0">
                 Apply Now
-=======
-          <div className="hidden md:block">
-            <Link href="/contact">
-              <Button variant="outline" className="text-[11px] font-bold tracking-[0.2em] uppercase border-white/20 hover:border-primary hover:bg-primary/10 transition-all px-8 h-12 rounded-none flex items-center gap-2 group">
-                <div className="w-1.5 h-1.5 bg-primary group-hover:shadow-[0_0_10px_rgba(var(--primary),0.8)] transition-all" />
-                Get in Touch
->>>>>>> 0e2907bd68bc744b0421b8b8b6e74ec63d4e3626
               </Button>
             </Link>
           </div>

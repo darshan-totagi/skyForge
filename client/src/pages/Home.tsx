@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, BrainCircuit, Code2, LayoutTemplate, UserPlus, FileCheck2, Send, Award, Download, Sparkles, ChevronDown } from "lucide-react";
+import { ArrowRight, BrainCircuit, Code2, LayoutTemplate, UserPlus, FileCheck2, Send, Award, Download, Sparkles, ChevronDown, Palette } from "lucide-react";
 import { AdSection } from "@/components/AdSection";
 import { TechGrid } from "@/components/TechGrid";
 import { Counter } from "@/components/Counter";
@@ -275,7 +275,7 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 border border-white/5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border border-white/5">
             {[
               {
                 icon: BrainCircuit,
@@ -286,17 +286,24 @@ export default function Home() {
               },
               {
                 icon: Code2,
-                title: "Full Stack Development",
-                desc: "Master both frontend and backend to build complete web applications.",
+                title: "MERN Stack Development",
+                desc: "Master MongoDB, Express.js, React, and Node.js to build complete web applications.",
                 color: "text-purple-400",
                 bg: "bg-purple-400/5"
               },
               {
                 icon: LayoutTemplate,
-                title: "Frontend Development",
+                title: "Web Development",
                 desc: "Create stunning, responsive, and accessible user interfaces.",
                 color: "text-pink-400",
                 bg: "bg-pink-400/5"
+              },
+              {
+                icon: Palette,
+                title: "UI/UX Design",
+                desc: "Master the principles of user-centric design and create intuitive experiences.",
+                color: "text-orange-400",
+                bg: "bg-orange-400/5"
               }
             ].map((domain, i) => (
               <motion.div

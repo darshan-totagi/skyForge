@@ -2,8 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const techWords = [
-  "FULL STACK",
-  "FRONTEND",
+  "MERN STACK",
+  "WEB DEVELOPMENT",
   "ARTIFICIAL INTELLIGENCE",
   "BACKEND",
   "WEB DEV",

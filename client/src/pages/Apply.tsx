@@ -342,8 +342,9 @@ export default function Apply() {
                               </FormControl>
                               <SelectContent className="bg-black border-white/10 text-foreground">
                                 <SelectItem value="Artificial Intelligence" className="focus:bg-primary/20">Artificial Intelligence</SelectItem>
-                                <SelectItem value="Full Stack Development" className="focus:bg-primary/20">Full Stack Development</SelectItem>
-                                <SelectItem value="Frontend Development" className="focus:bg-primary/20">Frontend Development</SelectItem>
+                                <SelectItem value="MERN Stack Development" className="focus:bg-primary/20">MERN Stack Development</SelectItem>
+                                <SelectItem value="Web Development" className="focus:bg-primary/20">Web Development</SelectItem>
+                                <SelectItem value="UI/UX Design" className="focus:bg-primary/20">UI/UX Design</SelectItem>
                               </SelectContent>
                             </Select>
                             <FormMessage />

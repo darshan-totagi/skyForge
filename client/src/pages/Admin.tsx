@@ -19,7 +19,7 @@ export default function AdminPage() {
   const { toast } = useToast();
   const [password, setPassword] = useState("");
   const [bulkInput, setBulkInput] = useState("");
-  const [singleStudent, setSingleStudent] = useState({ name: "", domain: "Full Stack Development" });
+  const [singleStudent, setSingleStudent] = useState({ name: "", domain: "MERN Stack Development" });
   const [isBulk, setIsBulk] = useState(false);
   const [isBulkOffer, setIsBulkOffer] = useState(false);
   const [bulkOfferInput, setBulkOfferInput] = useState("");
@@ -38,7 +38,7 @@ export default function AdminPage() {
 
   const [newOfferLetter, setNewOfferLetter] = useState({
     studentName: "",
-    position: "Full Stack Development Intern",
+    position: "MERN Stack Development Intern",
     department: "Tech Team",
     startDate: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -127,7 +127,7 @@ export default function AdminPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/certificates"] });
       setBulkInput("");
-      setSingleStudent({ name: "", domain: "Full Stack Development" });
+      setSingleStudent({ name: "", domain: "MERN Stack Development" });
       toast({ title: "Success", description: "Certificates created successfully" });
     }
   });
@@ -144,7 +144,7 @@ export default function AdminPage() {
       queryClient.invalidateQueries({ queryKey: ["/api/offer-letters"] });
       setNewOfferLetter({
         studentName: "",
-        position: "Full Stack Development Intern",
+        position: "MERN Stack Development Intern",
         department: "Tech Team",
         startDate: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
         endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -353,7 +353,7 @@ export default function AdminPage() {
                     <div className="space-y-2">
                       <Label>Position</Label>
                       <Input 
-                        placeholder="Full Stack Development Intern" 
+                        placeholder="MERN Stack Development Intern" 
                         value={newOfferLetter.position}
                         onChange={(e) => setNewOfferLetter({...newOfferLetter, position: e.target.value})}
                       />
@@ -386,7 +386,7 @@ export default function AdminPage() {
                   <div className="space-y-2">
                     <Label>Bulk Entry (Format: Name, Position, Department, Start Date, End Date - one per line)</Label>
                     <Textarea 
-                      placeholder="John Doe, Full Stack Intern, Tech, 20 March 2026, 20 April 2026&#10;Jane Smith, AI Intern, AI Team, 20 March 2026, 20 April 2026"
+                      placeholder="John Doe, MERN Stack Intern, Tech, 20 March 2026, 20 April 2026&#10;Jane Smith, AI Intern, AI Team, 20 March 2026, 20 April 2026"
                       className="min-h-[150px] font-mono text-sm"
                       value={bulkOfferInput}
                       onChange={(e) => setBulkOfferInput(e.target.value)}
@@ -555,9 +555,10 @@ export default function AdminPage() {
                         value={singleStudent.domain}
                         onChange={(e) => setSingleStudent({...singleStudent, domain: e.target.value})}
                       >
-                        <option>Full Stack Development</option>
-                        <option>Frontend Development</option>
+                        <option>MERN Stack Development</option>
+                        <option>Web Development</option>
                         <option>Artificial Intelligence</option>
+                        <option>UI/UX Design</option>
                       </select>
                     </div>
                   </div>
@@ -565,7 +566,7 @@ export default function AdminPage() {
                   <div className="space-y-2">
                     <Label>Bulk Entry (Format: Name, Domain - one per line)</Label>
                     <Textarea 
-                      placeholder="John Doe, Full Stack Development&#10;Jane Smith, AI Development"
+                      placeholder="John Doe, MERN Stack Development&#10;Jane Smith, Artificial Intelligence"
                       className="min-h-[150px] font-mono text-sm"
                       value={bulkInput}
                       onChange={(e) => setBulkInput(e.target.value)}

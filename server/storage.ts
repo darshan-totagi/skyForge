@@ -16,7 +16,6 @@ import {
   offerLetters,
   type OfferLetter,
   type InsertOfferLetter,
-<<<<<<< HEAD
   type User,
   type InsertUser,
   type Course,
@@ -31,12 +30,10 @@ import {
   lessons,
   quizzes,
   enrollments,
-  userProgress
-=======
+  userProgress,
   reviews,
   type Review,
   type CreateReviewRequest
->>>>>>> 0e2907bd68bc744b0421b8b8b6e74ec63d4e3626
 } from "@shared/schema";
 import { eq, or, and } from "drizzle-orm";
 
@@ -54,7 +51,6 @@ export interface IStorage {
   verifyCertificate(query: string): Promise<Certificate | undefined>;
   createOfferLetter(letter: InsertOfferLetter): Promise<OfferLetter>;
   getOfferLetters(): Promise<OfferLetter[]>;
-<<<<<<< HEAD
   
   // LMS Methods
   getUserByEmail(email: string): Promise<User | undefined>;
@@ -85,11 +81,10 @@ export interface IStorage {
   
   updateProgress(userId: number, lessonId: number, isCompleted: boolean): Promise<UserProgress>;
   getProgress(userId: number, courseId: number): Promise<UserProgress[]>;
-=======
+
   createReview(review: CreateReviewRequest): Promise<Review>;
   getReviews(): Promise<Review[]>;
   deleteReview(id: number): Promise<void>;
->>>>>>> 0e2907bd68bc744b0421b8b8b6e74ec63d4e3626
 }
 
 export class DatabaseStorage implements IStorage {
@@ -158,7 +153,6 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(offerLetters).orderBy(offerLetters.createdAt);
   }
 
-<<<<<<< HEAD
   async getUserByEmail(email: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.email, email));
     return user;
@@ -311,7 +305,8 @@ export class DatabaseStorage implements IStorage {
   async getProgress(userId: number, courseId: number): Promise<UserProgress[]> {
     // This is simplified; in a real app, you'd join with lessons/modules to filter by courseId
     return await db.select().from(userProgress).where(eq(userProgress.userId, userId));
-=======
+  }
+
   async createReview(review: CreateReviewRequest): Promise<Review> {
     const [created] = await db.insert(reviews).values(review).returning();
     return created;
@@ -323,7 +318,6 @@ export class DatabaseStorage implements IStorage {
 
   async deleteReview(id: number): Promise<void> {
     await db.delete(reviews).where(eq(reviews.id, id));
->>>>>>> 0e2907bd68bc744b0421b8b8b6e74ec63d4e3626
   }
 }
 

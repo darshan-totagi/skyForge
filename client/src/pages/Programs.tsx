@@ -1,7 +1,7 @@
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { BrainCircuit, Code2, LayoutTemplate, Clock, Globe, CheckCircle2, Sparkles, ArrowRight, ChevronDown } from "lucide-react";
+import { BrainCircuit, Code2, LayoutTemplate, Clock, Globe, CheckCircle2, Sparkles, ArrowRight, ChevronDown, Palette } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
@@ -23,12 +23,12 @@ const programs = [
   },
   {
     id: "fullstack",
-    title: "Full Stack Development",
+    title: "MERN Stack Development",
     icon: Code2,
     color: "text-purple-400",
     border: "border-purple-400/20",
     bg: "bg-purple-400/5",
-    description: "Learn to build complete web applications from database to UI using modern frameworks. Master both frontend and backend to build complete web applications.",
+    description: "Learn to build complete web applications from database to UI using the MERN stack. Master MongoDB, Express.js, React, and Node.js to build complete web applications.",
     details: [
       "Developing web application projects",
       "Working with databases applications",
@@ -38,7 +38,7 @@ const programs = [
   },
   {
     id: "frontend",
-    title: "Frontend Development",
+    title: "Web Development",
     icon: LayoutTemplate,
     color: "text-pink-400",
     border: "border-pink-400/20",
@@ -49,6 +49,21 @@ const programs = [
       "Creating interactive web pages",
       "Improving UI usability and design",
       "Performance optimization"
+    ]
+  },
+  {
+    id: "uiux",
+    title: "UI/UX Design",
+    icon: Palette,
+    color: "text-orange-400",
+    border: "border-orange-400/20",
+    bg: "bg-orange-400/5",
+    description: "Master the principles of user-centric design and create intuitive, beautiful digital experiences using industry-standard tools.",
+    details: [
+      "User Research and Persona Creation",
+      "Wireframing and Prototyping",
+      "Visual Design Principles",
+      "Usability Testing and Iteration"
     ]
   }
 ];
