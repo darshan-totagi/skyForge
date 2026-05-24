@@ -42,57 +42,19 @@ const upload = multer({
   limits: { fileSize: 100 * 1024 * 1024 } // 100MB limit
 });
 
-// Setup Resend for reliable emails on hosted platforms
-const sendEmail = async (to: string, subject: string, text: string, html: string) => {
-  const apiKey = process.env.RESEND_API_KEY;
-  
-  if (apiKey) {
-    try {
-      const res = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          from: "SkyForger <onboarding@resend.dev>",
-          to,
-          subject,
-          text,
-          html,
-        }),
-      });
-      
-      if (!res.ok) {
-        const error = await res.json();
-        throw new Error(JSON.stringify(error));
-      }
-      return true;
-    } catch (err) {
-      console.error("Resend Error:", err);
-      // Fallback to nodemailer if Resend fails and Gmail is configured
-    }
-  }
-
-  // Fallback to Nodemailer/Gmail (for local development)
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-  
-  await transporter.sendMail({
-    from: `"SkyForger Technologies" <${process.env.EMAIL_USER}>`,
-    to,
-    subject,
-    text,
-    html,
-  });
-};
+// Setup nodemailer transporter (assuming user provides env vars)
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // use SSL
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+  connectionTimeout: 10000, // 10 seconds
+  greetingTimeout: 10000,
+  socketTimeout: 15000,
+});
 
 // Middleware to protect admin routes
 function requireAdmin(req: Request, res: Response, next: NextFunction) {
@@ -131,9 +93,12 @@ export async function registerRoutes(
     try {
       await storage.updateUserOtp(email, otp, expiry);
       
-      const subject = "SkyForger - Verification Code";
-      const text = `Your verification code is: ${otp}. It will expire in 10 minutes.`;
-      const html = `
+      const mailOptions = {
+        from: `"SkyForger Technologies" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: "SkyForger - Verification Code",
+        text: `Your verification code is: ${otp}. It will expire in 10 minutes.`,
+        html: `
           <div style="font-family: sans-serif; padding: 20px; color: #333;">
             <h2 style="color: #0066cc;">Verification Code</h2>
             <p>Hello,</p>
@@ -144,9 +109,10 @@ export async function registerRoutes(
             <hr style="border: none; border-top: 1px solid #eee; margin-top: 20px;" />
             <p style="font-size: 12px; color: #888;">SkyForger Technologies - Empowering Your Future</p>
           </div>
-        `;
+        `
+      };
 
-      await sendEmail(email, subject, text, html);
+      await transporter.sendMail(mailOptions);
       
       res.json({ success: true, message: "OTP sent to your email" });
     } catch (err: any) {
@@ -225,9 +191,12 @@ export async function registerRoutes(
 
     try {
       await storage.updateUserOtp(email, otp, expiry);
-      const subject = "SkyForger - Password Reset Code";
-      const text = `Your password reset code is: ${otp}. It will expire in 10 minutes.`;
-      const html = `
+      await transporter.sendMail({
+        from: `"SkyForger Technologies" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: "SkyForger - Password Reset Code",
+        text: `Your password reset code is: ${otp}. It will expire in 10 minutes.`,
+        html: `
           <div style="font-family: sans-serif; padding: 20px; color: #333;">
             <h2 style="color: #d32f2f;">Password Reset Code</h2>
             <p>Hello,</p>
@@ -238,8 +207,8 @@ export async function registerRoutes(
             <hr style="border: none; border-top: 1px solid #eee; margin-top: 20px;" />
             <p style="font-size: 12px; color: #888;">SkyForger Technologies - Security Team</p>
           </div>
-        `;
-      await sendEmail(email, subject, text, html);
+        `
+      });
       res.json({ success: true, message: "Reset OTP sent" });
     } catch (err: any) {
       console.error("Forgot Password Error:", err);
