@@ -4,7 +4,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Lock, User, Loader2 } from "lucide-react";
@@ -12,6 +12,7 @@ import { Mail, Lock, User, Loader2 } from "lucide-react";
 export default function Auth() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [isLogin, setIsLogin] = useState(true);
   const [step, setStep] = useState<"email" | "otp">("email");
   const [formData, setFormData] = useState({ email: "", otp: "", fullName: "", password: "" });
@@ -38,10 +39,11 @@ export default function Auth() {
     },
     onSuccess: (res: any) => { 
       toast({ title: "Welcome back!" }); 
+      queryClient.setQueryData(["/api/user"], res.user);
       if (res.user?.role?.trim() === "admin") {
-        setLocation("/admin");
+        window.location.href = "/admin";
       } else {
-        setLocation("/courses");
+        window.location.href = "/courses";
       }
     }
   });
@@ -63,10 +65,11 @@ export default function Auth() {
     },
     onSuccess: (res: any) => { 
       toast({ title: "Welcome!" }); 
+      queryClient.setQueryData(["/api/user"], res.user);
       if (res.user?.role?.trim() === "admin") {
-        setLocation("/admin");
+        window.location.href = "/admin";
       } else {
-        setLocation("/courses");
+        window.location.href = "/courses";
       }
     }
   });

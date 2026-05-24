@@ -118,9 +118,16 @@ export const courses = pgTable("courses", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description").notNull(),
-  price: text("price").notNull(), // String to handle decimals/currency
+  price: text("price").notNull(), // Discounted price
+  originalPrice: text("original_price"), // Original price to show strike-through
   thumbnail: text("thumbnail").notNull(),
   demoVideoUrl: text("demo_video_url"),
+  tutorName: text("tutor_name"),
+  tutorImage: text("tutor_image"),
+  tutorLinkedin: text("tutor_linkedin"),
+  tutorDesignation: text("tutor_designation"),
+  whatWillLearn: text("what_will_learn"), // Bullet points separated by newlines
+  prerequisites: text("prerequisites"),
   isPublished: boolean("is_published").default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });
