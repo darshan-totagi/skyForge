@@ -60,7 +60,7 @@ const transporter = nodemailer.createTransport({
   socketTimeout: 15000,
     rejectUnauthorized: false,
   },
-});
+);
 
 // Middleware to protect admin routes
 function requireAdmin(req: Request, res: Response, next: NextFunction) {
