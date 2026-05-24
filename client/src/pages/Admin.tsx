@@ -10,8 +10,8 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2, Plus, Trash2, LayoutDashboard, Megaphone, Users, Mail, Lock, LogOut, Award, UserPlus, Upload, FileText, Eye, X, Download, Printer, RefreshCw } from "lucide-react";
-import type { Ad, InternshipApplication, ContactMessage, Certificate, OfferLetter } from "@shared/schema";
+import { Loader2, Plus, Trash2, LayoutDashboard, Megaphone, Users, Mail, Lock, LogOut, Award, UserPlus, Upload, FileText, Eye, X, Download, Printer, RefreshCw, MessageSquareQuote, Linkedin } from "lucide-react";
+import type { Ad, InternshipApplication, ContactMessage, Certificate, OfferLetter, Review } from "@shared/schema";
 import { Navbar } from "@/components/layout/Navbar";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 
@@ -49,6 +49,14 @@ export default function AdminPage() {
     imageUrl: "",
     linkUrl: "",
     isActive: true
+  });
+  const [newReview, setNewReview] = useState({
+    name: "",
+    role: "",
+    content: "",
+    linkedinUrl: "",
+    imageUrl: "",
+    rating: 5
   });
 
   const { data: auth, isLoading: authLoading, refetch: refetchAuth } = useQuery<{ isAdmin: boolean }>({
@@ -104,6 +112,11 @@ export default function AdminPage() {
 
   const { data: offerLetters, isLoading: offersLoading } = useQuery<OfferLetter[]>({
     queryKey: ["/api/offer-letters"],
+    enabled: !!auth?.isAdmin
+  });
+
+  const { data: reviews, isLoading: reviewsLoading } = useQuery<Review[]>({
+    queryKey: [api.reviews.list.path],
     enabled: !!auth?.isAdmin
   });
 
@@ -171,6 +184,27 @@ export default function AdminPage() {
     }
   });
 
+  const createReviewMutation = useMutation({
+    mutationFn: async (review: typeof newReview) => {
+      await apiRequest("POST", api.reviews.create.path, review);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.reviews.list.path] });
+      setNewReview({ name: "", role: "", content: "", linkedinUrl: "", imageUrl: "", rating: 5 });
+      toast({ title: "Success", description: "Review added successfully" });
+    }
+  });
+
+  const deleteReviewMutation = useMutation({
+    mutationFn: async (id: number) => {
+      await apiRequest("DELETE", `/api/reviews/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.reviews.list.path] });
+      toast({ title: "Deleted", description: "Review removed successfully" });
+    }
+  });
+
   if (authLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -223,7 +257,7 @@ export default function AdminPage() {
     );
   }
 
-  if (adsLoading || appsLoading || messagesLoading) {
+  if (adsLoading || appsLoading || messagesLoading || reviewsLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -269,6 +303,10 @@ export default function AdminPage() {
             <TabsTrigger value="messages" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Mail className="h-4 w-4 mr-2" />
               Messages
+            </TabsTrigger>
+            <TabsTrigger value="reviews" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <MessageSquareQuote className="h-4 w-4 mr-2" />
+              Reviews
             </TabsTrigger>
             <TabsTrigger value="ads" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Megaphone className="h-4 w-4 mr-2" />
@@ -367,8 +405,8 @@ export default function AdminPage() {
                           const [name, pos, dept, start, end] = line.split(',').map(s => s.trim());
                           return { 
                             studentName: name, 
-                            position: pos || "Full Stack Development Intern", 
-                            department: dept || "Tech Team",
+                            position: pos || newOfferLetter.position, 
+                            department: dept || newOfferLetter.department,
                             startDate: start || newOfferLetter.startDate,
                             endDate: end || newOfferLetter.endDate
                           };
@@ -539,9 +577,9 @@ export default function AdminPage() {
                   className="w-full" 
                   disabled={createCertMutation.isPending}
                   onClick={() => {
-                    let students = [];
+                    let studentsList: { studentName: string; domain: string }[] = [];
                     if (isBulk) {
-                      students = bulkInput.split('\n')
+                      studentsList = bulkInput.split('\n')
                         .filter(line => line.includes(','))
                         .map(line => {
                           const [name, domain] = line.split(',');
@@ -549,11 +587,11 @@ export default function AdminPage() {
                         });
                     } else {
                       if (singleStudent.name) {
-                        students = [{ studentName: singleStudent.name, domain: singleStudent.domain }];
+                        studentsList = [{ studentName: singleStudent.name, domain: singleStudent.domain }];
                       }
                     }
-                    if (students.length > 0) {
-                      createCertMutation.mutate({ students });
+                    if (studentsList.length > 0) {
+                      createCertMutation.mutate({ students: studentsList });
                     }
                   }}
                 >
@@ -633,6 +671,119 @@ export default function AdminPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground italic">"{msg.message}"</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="reviews" className="space-y-8">
+            <Card className="bg-card/50 backdrop-blur-sm border-primary/20">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Plus className="h-5 w-5 text-primary" />
+                  Add New Review
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="review-name">Name</Label>
+                    <Input 
+                      id="review-name" 
+                      placeholder="Student Name" 
+                      value={newReview.name} 
+                      onChange={(e) => setNewReview({...newReview, name: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="review-role">Role / Domain</Label>
+                    <Input 
+                      id="review-role" 
+                      placeholder="Full Stack Intern" 
+                      value={newReview.role}
+                      onChange={(e) => setNewReview({...newReview, role: e.target.value})}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="review-content">Content</Label>
+                  <Textarea 
+                    id="review-content" 
+                    placeholder="Their experience at SkyForger..." 
+                    value={newReview.content}
+                    onChange={(e) => setNewReview({...newReview, content: e.target.value})}
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="review-linkedin">LinkedIn URL</Label>
+                    <Input 
+                      id="review-linkedin" 
+                      placeholder="https://linkedin.com/in/..." 
+                      value={newReview.linkedinUrl}
+                      onChange={(e) => setNewReview({...newReview, linkedinUrl: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="review-image">Image URL (Optional)</Label>
+                    <Input 
+                      id="review-image" 
+                      placeholder="https://images.unsplash.com/..." 
+                      value={newReview.imageUrl}
+                      onChange={(e) => setNewReview({...newReview, imageUrl: e.target.value})}
+                    />
+                  </div>
+                </div>
+                <Button 
+                  className="w-full" 
+                  disabled={createReviewMutation.isPending}
+                  onClick={() => createReviewMutation.mutate(newReview)}
+                >
+                  {createReviewMutation.isPending ? <Loader2 className="animate-spin mr-2" /> : <Plus className="mr-2" />}
+                  Add Review
+                </Button>
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {reviews?.map((review) => (
+                <Card key={review.id} className="overflow-hidden bg-card/50 backdrop-blur-sm border-primary/20">
+                  <CardHeader className="p-4">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                          {review.imageUrl ? (
+                            <img src={review.imageUrl} alt={review.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <Users className="h-5 w-5 text-primary" />
+                          )}
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg text-primary">{review.name}</CardTitle>
+                          <p className="text-xs text-muted-foreground">{review.role}</p>
+                        </div>
+                      </div>
+                      <Button 
+                        variant="destructive" 
+                        size="icon" 
+                        className="h-8 w-8"
+                        onClick={() => deleteReviewMutation.mutate(review.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-4 pt-0 space-y-4">
+                    <p className="text-sm text-muted-foreground italic">"{review.content}"</p>
+                    {review.linkedinUrl && (
+                      <div className="flex items-center gap-2 text-xs text-primary">
+                        <Linkedin className="h-3 w-3" />
+                        <a href={review.linkedinUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                          LinkedIn Profile
+                        </a>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               ))}

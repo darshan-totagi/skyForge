@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, boolean, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -20,6 +20,7 @@ export const contactMessages = pgTable("contact_messages", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull(),
+  company: text("company"),
   message: text("message").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -52,6 +53,17 @@ export const offerLetters = pgTable("offer_letters", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const reviews = pgTable("reviews", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  role: text("role").notNull(),
+  content: text("content").notNull(),
+  linkedinUrl: text("linkedin_url"),
+  imageUrl: text("image_url"),
+  rating: integer("rating").default(5),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // === BASE SCHEMAS ===
 export const insertApplicationSchema = createInsertSchema(internshipApplications)
   .omit({ id: true, createdAt: true })
@@ -63,6 +75,14 @@ export const insertContactMessageSchema = createInsertSchema(contactMessages)
   .omit({ id: true, createdAt: true });
 
 export const insertAdSchema = createInsertSchema(ads).omit({ id: true, createdAt: true });
+
+export const insertReviewSchema = createInsertSchema(reviews)
+  .omit({ id: true, createdAt: true })
+  .extend({
+    linkedinUrl: z.string().optional().nullable().transform(v => v === "" ? null : v),
+    imageUrl: z.string().optional().nullable().transform(v => v === "" ? null : v),
+    rating: z.number().optional().default(5),
+  });
 
 export const insertCertificateSchema = createInsertSchema(certificates).omit({ id: true, issueDate: true });
 export const bulkInsertCertificateSchema = z.object({
@@ -175,7 +195,19 @@ export type Ad = typeof ads.$inferSelect;
 export type CreateAdRequest = z.infer<typeof insertAdSchema>;
 export type UpdateAdRequest = Partial<CreateAdRequest>;
 
+export type Review = typeof reviews.$inferSelect;
+export type InsertReview = z.infer<typeof insertReviewSchema>;
+
 export type Certificate = typeof certificates.$inferSelect;
 export type InsertCertificate = z.infer<typeof insertCertificateSchema>;
 export type OfferLetter = typeof offerLetters.$inferSelect;
 export type InsertOfferLetter = z.infer<typeof insertOfferLetterSchema>;
+<<<<<<< HEAD
+=======
+
+export type CreateApplicationRequest = InsertApplication;
+export type CreateContactMessageRequest = InsertContactMessage;
+export type CreateAdRequest = InsertAd;
+export type UpdateAdRequest = Partial<InsertAd>;
+export type CreateReviewRequest = InsertReview;
+>>>>>>> 0e2907bd68bc744b0421b8b8b6e74ec63d4e3626

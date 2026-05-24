@@ -2,7 +2,8 @@ import { z } from 'zod';
 import { 
   insertApplicationSchema, internshipApplications, 
   insertContactMessageSchema, contactMessages,
-  insertAdSchema, ads
+  insertAdSchema, ads,
+  insertReviewSchema, reviews
 } from './schema';
 
 export const errorSchemas = {
@@ -81,6 +82,31 @@ export const api = {
     delete: {
       method: 'DELETE' as const,
       path: '/api/ads/:id' as const,
+      responses: {
+        204: z.void(),
+      },
+    },
+  },
+  reviews: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/reviews' as const,
+      responses: {
+        200: z.array(z.custom<typeof reviews.$inferSelect>()),
+      },
+    },
+    create: {
+      method: 'POST' as const,
+      path: '/api/reviews' as const,
+      input: insertReviewSchema,
+      responses: {
+        201: z.custom<typeof reviews.$inferSelect>(),
+        400: errorSchemas.validation,
+      },
+    },
+    delete: {
+      method: 'DELETE' as const,
+      path: '/api/reviews/:id' as const,
       responses: {
         204: z.void(),
       },

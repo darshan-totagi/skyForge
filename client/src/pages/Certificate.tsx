@@ -32,44 +32,100 @@ export default function Certificate() {
 
   return (
     <MainLayout>
-      <section className="w-full px-4 md:px-8 py-24 min-h-[90vh] flex flex-col items-center">
-        <div className="w-full max-w-6xl text-center space-y-12">
+      <div className="min-h-screen relative overflow-hidden bg-[#020617] pt-32 pb-24">
+        {/* Advanced Animative Background - Matching Design System */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <div className="absolute inset-0 z-[1] opacity-[0.15] pointer-events-none noise" />
+          
+          <motion.div
+            animate={{
+              x: ["-25%", "25%", "-25%"],
+              y: ["-15%", "15%", "-15%"],
+              scale: [1, 1.3, 1],
+              rotate: [12, 18, 12],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[-20%] left-[-20%] w-[150%] h-[100%] energy-wave opacity-60 mix-blend-screen bg-primary/40 blur-[100px]"
+          />
+          <motion.div
+            animate={{
+              x: ["25%", "-25%", "25%"],
+              y: ["15%", "-15%", "15%"],
+              scale: [1.2, 1, 1.2],
+              rotate: [-6, -15, -6],
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-[-20%] right-[-20%] w-[150%] h-[90%] energy-wave opacity-50 mix-blend-screen bg-secondary/40 blur-[100px]"
+          />
+
+          <div 
+            className="absolute inset-0 opacity-[0.15] pointer-events-none"
+            style={{ 
+              backgroundImage: `linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
+              backgroundSize: '40px 40px'
+            }}
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black" />
+        </div>
+
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
           {/* Header Section */}
-          <div className="space-y-6">
+          <div className="text-center mb-16">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold tracking-[0.2em] uppercase mb-6"
             >
-              <ShieldCheck className="h-4 w-4" />
+              <ShieldCheck className="h-3.5 w-3.5" />
               Official Verification Portal
             </motion.div>
-            <h1 className="text-5xl md:text-7xl font-bold font-display tracking-tight text-white">
-              Verify Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-blue-400 to-primary animate-gradient">Achievement</span>
-            </h1>
-            <p className="text-muted-foreground text-xl max-w-2xl mx-auto">
-              Confirm the authenticity of SkyForger credentials. Enter a Name or Certificate ID below.
-            </p>
+            
+            <motion.h1 
+              className="text-[10vw] md:text-[7vw] lg:text-[6vw] font-display font-extrabold mb-8 leading-[0.9] tracking-tighter"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
+            >
+              Verify Your <br />
+              <span className="text-foreground/90">Achievement</span>
+            </motion.h1>
+            
+            <motion.p 
+              className="text-lg md:text-xl text-muted-foreground/80 max-w-2xl mx-auto font-medium"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+            >
+              Confirm the authenticity of SkyForger credentials instantly through our secure blockchain-style verification system.
+            </motion.p>
           </div>
 
-          {/* Search Box */}
+          {/* Search Box - Redesigned */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-xl mx-auto"
+            transition={{ delay: 0.5 }}
+            className="max-w-2xl mx-auto mb-24"
           >
             <form onSubmit={handleSearch} className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary/50 to-blue-500/50 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-              <div className="relative flex gap-2 p-2 bg-card/80 backdrop-blur-xl border border-primary/20 rounded-2xl shadow-2xl">
-                <Input
-                  placeholder="Student Name or Certificate ID..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="bg-transparent border-none focus-visible:ring-0 text-lg py-7 px-4 placeholder:text-muted-foreground/50"
-                />
-                <Button type="submit" size="lg" className="px-8 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20" disabled={isLoading}>
-                  {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Search className="h-5 w-5" />}
-                  <span className="ml-2 hidden sm:inline">Verify</span>
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-none blur-xl opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+              <div className="relative flex flex-col sm:flex-row gap-0 bg-black/40 backdrop-blur-3xl border border-white/5 p-2">
+                <div className="flex-grow flex items-center px-4">
+                  <Search className="w-5 h-5 text-muted-foreground/40 mr-3" />
+                  <Input
+                    placeholder="Enter Student Name or Certificate ID..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    className="bg-transparent border-none focus-visible:ring-0 text-lg h-16 px-0 placeholder:text-muted-foreground/30 font-medium"
+                  />
+                </div>
+                <Button 
+                  type="submit" 
+                  className="h-16 px-10 rounded-none bg-primary text-black hover:bg-white transition-all font-bold text-sm tracking-[0.2em] uppercase disabled:opacity-50"
+                  disabled={isLoading}
+                >
+                  {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Verify Now"}
                 </Button>
               </div>
             </form>
@@ -230,7 +286,7 @@ export default function Certificate() {
             )}
           </AnimatePresence>
         </div>
-      </section>
+      </div>
     </MainLayout>
   );
 }
