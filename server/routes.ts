@@ -3,6 +3,7 @@ import type { Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
+import nodemailer from "nodemailer";
 import { sendWhatsAppGroupInvite } from "./whatsapp";
 import { 
   bulkInsertCertificateSchema, 
@@ -43,24 +44,26 @@ const upload = multer({
 });
 
 // Setup nodemailer transporter (assuming user provides env vars)
+
+import dns from "dns";
+
+dns.setDefaultResultOrder("ipv4first");
+
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  requireTLS: true,
+  service: "gmail",
+
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  tls: {
-    rejectUnauthorized: false // Helps with some hosting provider network restrictions
-  },
-  connectionTimeout: 10000, // 10 seconds
-  greetingTimeout: 10000,
-  socketTimeout: 15000,
-    rejectUnauthorized: false,
-  },
-);
+
+  family: 4,
+
+  connectionTimeout: 30000,
+  greetingTimeout: 30000,
+  socketTimeout: 30000,
+});
+   
 
 // Middleware to protect admin routes
 function requireAdmin(req: Request, res: Response, next: NextFunction) {
