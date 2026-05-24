@@ -83,23 +83,99 @@ export const bulkInsertOfferLetterSchema = z.object({
   }))
 });
 
-// === EXPLICIT API CONTRACT TYPES ===
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  password: text("password").notNull(),
+  fullName: text("full_name").notNull(),
+  role: text("role").default("student"), // student, admin
+  otp: text("otp"),
+  otpExpiry: timestamp("otp_expiry"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const courses = pgTable("courses", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  price: text("price").notNull(), // String to handle decimals/currency
+  thumbnail: text("thumbnail").notNull(),
+  demoVideoUrl: text("demo_video_url"),
+  isPublished: boolean("is_published").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const modules = pgTable("modules", {
+  id: serial("id").primaryKey(),
+  courseId: serial("course_id").references(() => courses.id),
+  title: text("title").notNull(),
+  order: serial("order").notNull(),
+});
+
+export const lessons = pgTable("lessons", {
+  id: serial("id").primaryKey(),
+  moduleId: serial("module_id").references(() => modules.id),
+  title: text("title").notNull(),
+  videoUrl: text("video_url"),
+  content: text("content"),
+  order: serial("order").notNull(),
+  isDemo: boolean("is_demo").default(false),
+});
+
+export const quizzes = pgTable("quizzes", {
+  id: serial("id").primaryKey(),
+  courseId: serial("course_id").references(() => courses.id),
+  lessonId: serial("lesson_id").references(() => lessons.id),
+  question: text("question").notNull(),
+  options: text("options").notNull(), // JSON string of options
+  correctAnswer: text("correct_answer").notNull(),
+  order: serial("order").notNull(),
+});
+
+export const enrollments = pgTable("enrollments", {
+  id: serial("id").primaryKey(),
+  userId: serial("user_id").references(() => users.id),
+  courseId: serial("course_id").references(() => courses.id),
+  purchasedAt: timestamp("purchased_at").defaultNow(),
+  razorpayPaymentId: text("razorpay_payment_id"),
+  razorpayOrderId: text("razorpay_order_id"),
+});
+
+export const userProgress = pgTable("user_progress", {
+  id: serial("id").primaryKey(),
+  userId: serial("user_id").references(() => users.id),
+  lessonId: serial("lesson_id").references(() => lessons.id),
+  isCompleted: boolean("is_completed").default(false),
+  completedAt: timestamp("completed_at"),
+});
+
+export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true });
+export const insertCourseSchema = createInsertSchema(courses).omit({ id: true, createdAt: true });
+export const insertModuleSchema = createInsertSchema(modules).omit({ id: true });
+export const insertLessonSchema = createInsertSchema(lessons).omit({ id: true });
+export const insertQuizSchema = createInsertSchema(quizzes).omit({ id: true });
+
+export type User = typeof users.$inferSelect;
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type Course = typeof courses.$inferSelect;
+export type Module = typeof modules.$inferSelect;
+export type Lesson = typeof lessons.$inferSelect;
+export type Quiz = typeof quizzes.$inferSelect;
+export type Enrollment = typeof enrollments.$inferSelect;
+export type UserProgress = typeof userProgress.$inferSelect;
+
 export type InternshipApplication = typeof internshipApplications.$inferSelect;
 export type InsertApplication = z.infer<typeof insertApplicationSchema>;
+export type CreateApplicationRequest = InsertApplication;
 
 export type ContactMessage = typeof contactMessages.$inferSelect;
-export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
+export type CreateContactMessageRequest = z.infer<typeof insertContactMessageSchema>;
 
 export type Ad = typeof ads.$inferSelect;
-export type InsertAd = z.infer<typeof insertAdSchema>;
+export type CreateAdRequest = z.infer<typeof insertAdSchema>;
+export type UpdateAdRequest = Partial<CreateAdRequest>;
 
 export type Certificate = typeof certificates.$inferSelect;
 export type InsertCertificate = z.infer<typeof insertCertificateSchema>;
-
 export type OfferLetter = typeof offerLetters.$inferSelect;
 export type InsertOfferLetter = z.infer<typeof insertOfferLetterSchema>;
-
-export type CreateApplicationRequest = InsertApplication;
-export type CreateContactMessageRequest = InsertContactMessage;
-export type CreateAdRequest = InsertAd;
-export type UpdateAdRequest = Partial<InsertAd>;

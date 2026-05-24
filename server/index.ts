@@ -2,6 +2,8 @@ import express, { type Request, Response, NextFunction } from "express";
 import cors from "cors";
 import session from "express-session";
 import MemoryStore from "memorystore";
+import dotenv from "dotenv";
+dotenv.config();
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";

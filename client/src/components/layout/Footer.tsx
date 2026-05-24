@@ -41,6 +41,8 @@ export function Footer() {
             <ul className="space-y-3">
               <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
               <li><Link href="/programs" className="text-muted-foreground hover:text-primary transition-colors">Internship Programs</Link></li>
+              <li><Link href="/courses" className="text-muted-foreground hover:text-primary transition-colors">LMS Courses</Link></li>
+              <li><Link href="/auth" className="text-muted-foreground hover:text-primary transition-colors">Student Login</Link></li>
               <li><Link href="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQs</Link></li>
               <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact Support</Link></li>
             </ul>

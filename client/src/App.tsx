@@ -17,6 +17,13 @@ import Certificate from "./pages/Certificate";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 
+import Auth from "./pages/Auth";
+import CourseList from "./pages/CourseList";
+import CourseView from "./pages/CourseView";
+import AdminDashboard from "./pages/AdminDashboard";
+import MyCourses from "./pages/MyCourses";
+import Profile from "./pages/Profile";
+
 function Router() {
   return (
     <Switch>
@@ -29,7 +36,12 @@ function Router() {
       <Route path="/certificate" component={Certificate} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
-      <Route path="/skyforger-portal-2026" component={Admin} />
+      <Route path="/auth" component={Auth} />
+      <Route path="/courses" component={CourseList} />
+      <Route path="/my-courses" component={MyCourses} />
+      <Route path="/profile" component={Profile} />
+      <Route path="/course/:id" component={CourseView} />
+      <Route path="/admin" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>
   );
