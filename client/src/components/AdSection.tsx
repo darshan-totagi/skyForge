@@ -36,11 +36,11 @@ export function AdSection() {
             data-testid={`ad-card-${ad.id}`}
           >
             <Card className="overflow-hidden border-primary/20 bg-card/50 backdrop-blur-sm hover:border-primary/40 transition-colors">
-              <div className="aspect-video w-full overflow-hidden">
+              <div className="aspect-video w-full overflow-hidden bg-black/40 flex items-center justify-center">
                 <img 
                   src={ad.imageUrl} 
                   alt={ad.title} 
-                  className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                  className="max-w-full max-h-full object-contain transition-transform group-hover:scale-105"
                 />
               </div>
               <CardHeader className="p-4">

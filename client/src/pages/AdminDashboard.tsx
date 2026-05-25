@@ -265,6 +265,23 @@ export default function AdminDashboard() {
     }
   });
 
+  const uploadAdImageMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append("image", file);
+      const res = await fetch("/api/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+      if (!res.ok) throw new Error("Upload failed");
+      return res.json();
+    },
+    onSuccess: (data) => {
+      setNewAd({ ...newAd, imageUrl: data.url });
+      toast({ title: "Success", description: "Ad image uploaded" });
+    }
+  });
+
   const handlePrint = (studentName?: string) => {
     if (studentName) {
       const originalTitle = document.title;
@@ -798,7 +815,22 @@ export default function AdminDashboard() {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <Input placeholder="Title" value={newAd.title} onChange={(e) => setNewAd({...newAd, title: e.target.value})} />
-                  <Input placeholder="Image URL" value={newAd.imageUrl} onChange={(e) => setNewAd({...newAd, imageUrl: e.target.value})} />
+                  <div className="space-y-2">
+                    <Label className="text-xs text-muted-foreground uppercase font-bold tracking-wider">Upload Ad Image</Label>
+                    <div className="flex items-center gap-2">
+                      <Input 
+                        type="file" 
+                        accept="image/*" 
+                        className="h-10 bg-white/5 border-primary/20 file:text-primary file:font-bold" 
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) uploadAdImageMutation.mutate(file);
+                        }} 
+                      />
+                      {uploadAdImageMutation.isPending && <Loader2 className="animate-spin h-4 w-4 text-primary" />}
+                    </div>
+                    {newAd.imageUrl && <p className="text-[10px] text-primary truncate">{newAd.imageUrl}</p>}
+                  </div>
                 </div>
                 <Textarea placeholder="Description" value={newAd.description} onChange={(e) => setNewAd({...newAd, description: e.target.value})} />
                 <Input placeholder="Link URL" value={newAd.linkUrl} onChange={(e) => setNewAd({...newAd, linkUrl: e.target.value})} />
@@ -813,7 +845,9 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {ads?.map((ad) => (
                 <Card key={ad.id} className="overflow-hidden bg-card/50 border-primary/20">
-                  <img src={ad.imageUrl} alt={ad.title} className="aspect-video object-cover" />
+                  <div className="aspect-video w-full overflow-hidden bg-black/40 flex items-center justify-center">
+                    <img src={ad.imageUrl} alt={ad.title} className="max-w-full max-h-full object-contain" />
+                  </div>
                   <CardHeader className="p-4">
                     <CardTitle className="text-lg">{ad.title}</CardTitle>
                   </CardHeader>
