@@ -19,6 +19,7 @@ import { nanoid } from "nanoid";
 import bcrypt from "bcryptjs";
 import multer from "multer";
 import path from "path";
+import fs from "fs";
 import express from "express";
 import Razorpay from "razorpay";
 import crypto from "crypto";
@@ -92,8 +93,14 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  // Ensure uploads directory exists
+  const uploadsPath = path.resolve(process.cwd(), "uploads");
+  if (!fs.existsSync(uploadsPath)) {
+    fs.mkdirSync(uploadsPath, { recursive: true });
+  }
+
   // Serve uploaded files
-  app.use("/uploads", express.static("uploads"));
+  app.use("/uploads", express.static(uploadsPath));
 
   // === AUTH ENDPOINTS ===
   

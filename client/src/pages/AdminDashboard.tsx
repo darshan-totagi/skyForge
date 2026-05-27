@@ -339,6 +339,7 @@ export default function AdminDashboard() {
             <TabsTrigger value="certificates"><Award className="h-4 w-4 mr-2" /> Certificates</TabsTrigger>
             <TabsTrigger value="offers"><FileText className="h-4 w-4 mr-2" /> Offers</TabsTrigger>
             <TabsTrigger value="ads"><Megaphone className="h-4 w-4 mr-2" /> Ads</TabsTrigger>
+            <TabsTrigger value="reviews"><MessageSquareQuote className="h-4 w-4 mr-2" /> Reviews</TabsTrigger>
             <TabsTrigger value="messages"><Mail className="h-4 w-4 mr-2" /> Messages</TabsTrigger>
           </TabsList>
 
@@ -878,26 +879,99 @@ export default function AdminDashboard() {
              <Card className="bg-card/50 border-primary/20">
               <CardHeader><CardTitle>Add New Review</CardTitle></CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <Input placeholder="Name" value={newReview.name} onChange={(e) => setNewReview({...newReview, name: e.target.value})} />
-                  <Input placeholder="Role" value={newReview.role} onChange={(e) => setNewReview({...newReview, role: e.target.value})} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Name</Label>
+                    <Input placeholder="Student Name" value={newReview.name} onChange={(e) => setNewReview({...newReview, name: e.target.value})} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Role / Batch</Label>
+                    <Input placeholder="e.g. MERN Stack Intern" value={newReview.role} onChange={(e) => setNewReview({...newReview, role: e.target.value})} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>LinkedIn URL (Optional)</Label>
+                    <Input placeholder="https://linkedin.com/in/..." value={newReview.linkedinUrl} onChange={(e) => setNewReview({...newReview, linkedinUrl: e.target.value})} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Rating (1-5)</Label>
+                    <Input type="number" min="1" max="5" value={newReview.rating} onChange={(e) => setNewReview({...newReview, rating: parseInt(e.target.value)})} />
+                  </div>
+                  <div className="space-y-2 md:col-span-2">
+                    <Label>Student Image (Optional)</Label>
+                    <div className="flex items-center gap-4">
+                      <Input 
+                        type="file" 
+                        accept="image/*" 
+                        className="bg-white/5 border-primary/20"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const res = await uploadMutation.mutateAsync({ file, type: 'image' });
+                            setNewReview({...newReview, imageUrl: res.url});
+                          }
+                        }} 
+                      />
+                      {newReview.imageUrl && (
+                        <div className="h-10 w-10 rounded-full overflow-hidden border border-primary/20">
+                          <img src={newReview.imageUrl} alt="Preview" className="h-full w-full object-cover" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <Textarea placeholder="Content" value={newReview.content} onChange={(e) => setNewReview({...newReview, content: e.target.value})} />
-                <Button className="w-full" onClick={() => createReviewMutation.mutate(newReview)}>Add Review</Button>
+                <div className="space-y-2">
+                  <Label>Review Content</Label>
+                  <Textarea placeholder="Share their success story..." value={newReview.content} onChange={(e) => setNewReview({...newReview, content: e.target.value})} className="min-h-[100px]" />
+                </div>
+                <Button className="w-full" onClick={() => createReviewMutation.mutate(newReview)} disabled={createReviewMutation.isPending}>
+                  {createReviewMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
+                  Add Review
+                </Button>
               </CardContent>
             </Card>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {reviews?.map((review) => (
-                <Card key={review.id} className="bg-card/50 border-primary/20 p-4">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="font-bold text-primary">{review.name}</h3>
-                      <p className="text-xs text-muted-foreground">{review.role}</p>
+                <Card key={review.id} className="bg-card/50 border-primary/20 overflow-hidden">
+                  <CardHeader className="p-4 pb-2">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center gap-3">
+                        {review.imageUrl ? (
+                          <div className="h-10 w-10 rounded-full overflow-hidden border border-primary/20">
+                            <img src={review.imageUrl} alt={review.name} className="h-full w-full object-cover" />
+                          </div>
+                        ) : (
+                          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                            {review.name.charAt(0)}
+                          </div>
+                        )}
+                        <div>
+                          <h3 className="font-bold text-primary leading-tight">{review.name}</h3>
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{review.role}</p>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:bg-destructive/10" onClick={() => {
+                        if(confirm("Delete this review?")) deleteReviewMutation.mutate(review.id);
+                      }}>
+                        <Trash2 size={14} />
+                      </Button>
                     </div>
-                    <Button variant="destructive" size="icon" onClick={() => deleteReviewMutation.mutate(review.id)}><Trash2 size={14} /></Button>
-                  </div>
-                  <p className="text-sm italic">"{review.content}"</p>
+                  </CardHeader>
+                  <CardContent className="p-4 pt-0">
+                    <p className="text-sm text-muted-foreground italic line-clamp-4">"{review.content}"</p>
+                    <div className="mt-4 flex items-center justify-between">
+                      <div className="flex gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <span key={i} className={`text-xs ${i < (review.rating || 5) ? "text-yellow-500" : "text-muted-foreground"}`}>★</span>
+                        ))}
+                      </div>
+                      {review.linkedinUrl && (
+                        <a href={review.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors">
+                          <Linkedin size={14} />
+                        </a>
+                      )}
+                    </div>
+                  </CardContent>
                 </Card>
               ))}
             </div>

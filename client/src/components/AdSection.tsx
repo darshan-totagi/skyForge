@@ -36,12 +36,19 @@ export function AdSection() {
             data-testid={`ad-card-${ad.id}`}
           >
             <Card className="overflow-hidden border-primary/20 bg-card/50 backdrop-blur-sm hover:border-primary/40 transition-colors">
-              <div className="aspect-video w-full overflow-hidden bg-black/40 flex items-center justify-center">
+              <div className="aspect-video w-full overflow-hidden bg-black/40 flex items-center justify-center relative">
                 <img 
                   src={ad.imageUrl} 
                   alt={ad.title} 
-                  className="max-w-full max-h-full object-contain transition-transform group-hover:scale-105"
+                  className="max-w-full max-h-full object-contain transition-transform group-hover:scale-105 z-10"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "https://placehold.co/600x400/020617/primary?text=Image+Not+Found";
+                  }}
                 />
+                <div className="absolute inset-0 flex items-center justify-center opacity-20">
+                  <span className="text-xs font-mono tracking-tighter">SkyForger Tech</span>
+                </div>
               </div>
               <CardHeader className="p-4">
                 <CardTitle className="text-lg text-primary">{ad.title}</CardTitle>

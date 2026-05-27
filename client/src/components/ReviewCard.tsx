@@ -10,6 +10,7 @@ interface ReviewCardProps {
     content: string;
     linkedinUrl?: string | null;
     imageUrl?: string | null;
+    rating?: number | null;
   };
 }
 
@@ -31,16 +32,23 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
               <p className="text-xs text-muted-foreground uppercase tracking-wider font-bold">{review.role}</p>
             </div>
           </div>
-          {review.linkedinUrl && (
-            <a 
-              href={review.linkedinUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-muted-foreground/60 hover:text-primary transition-colors"
-            >
-              <Linkedin className="w-5 h-5" />
-            </a>
-          )}
+          <div className="flex flex-col items-end gap-2">
+            {review.linkedinUrl && (
+              <a 
+                href={review.linkedinUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-muted-foreground/60 hover:text-primary transition-colors"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
+            )}
+            <div className="flex gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <span key={i} className={`text-[10px] ${i < (review.rating || 5) ? "text-yellow-500" : "text-muted-foreground/20"}`}>★</span>
+              ))}
+            </div>
+          </div>
         </div>
         <p className="text-foreground leading-relaxed text-[0.95rem] opacity-90 italic">"{review.content}"</p>
       </CardContent>

@@ -6,9 +6,24 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { Play, Clock, Award, Star, Loader2 } from "lucide-react";
 import type { Course } from "@shared/schema";
+import { queryClient } from "@/lib/queryClient";
 
 export default function CourseList() {
   const { data: courses, isLoading } = useQuery<Course[]>({ queryKey: ["/api/courses"] });
+
+  const prefetchCourse = (id: number) => {
+    // Prefetch course details
+    queryClient.prefetchQuery({
+      queryKey: ["/api/courses", String(id)],
+      staleTime: 5 * 60 * 1000,
+    });
+    // Prefetch modules
+    queryClient.prefetchQuery({
+      queryKey: ["/api/courses", String(id), "modules"],
+      staleTime: 5 * 60 * 1000,
+    });
+  };
+
   if (isLoading) return <div className="flex justify-center p-24"><Loader2 className="animate-spin h-12 w-12 text-primary" /></div>;
 
   return (
@@ -42,7 +57,11 @@ export default function CourseList() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full relative z-10">
           {courses?.map((course) => (
-            <Card key={course.id} className="group overflow-hidden border-primary/10 bg-card/50 hover:border-primary/40 transition-all">
+            <Card 
+              key={course.id} 
+              className="group overflow-hidden border-primary/10 bg-card/50 hover:border-primary/40 transition-all"
+              onMouseEnter={() => prefetchCourse(course.id)}
+            >
               <div className="aspect-video relative overflow-hidden">
                 <img src={course.thumbnail} alt={course.title} className="object-cover w-full h-full group-hover:scale-105 transition-all" />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all"><Play className="text-white h-12 w-12 fill-white" /></div>

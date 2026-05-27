@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
 
 declare global {
   interface Window {
@@ -95,7 +96,7 @@ export default function CourseView() {
         amount: orderData.amount,
         currency: orderData.currency,
         name: "SkyForger",
-        description: `Enrollment for ${course.title}`,
+        description: `Enrollment for ${course?.title}`,
         order_id: orderData.id,
         handler: async (response: any) => {
           try {
@@ -142,10 +143,9 @@ export default function CourseView() {
     }
   };
 
-  if (courseLoading || modulesLoading) return <div className="flex justify-center p-24"><Loader2 className="animate-spin h-12 w-12 text-primary" /></div>;
-  if (!course) return <div>Course not found</div>;
+  if (!course && !courseLoading) return <div>Course not found</div>;
 
-  const currentVideoUrl = activeLesson?.videoUrl || course.demoVideoUrl;
+  const currentVideoUrl = activeLesson?.videoUrl || course?.demoVideoUrl;
 
   return (
     <MainLayout>
@@ -153,7 +153,9 @@ export default function CourseView() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-8">
             <div className="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10 relative group">
-              {currentVideoUrl ? (
+              {courseLoading ? (
+                <Skeleton className="w-full h-full" />
+              ) : currentVideoUrl ? (
                 currentVideoUrl.includes("youtube.com") || currentVideoUrl.includes("vimeo.com") ? (
                   <iframe 
                     src={currentVideoUrl.replace("watch?v=", "embed/")} 
@@ -179,10 +181,14 @@ export default function CourseView() {
             </div>
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-primary text-sm font-bold uppercase tracking-wider">
-                {activeLesson ? `Module ${activeLesson.moduleId} • Lesson` : "Course Overview"}
+                {courseLoading ? <Skeleton className="h-4 w-32" /> : activeLesson ? `Module ${activeLesson.moduleId} • Lesson` : "Course Overview"}
               </div>
-              <h1 className="text-4xl font-bold font-display">{activeLesson?.title || course.title}</h1>
-              <p className="text-lg text-muted-foreground">{activeLesson ? "Complete this lesson to proceed." : "Master this subject with our comprehensive curriculum and expert guidance."}</p>
+              <h1 className="text-4xl font-bold font-display">
+                {courseLoading ? <Skeleton className="h-10 w-3/4" /> : activeLesson?.title || course?.title}
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                {courseLoading ? <Skeleton className="h-6 w-full" /> : activeLesson ? "Complete this lesson to proceed." : "Master this subject with our comprehensive curriculum and expert guidance."}
+              </p>
             </div>
 
             <Tabs defaultValue="overview" className="w-full">
@@ -197,7 +203,13 @@ export default function CourseView() {
                 <div className="prose prose-invert max-w-none">
                   <h3 className="text-2xl font-bold mb-4">About this course</h3>
                   <div className="text-muted-foreground whitespace-pre-wrap leading-relaxed text-lg">
-                    {course.description}
+                    {courseLoading ? (
+                      <div className="space-y-2">
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-3/4" />
+                      </div>
+                    ) : course?.description}
                   </div>
                 </div>
 
@@ -207,7 +219,9 @@ export default function CourseView() {
                       <CheckCircle2 size={18} /> What you'll learn
                     </h4>
                     <ul className="space-y-2 text-sm text-muted-foreground">
-                      {course.whatWillLearn ? course.whatWillLearn.split('\n').map((item, i) => (
+                      {courseLoading ? (
+                        [...Array(4)].map((_, i) => <Skeleton key={i} className="h-4 w-full" />)
+                      ) : course?.whatWillLearn ? course.whatWillLearn.split('\n').map((item, i) => (
                         <li key={i}>{item.startsWith('-') ? item : `• ${item}`}</li>
                       )) : (
                         <>
@@ -224,7 +238,7 @@ export default function CourseView() {
                       <Lock size={18} /> Prerequisites
                     </h4>
                     <p className="text-sm text-muted-foreground">
-                      {course.prerequisites || "No prior experience required. We start from the absolute basics and take you to an advanced level."}
+                      {courseLoading ? <Skeleton className="h-4 w-full" /> : course?.prerequisites || "No prior experience required. We start from the absolute basics and take you to an advanced level."}
                     </p>
                   </Card>
                 </div>
@@ -233,29 +247,77 @@ export default function CourseView() {
               <TabsContent value="curriculum" className="lg:hidden">
                 <Card className="border-primary/10 bg-card/50">
                   <CardContent className="p-4">
-                    <Accordion type="single" collapsible className="w-full">
-                      {modules?.map((mod, index) => (
-                        <AccordionItem key={mod.id} value={`item-${index}`} className="border-white/5">
-                          <AccordionTrigger className="hover:no-underline py-4 text-left">
-                            Module {index + 1}: {mod.title}
-                          </AccordionTrigger>
-                          <AccordionContent className="space-y-1">
-                            <LessonsList 
-                              moduleId={mod.id} 
-                              isEnrolled={!!isEnrolled} 
-                              onSelectLesson={setActiveLesson}
-                              activeLessonId={activeLesson?.id}
-                            />
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
+                    {modulesLoading ? (
+                      <div className="space-y-4">
+                        {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-12 w-full" />)}
+                      </div>
+                    ) : (
+                      <Accordion type="single" collapsible className="w-full">
+                        {modules?.map((mod, index) => (
+                          <AccordionItem key={mod.id} value={`item-${index}`} className="border-white/5">
+                            <AccordionTrigger className="hover:no-underline py-4 text-left">
+                              Module {index + 1}: {mod.title}
+                            </AccordionTrigger>
+                            <AccordionContent className="space-y-1">
+                              <LessonsList 
+                                moduleId={mod.id} 
+                                isEnrolled={!!isEnrolled} 
+                                onSelectLesson={setActiveLesson}
+                                activeLessonId={activeLesson?.id}
+                                courseId={id}
+                              />
+                            </AccordionContent>
+                          </AccordionItem>
+                        ))}
+                      </Accordion>
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>
 
               <TabsContent value="instructor" className="animate-in fade-in slide-in-from-bottom-2">
-                {/* ... existing instructor card ... */}
+                {courseLoading ? (
+                  <Card className="bg-card border-primary/10 p-8">
+                    <div className="flex items-center gap-6">
+                      <Skeleton className="h-24 w-24 rounded-full" />
+                      <div className="space-y-2">
+                        <Skeleton className="h-6 w-32" />
+                        <Skeleton className="h-4 w-48" />
+                      </div>
+                    </div>
+                  </Card>
+                ) : (
+                  <Card className="bg-card border-primary/10 p-8">
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+                      <div className="relative">
+                        <div className="w-32 h-32 rounded-full border-2 border-primary/20 p-1">
+                          <div className="w-full h-full rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
+                            {course?.tutorImage ? (
+                              <img src={course.tutorImage} alt={course.tutorName || ""} className="w-full h-full object-cover" />
+                            ) : (
+                              <User size={40} className="text-primary/40" />
+                            )}
+                          </div>
+                        </div>
+                        {course?.tutorLinkedin && (
+                          <a href={course.tutorLinkedin} target="_blank" rel="noopener noreferrer" className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full shadow-lg hover:scale-110 transition-transform">
+                            <Linkedin size={16} />
+                          </a>
+                        )}
+                      </div>
+                      <div className="text-center md:text-left space-y-4">
+                        <div>
+                          <h3 className="text-2xl font-bold">{course?.tutorName || "Industry Expert"}</h3>
+                          <p className="text-primary font-medium">{course?.tutorDesignation || "Senior Mentor"}</p>
+                        </div>
+                        <p className="text-muted-foreground leading-relaxed">
+                          Learn from industry veterans with years of hands-on experience in building scalable systems 
+                          and leading engineering teams at top tech companies.
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+                )}
               </TabsContent>
 
               <TabsContent value="certificate" className="animate-in fade-in slide-in-from-bottom-2">
@@ -327,25 +389,33 @@ export default function CourseView() {
                 <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                   <PlayCircle className="text-primary" /> Course Curriculum
                 </h3>
-                <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
-                  {modules?.map((mod, index) => (
-                    <AccordionItem key={mod.id} value={`item-${index}`} className="border-white/5">
-                      <AccordionTrigger className="hover:no-underline py-4 text-left">
-                        Module {index + 1}: {mod.title}
-                      </AccordionTrigger>
-                      <AccordionContent className="space-y-1">
-                        <LessonsList 
-                          moduleId={mod.id} 
-                          isEnrolled={!!isEnrolled} 
-                          onSelectLesson={setActiveLesson}
-                          activeLessonId={activeLesson?.id}
-                        />
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
+                
+                {modulesLoading ? (
+                  <div className="space-y-4">
+                    {[...Array(5)].map((_, i) => <Skeleton key={i} className="h-12 w-full" />)}
+                  </div>
+                ) : (
+                  <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
+                    {modules?.map((mod, index) => (
+                      <AccordionItem key={mod.id} value={`item-${index}`} className="border-white/5">
+                        <AccordionTrigger className="hover:no-underline py-4 text-left">
+                          Module {index + 1}: {mod.title}
+                        </AccordionTrigger>
+                        <AccordionContent className="space-y-1">
+                          <LessonsList 
+                            moduleId={mod.id} 
+                            isEnrolled={!!isEnrolled} 
+                            onSelectLesson={onLessonSelectWithPrefetch}
+                            activeLessonId={activeLesson?.id}
+                            courseId={id}
+                          />
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                )}
 
-                {!isEnrolled && (
+                {!isEnrolled && course && (
                   <div className="mt-8 pt-6 border-t border-white/10">
                     <div className="mb-4">
                       <div className="text-sm text-muted-foreground mb-1">Course Price</div>
@@ -380,6 +450,14 @@ export default function CourseView() {
                     </p>
                   </div>
                 )}
+                
+                {!isEnrolled && courseLoading && (
+                  <div className="mt-8 pt-6 border-t border-white/10 space-y-4">
+                    <Skeleton className="h-4 w-20" />
+                    <Skeleton className="h-10 w-32" />
+                    <Skeleton className="h-14 w-full rounded-xl" />
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -387,6 +465,12 @@ export default function CourseView() {
       </div>
     </MainLayout>
   );
+
+  function onLessonSelectWithPrefetch(lesson: Lesson) {
+    setActiveLesson(lesson);
+    // Smooth scroll to top of video
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 interface LessonsListProps {
@@ -394,16 +478,24 @@ interface LessonsListProps {
   isEnrolled: boolean;
   onSelectLesson: (lesson: Lesson) => void;
   activeLessonId?: number;
+  courseId?: string;
 }
 
-function LessonsList({ moduleId, isEnrolled, onSelectLesson, activeLessonId }: LessonsListProps) {
-  const { data: lessons } = useQuery<Lesson[]>({
+function LessonsList({ moduleId, isEnrolled, onSelectLesson, activeLessonId, courseId }: LessonsListProps) {
+  const { data: lessons, isLoading } = useQuery<Lesson[]>({
     queryKey: ["/api/modules", moduleId, "lessons"],
   });
 
   const { data: userProgress } = useQuery<UserProgress[]>({
-    queryKey: ["/api/user/progress"], 
+    queryKey: ["/api/user/progress", courseId], 
+    enabled: !!courseId
   });
+
+  if (isLoading) return (
+    <div className="space-y-1 p-2">
+      {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-10 w-full" />)}
+    </div>
+  );
 
   return (
     <div className="space-y-1">
