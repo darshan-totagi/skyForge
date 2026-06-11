@@ -13,7 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Loader2, Plus, Trash2, LayoutDashboard, Megaphone, Users, Mail, 
   LogOut, Award, UserPlus, Upload, FileText, Eye, X, Download, 
-  Printer, RefreshCw, BookOpen, Video, Layers, MessageSquareQuote, Linkedin 
+  Printer, RefreshCw, BookOpen, Video, Layers, MessageSquareQuote, Linkedin,
+  Info
 } from "lucide-react";
 import type { Ad, InternshipApplication, ContactMessage, Certificate, OfferLetter, Course, Module, Lesson, Review } from "@shared/schema";
 import { MainLayout } from "@/components/layout/MainLayout";
@@ -814,32 +815,75 @@ export default function AdminDashboard() {
             <Card className="bg-card/50 border-primary/20">
               <CardHeader><CardTitle>Create New Ad</CardTitle></CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <Input placeholder="Title" value={newAd.title} onChange={(e) => setNewAd({...newAd, title: e.target.value})} />
-                  <div className="space-y-2">
-                    <Label className="text-xs text-muted-foreground uppercase font-bold tracking-wider">Upload Ad Image</Label>
-                    <div className="flex items-center gap-2">
-                      <Input 
-                        type="file" 
-                        accept="image/*" 
-                        className="h-10 bg-white/5 border-primary/20 file:text-primary file:font-bold" 
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) uploadAdImageMutation.mutate(file);
-                        }} 
-                      />
-                      {uploadAdImageMutation.isPending && <Loader2 className="animate-spin h-4 w-4 text-primary" />}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Ad Title</Label>
+                      <Input placeholder="e.g. New Batch Starting" value={newAd.title} onChange={(e) => setNewAd({...newAd, title: e.target.value})} />
                     </div>
-                    {newAd.imageUrl && <p className="text-[10px] text-primary truncate">{newAd.imageUrl}</p>}
+                    <div className="space-y-2">
+                      <Label>Description</Label>
+                      <Textarea placeholder="Ad details..." value={newAd.description} onChange={(e) => setNewAd({...newAd, description: e.target.value})} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Target Link URL</Label>
+                      <Input placeholder="https://..." value={newAd.linkUrl} onChange={(e) => setNewAd({...newAd, linkUrl: e.target.value})} />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="p-4 bg-primary/5 rounded-lg border border-primary/10 space-y-3">
+                      <h4 className="text-sm font-bold text-primary flex items-center gap-2">
+                        <Info size={14} /> Image Configuration
+                      </h4>
+                      
+                      <div className="space-y-2">
+                        <Label className="text-xs font-bold uppercase tracking-tighter opacity-70">Option 1: Upload Image (Temporary)</Label>
+                        <div className="flex items-center gap-2">
+                          <Input 
+                            type="file" 
+                            accept="image/*" 
+                            className="h-9 bg-white/5 border-primary/20 file:text-primary file:font-bold text-xs" 
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) uploadAdImageMutation.mutate(file);
+                            }} 
+                          />
+                          {uploadAdImageMutation.isPending && <Loader2 className="animate-spin h-4 w-4 text-primary" />}
+                        </div>
+                      </div>
+
+                      <div className="relative py-2">
+                        <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-white/10" /></div>
+                        <div className="relative flex justify-center text-[10px] uppercase font-bold"><span className="bg-[#0f172a] px-2 text-muted-foreground">OR</span></div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label className="text-xs font-bold uppercase tracking-tighter opacity-70">Option 2: Permanent Path</Label>
+                        <Input 
+                          placeholder="/coming-soon.jpg" 
+                          value={newAd.imageUrl} 
+                          onChange={(e) => setNewAd({...newAd, imageUrl: e.target.value})}
+                          className="h-9 font-mono text-xs"
+                        />
+                        <p className="text-[10px] text-muted-foreground leading-tight italic">
+                          * Use permanent paths like <code className="text-primary">/coming-soon.jpg</code> for live site persistence.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <Textarea placeholder="Description" value={newAd.description} onChange={(e) => setNewAd({...newAd, description: e.target.value})} />
-                <Input placeholder="Link URL" value={newAd.linkUrl} onChange={(e) => setNewAd({...newAd, linkUrl: e.target.value})} />
-                <div className="flex items-center gap-2">
-                  <Switch checked={newAd.isActive} onCheckedChange={(checked) => setNewAd({...newAd, isActive: checked})} />
-                  <Label>Active</Label>
+
+                <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                  <div className="flex items-center gap-2">
+                    <Switch checked={newAd.isActive} onCheckedChange={(checked) => setNewAd({...newAd, isActive: checked})} />
+                    <Label>Active Status</Label>
+                  </div>
+                  <Button onClick={() => createAdMutation.mutate(newAd)} disabled={createAdMutation.isPending}>
+                    {createAdMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
+                    Create Ad
+                  </Button>
                 </div>
-                <Button className="w-full" onClick={() => createAdMutation.mutate(newAd)}>Create Ad</Button>
               </CardContent>
             </Card>
 

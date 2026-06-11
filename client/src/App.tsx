@@ -15,6 +15,7 @@ import Contact from "./pages/Contact";
 import Certificate from "./pages/Certificate";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import Services from "./pages/Services";
 
 import Auth from "./pages/Auth";
 import CourseList from "./pages/CourseList";
@@ -35,6 +36,7 @@ function Router() {
       <Route path="/certificate" component={Certificate} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
+      <Route path="/services" component={Services} />
       <Route path="/auth" component={Auth} />
       <Route path="/courses" component={CourseList} />
       <Route path="/my-courses" component={MyCourses} />

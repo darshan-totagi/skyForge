@@ -386,28 +386,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section - Redesigned */}
-      <section className="py-32 relative bg-white/[0.02] border-y border-white/5">
-        <div className="container mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 border border-white/5 bg-black">
+      {/* Stats Section - Seamless Redesign */}
+      <section className="py-40 relative overflow-hidden">
+        {/* Background Decorative Element */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[300px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+        
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 border-y border-white/10">
             {[
-              { label: "Interns Joined", value: "200+", icon: Sparkles },
+              { label: "Interns Joined", value: "300+", icon: Sparkles },
               { label: "Projects Completed", value: "100+", icon: Code2 },
               { label: "Learning Tasks", value: "200+", icon: FileCheck2 },
               { label: "Success Rate", value: "98%", icon: Award }
             ].map((stat, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 1, delay: i * 0.1, ease: [0.23, 1, 0.32, 1] }}
-                className="p-10 md:p-16 border-white/5 border-r last:border-r-0 flex flex-col items-center text-center group hover:bg-white/[0.02] transition-colors"
+                className="p-12 md:p-20 border-white/5 border-r last:border-r-0 flex flex-col items-center text-center group hover:bg-white/[0.03] transition-all duration-500"
               >
-                <div className="text-4xl md:text-6xl font-display font-extrabold text-white mb-6 tracking-tighter group-hover:text-primary transition-colors">
+                <div className="text-4xl md:text-6xl font-display font-extrabold text-white mb-6 tracking-tighter group-hover:text-primary group-hover:scale-105 transition-all duration-500 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
                   <Counter value={stat.value} />
                 </div>
-                <div className="text-[10px] font-bold tracking-[0.3em] uppercase text-muted-foreground/60 group-hover:text-muted-foreground transition-colors">
+                <div className="text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase text-muted-foreground/40 group-hover:text-primary/60 transition-colors duration-500">
                   {stat.label}
                 </div>
               </motion.div>

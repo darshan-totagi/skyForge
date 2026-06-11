@@ -43,7 +43,14 @@ export function AdSection() {
                   className="max-w-full max-h-full object-contain transition-transform group-hover:scale-105 z-10"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = "https://placehold.co/600x400/020617/primary?text=Image+Not+Found";
+                    // Try to see if it's a known static asset that might have moved
+                    if (target.src.includes('coming-soon')) {
+                      target.src = "/coming-soon.jpg";
+                    } else if (target.src.includes('registrations')) {
+                      target.src = "/registrations-open.jpg";
+                    } else {
+                      target.src = "https://placehold.co/600x400/020617/primary?text=Posters+Loading...";
+                    }
                   }}
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-20">

@@ -8,6 +8,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 
 const navLinks = [
   { href: "/", label: "Home" },
+  { href: "/services", label: "Services" },
   { href: "/programs", label: "Programs" },
   { href: "/courses", label: "Courses" },
   { href: "/about", label: "About" },
