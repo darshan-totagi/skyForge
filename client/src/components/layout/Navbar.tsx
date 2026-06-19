@@ -53,26 +53,26 @@ export function Navbar() {
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-black/60 backdrop-blur-xl border-b border-white/5 py-3"
-          : "bg-transparent py-6"
+          ? "bg-white/90 backdrop-blur-xl border-b border-blue-100 py-2 shadow-lg"
+          : "bg-white/90 backdrop-blur-sm py-4"
       }`}
     >
-      <div className="container mx-auto px-6 md:px-10">
+      <div className="container mx-auto px-8 md:px-16">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-4 group">
             <img 
               src="/logo.png" 
               alt="SkyForger Logo" 
-              className="h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-105"
+              className="h-8 md:h-10 w-auto object-contain transition-transform group-hover:scale-105"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
               }}
             />
             <div className="flex flex-col">
-              <span className="font-display font-extrabold text-xl md:text-2xl tracking-tighter text-foreground leading-none">
+              <span className="font-display font-extrabold text-lg md:text-xl tracking-tighter text-slate-900 leading-none">
                 SKYFORGER
               </span>
-              <span className="text-[10px] font-bold tracking-[0.3em] text-primary uppercase mt-1 opacity-80 group-hover:opacity-100 transition-opacity">
+              <span className="text-[9px] font-bold tracking-[0.3em] text-blue-600 uppercase mt-0.5 opacity-80 group-hover:opacity-100 transition-opacity">
                 Technologies
               </span>
             </div>
@@ -84,12 +84,12 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[11px] font-bold tracking-[0.2em] uppercase transition-all hover:text-primary relative group ${
-                  location === link.href ? "text-primary" : "text-muted-foreground/70"
+                className={`text-[11px] font-bold tracking-[0.2em] uppercase transition-all relative group ${
+                  location === link.href ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
                 }`}
               >
                 {link.label}
-                <span className={`absolute -bottom-1 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full ${location === link.href ? "w-full" : ""}`} />
+                <span className={`absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300 group-hover:w-full ${location === link.href ? "w-full" : ""}`} />
               </Link>
             ))}
           </nav>
@@ -99,7 +99,7 @@ export function Navbar() {
               <div className="relative">
                 <Button 
                   variant="ghost" 
-                  className="flex items-center gap-2 font-semibold hover:text-primary"
+                  className="flex items-center gap-2 font-semibold hover:text-blue-600 text-slate-700"
                   onClick={() => setProfileOpen(!profileOpen)}
                 >
                   <User size={18} />
@@ -109,29 +109,29 @@ export function Navbar() {
                 {profileOpen && (
                   <>
                     <div className="fixed inset-0 z-10" onClick={() => setProfileOpen(false)} />
-                    <div className="absolute right-0 mt-2 w-56 bg-card border border-white/10 rounded-xl shadow-xl z-20 overflow-hidden py-1">
-                      <div className="px-4 py-2 border-b border-white/5 mb-1">
-                        <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider">Student Menu</p>
+                    <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-xl z-20 overflow-hidden py-1">
+                      <div className="px-4 py-2 border-b border-slate-100 mb-1">
+                        <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">Student Menu</p>
                       </div>
                       <Link href="/my-courses">
-                        <button className="w-full px-4 py-2 text-left text-sm hover:bg-white/5 flex items-center gap-2">
-                          <LayoutDashboard size={16} className="text-primary" /> My Courses
+                        <button className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2 text-slate-700">
+                          <LayoutDashboard size={16} className="text-blue-600" /> My Courses
                         </button>
                       </Link>
                       <Link href="/profile">
-                        <button className="w-full px-4 py-2 text-left text-sm hover:bg-white/5 flex items-center gap-2">
-                          <Settings size={16} className="text-primary" /> Profile Settings
+                        <button className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2 text-slate-700">
+                          <Settings size={16} className="text-blue-600" /> Profile Settings
                         </button>
                       </Link>
                       <Link href="/certificate">
-                        <button className="w-full px-4 py-2 text-left text-sm hover:bg-white/5 flex items-center gap-2">
-                          <Award size={16} className="text-primary" /> My Certificates
+                        <button className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2 text-slate-700">
+                          <Award size={16} className="text-blue-600" /> My Certificates
                         </button>
                       </Link>
-                      <div className="border-t border-white/5 mt-1 pt-1">
+                      <div className="border-t border-slate-100 mt-1 pt-1">
                         <button 
                           onClick={() => logoutMutation.mutate()}
-                          className="w-full px-4 py-2 text-left text-sm hover:bg-white/5 text-destructive flex items-center gap-2"
+                          className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 text-red-600 flex items-center gap-2"
                         >
                           <LogOut size={16} /> Logout
                         </button>
@@ -142,13 +142,13 @@ export function Navbar() {
               </div>
             ) : (
               <Link href="/auth">
-                <Button variant="ghost" className="font-semibold hover:text-primary">
+                <Button variant="ghost" className="font-semibold text-slate-700 hover:text-blue-600 hover:bg-blue-50">
                   Login
                 </Button>
               </Link>
             )}
             <Link href="/apply">
-              <Button className="font-semibold bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 shadow-lg shadow-primary/25 border-0">
+              <Button className="font-semibold bg-blue-600 hover:bg-blue-700 border-0 text-white rounded-none">
                 Apply Now
               </Button>
             </Link>
@@ -156,7 +156,7 @@ export function Navbar() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden text-foreground p-2"
+            className="md:hidden text-slate-800 p-2"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -171,7 +171,7 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-white/10 bg-background/95 backdrop-blur-xl absolute top-full left-0 w-full overflow-hidden"
+            className="md:hidden border-t border-blue-100 bg-white backdrop-blur-xl absolute top-full left-0 w-full overflow-hidden"
           >
             <div className="flex flex-col px-4 py-6 space-y-4">
               {navLinks.map((link) => (
@@ -180,27 +180,27 @@ export function Navbar() {
                   href={link.href}
                   className={`text-lg font-medium px-4 py-3 rounded-lg transition-colors ${
                     location === link.href
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-slate-700 hover:bg-slate-50"
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="px-4 pt-4 border-t border-white/10 mt-2 space-y-4">
+              <div className="px-4 pt-4 border-t border-slate-100 mt-2 space-y-4">
                 {user ? (
                   <>
-                    <div className="flex items-center gap-3 px-4 py-2 text-primary font-medium">
+                    <div className="flex items-center gap-3 px-4 py-2 text-blue-600 font-medium">
                       <User size={20} /> {user.fullName}
                     </div>
                     <Link href="/courses">
-                      <Button variant="outline" className="w-full font-semibold border-primary/20">
+                      <Button variant="outline" className="w-full font-semibold border-blue-200 text-blue-600 hover:bg-blue-50">
                         My Courses
                       </Button>
                     </Link>
                     <Button 
                       variant="ghost" 
-                      className="w-full text-destructive"
+                      className="w-full text-red-600 hover:bg-red-50"
                       onClick={() => logoutMutation.mutate()}
                     >
                       Logout
@@ -208,13 +208,13 @@ export function Navbar() {
                   </>
                 ) : (
                   <Link href="/auth">
-                    <Button variant="outline" className="w-full font-semibold border-primary/20 hover:bg-primary/10">
+                    <Button variant="outline" className="w-full font-semibold border-blue-200 hover:bg-blue-50 text-blue-600">
                       Login
                     </Button>
                   </Link>
                 )}
                 <Link href="/apply">
-                  <Button className="w-full font-semibold bg-gradient-to-r from-primary to-secondary text-lg py-6">
+                  <Button className="w-full font-semibold bg-blue-600 hover:bg-blue-700 text-lg py-6 text-white rounded-none">
                     Apply Now
                   </Button>
                 </Link>

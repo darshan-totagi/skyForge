@@ -16,20 +16,20 @@ interface ReviewCardProps {
 
 export const ReviewCard = ({ review }: ReviewCardProps) => {
   return (
-    <Card className="glass-card w-full flex-shrink-0 border-white/[0.08] hover:border-primary/30 transition-all duration-300">
+    <Card className="w-full flex-shrink-0 bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300">
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <Avatar className="h-10 w-10 border border-primary/20">
+            <Avatar className="h-10 w-10 border border-slate-300">
               <AvatarImage src={review.imageUrl || ""} alt={review.name} />
-              <AvatarFallback><User className="w-5 h-5 text-muted-foreground" /></AvatarFallback>
+              <AvatarFallback><User className="w-5 h-5 text-slate-600" /></AvatarFallback>
             </Avatar>
             <div>
               <div className="flex items-center gap-1">
-                <p className="font-semibold text-foreground">{review.name}</p>
-                <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 fill-blue-400/20" />
+                <p className="font-semibold text-slate-900">{review.name}</p>
+                <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
               </div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider font-bold">{review.role}</p>
+              <p className="text-xs text-slate-600 uppercase tracking-wider font-bold">{review.role}</p>
             </div>
           </div>
           <div className="flex flex-col items-end gap-2">
@@ -38,19 +38,19 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
                 href={review.linkedinUrl} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-muted-foreground/60 hover:text-primary transition-colors"
+                className="text-slate-500 hover:text-slate-900 transition-colors"
               >
                 <Linkedin className="w-4 h-4" />
               </a>
             )}
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
-                <span key={i} className={`text-[10px] ${i < (review.rating || 5) ? "text-yellow-500" : "text-muted-foreground/20"}`}>★</span>
+                <span key={i} className={`text-[10px] ${i < (review.rating || 5) ? "text-yellow-500" : "text-slate-300"}`}>★</span>
               ))}
             </div>
           </div>
         </div>
-        <p className="text-foreground leading-relaxed text-[0.95rem] opacity-90 italic">"{review.content}"</p>
+        <p className="text-slate-700 leading-relaxed text-[0.95rem] italic">"{review.content}"</p>
       </CardContent>
     </Card>
   );

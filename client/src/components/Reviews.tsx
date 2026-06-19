@@ -52,7 +52,46 @@ export const Reviews = () => {
   }
 
   const placeholderReviews: Review[] = [
-    
+    {
+      id: 1,
+      name: "Shankargouda Patil",
+      role: "Full Stack Intern",
+      content: "I had a great learning experience at SkyForger Technologies working on a MERN stack project. It improved my practical web development skills and gave me valuable real-world exposure.",
+      rating: 5,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 2,
+      name: "Anjali Kodoli",
+      role: "Full Stack Intern",
+      content: "This internship strengthened my development skills and gave me confidence in solving real-world problems.",
+      rating: 5,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 3,
+      name: "Soniya Patil",
+      role: "Full Stack Intern",
+      content: "It helped me understand real-world software development, teamwork, task management, and meeting deadlines effectively.",
+      rating: 5,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 4,
+      name: "Sheetal DP",
+      role: "Full Stack Intern",
+      content: "The hands-on projects and mentorship helped me build a strong portfolio and improve my problem-solving skills.",
+      rating: 5,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 5,
+      name: "Sheetal Kulkarni",
+      role: "AI Intern",
+      content: "Great learning experience with real projects and excellent mentor support throughout the program.",
+      rating: 5,
+      createdAt: new Date().toISOString()
+    }
   ];
 
   const userReviews = reviews || [];
@@ -78,7 +117,7 @@ export const Reviews = () => {
   }
 
   return (
-    <section className="py-24 relative overflow-hidden bg-black/40">
+    <section className="py-24 relative overflow-hidden bg-slate-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <motion.div
@@ -87,20 +126,20 @@ export const Reviews = () => {
             viewport={{ once: true }}
             className="flex items-center justify-center gap-2 mb-6"
           >
-            <div className="w-1.5 h-1.5 bg-primary" />
-            <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-primary">Testimonials</span>
+            <div className="w-1.5 h-1.5 bg-slate-900" />
+            <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-slate-700">Testimonials</span>
           </motion.div>
-          <h2 className="text-5xl md:text-7xl font-display font-extrabold tracking-tighter text-white mb-6">
+          <h2 className="text-5xl md:text-7xl font-display font-extrabold tracking-tighter text-slate-900 mb-6">
             Student Success Stories
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
             Join hundreds of students who have launched their tech careers through our specialized internship programs.
           </p>
         </div>
 
         <div className="relative h-[600px] overflow-hidden">
-          <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#020617] via-[#020617]/80 to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#020617] via-[#020617]/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-slate-50 via-slate-50/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent z-10 pointer-events-none" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 h-full">
             <ReviewColumn items={col1} duration={30} />

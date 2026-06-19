@@ -1,107 +1,69 @@
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { BrainCircuit, Code2, LayoutTemplate, Clock, Globe, CheckCircle2, Sparkles, ArrowRight, ChevronDown, Palette } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { BrainCircuit, Code2, LayoutTemplate, Palette, Briefcase, Award, Users, Calendar } from "lucide-react";
+import { motion } from "framer-motion";
 
 const programs = [
   {
     id: "ai",
     title: "Artificial Intelligence",
     icon: BrainCircuit,
-    color: "text-blue-400",
-    border: "border-blue-400/20",
-    bg: "bg-blue-400/5",
-    description: "Build a strong foundation in AI and Machine Learning through practical Python-based projects. Dive into machine learning, neural networks, and data processing.",
-    details: [
-      "Data preprocessing and analysis",
-      "Building regression and classification models",
-      "Introduction to Deep Learning",
-      "Deploying ML models"
-    ]
+    description: "AI-integrated curriculum with project-based learning. Build real-world AI projects like chatbots, image recognition systems, and predictive models. Every phase is structured around how the best technical teams work today. Updated quarterly with industry trends."
   },
   {
     id: "fullstack",
     title: "MERN Stack Development",
     icon: Code2,
-    color: "text-purple-400",
-    border: "border-purple-400/20",
-    bg: "bg-purple-400/5",
-    description: "Learn to build complete web applications from database to UI using the MERN stack. Master MongoDB, Express.js, React, and Node.js to build complete web applications.",
-    details: [
-      "Developing web application projects",
-      "Working with databases applications",
-      "Understanding frontend and backend integration",
-      "End-to-end application development"
-    ]
+    description: "Master full-stack web development using MongoDB, Express.js, React, and Node.js. Design, develop, and deploy scalable web applications while working on authentication systems, APIs, dashboards, e-commerce platforms, and cloud deployment projects."
   },
   {
     id: "frontend",
     title: "Web Development",
     icon: LayoutTemplate,
-    color: "text-pink-400",
-    border: "border-pink-400/20",
-    bg: "bg-pink-400/5",
-    description: "Master the art of creating beautiful, interactive user interfaces and web experiences. Create stunning, responsive, and accessible user interfaces.",
-    details: [
-      "Building responsive user interfaces",
-      "Creating interactive web pages",
-      "Improving UI usability and design",
-      "Performance optimization"
-    ]
+    description: "Project-based curriculum that moves as the market does. Build responsive websites, PWAs, and modern web apps using React and cutting-edge technologies. Your portfolio will showcase real, deployable projects."
   },
   {
     id: "uiux",
     title: "UI/UX Design",
     icon: Palette,
-    color: "text-orange-400",
-    border: "border-orange-400/20",
-    bg: "bg-orange-400/5",
-    description: "Master the principles of user-centric design and create intuitive, beautiful digital experiences using industry-standard tools.",
-    details: [
-      "User Research and Persona Creation",
-      "Wireframing and Prototyping",
-      "Visual Design Principles",
-      "Usability Testing and Iteration"
-    ]
+    description: "Create intuitive and visually appealing digital experiences through user-centered design. Learn wireframing, prototyping, user research, design systems, and industry-standard tools like Figma while building portfolio-ready projects for web and mobile applications."
+  }
+];
+
+const internshipFeatures = [
+  {
+    icon: Briefcase,
+    title: "Real-World Projects",
+    description: "Work on live industry projects that add real value to your portfolio"
+  },
+  {
+    icon: Award,
+    title: "Industry-Recognized Certificate",
+    description: "Receive a verified certificate upon successful completion of your internship"
+  },
+  {
+    icon: Users,
+    title: "1-on-1 Mentorship",
+    description: "Get personalized guidance from industry experts throughout your internship"
+  },
+  {
+    icon: Calendar,
+    title: "Flexible Schedule",
+    description: "Learn at your own pace with a schedule that fits your lifestyle"
   }
 ];
 
 export default function Programs() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   return (
     <MainLayout>
-      {/* Hero Section - Matching Home Page Style - More Compact */}
-      <section className="relative min-h-[60vh] flex flex-col justify-center overflow-hidden pt-20 bg-[#020617]">
-        {/* Background Energy Waves & Tech Motif */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div className="absolute inset-0 z-[1] opacity-[0.15] pointer-events-none noise" />
-          
-          <motion.div
-            animate={{
-              x: ["-25%", "25%", "-25%"],
-              y: ["-15%", "15%", "-15%"],
-              scale: [1, 1.3, 1],
-              rotate: [12, 18, 12],
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[-20%] left-[-20%] w-[150%] h-[100%] energy-wave opacity-60 mix-blend-screen bg-primary/40 blur-[100px]"
-          />
-          
-          <div 
-            className="absolute inset-0 opacity-[0.2] pointer-events-none"
-            style={{ 
-              backgroundImage: `linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
-              backgroundSize: '40px 40px'
-            }}
-          />
-
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black" />
+      <section className="relative min-h-[60vh] flex flex-col justify-center overflow-hidden pt-20 bg-gradient-to-br from-blue-900 via-blue-900 to-slate-900 text-white">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-80 h-80 bg-purple-500 rounded-full blur-3xl" />
         </div>
-
-        <div className="container mx-auto px-6 md:px-12 relative z-10 py-16">
+        
+        <div className="container mx-auto px-8 md:px-16 relative z-10 py-16">
           <div className="max-w-5xl">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -109,191 +71,82 @@ export default function Programs() {
               transition={{ duration: 0.8 }}
               className="flex items-center gap-3 mb-6"
             >
-              <div className="w-1.5 h-1.5 bg-primary" />
-              <span className="text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase text-muted-foreground/80">
-                Specialized Learning Paths
+              <span className="text-[11px] md:text-xs font-bold tracking-[0.4em] uppercase text-blue-300">
+                WHY SKYFORGER
               </span>
             </motion.div>
 
-            <motion.h1 
-              className="text-5xl md:text-7xl lg:text-8xl font-display font-extrabold mb-8 tracking-tighter leading-none"
+            <motion.h1
+              className="text-4xl md:text-6xl font-display font-extrabold mb-6 tracking-tight"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
+              transition={{ duration: 1 }}
             >
-              Choose Your <br />
-              <span className="text-foreground/90">Path To</span> <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]">Mastery</span>
+              Project-Based Internship <span className="text-blue-400">Designed to Last</span>
             </motion.h1>
-          </div>
 
-          <div className="max-w-2xl mt-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="border-l border-white/10 pl-6"
-            >
-              <p className="text-lg text-muted-foreground/90 leading-relaxed font-medium">
-                Our programs are intensive, remote-first, and designed to simulate real-world industry environments through task-based execution.
-              </p>
-            </motion.div>
+            <p className="text-lg md:text-xl text-blue-100 max-w-2xl">
+              Four things no other program gives you - real projects, real mentorship, real experience
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Introduction Section */}
-      <section className="py-12 bg-black/50 border-b border-white/5">
-        <div className="container mx-auto px-6 md:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-1.5 h-1.5 bg-primary" />
-              <span className="text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase text-muted-foreground/80">
-                Nationwide Opportunities
-              </span>
-            </div>
-            
-            <h1 className="text-3xl md:text-5xl font-display font-extrabold tracking-tighter text-white mb-8">
-              Internship Programs in <span className="text-primary">India 2026</span>
-            </h1>
 
-            <div className="grid md:grid-cols-2 gap-8 items-start">
-              <div className="border-l border-primary/20 pl-6 space-y-4">
-               <p className="text-lg text-muted-foreground/70 leading-relaxed font-medium">
-  Whether you are looking for a <strong>web development internship</strong>,
-  <strong>AI internship</strong>, or a <strong>remote internship with certificate</strong>,
-  our programs help you build strong technical skills, work on live projects,
-  and earn a verified internship certificate to boost your career.
-</p>
-              </div>
-              <div className="border-l border-white/10 pl-6 space-y-4">
-                <p className="text-lg text-muted-foreground/70 leading-relaxed font-medium">
-                  Whether you are a beginner or an experienced learner, our internship programs help
-                  you build strong technical skills, work on live projects, and earn an internship
-                  certificate that boosts your career.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Programs Content Section - More Compact Grid Layout */}
-      <section className="py-24 bg-black relative overflow-hidden" ref={containerRef}>
-        <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Programs Grid */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-8 md:px-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-extrabold text-slate-900 mb-4">
+              Choose Your Specialization
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Pick the track that aligns with your career goals
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {programs.map((prog, i) => (
               <motion.div
                 key={prog.id}
-                initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.8, delay: i * 0.1, ease: [0.23, 1, 0.32, 1] }}
-                className="group relative flex flex-col h-full"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                whileHover={{ y: -6 }}
+                className="border-l-4 border-blue-600 bg-white border border-slate-200 p-8 shadow-sm hover:shadow-xl transition-all duration-300"
               >
-                {/* Visual Module Header */}
-                <div className="relative aspect-video bg-black border border-white/5 flex items-center justify-center overflow-hidden group-hover:border-primary/30 transition-all duration-500 mb-6">
-                  <div className={`absolute inset-0 ${prog.bg} blur-[60px] rounded-full opacity-20 group-hover:opacity-40 transition-opacity`} />
-                  <div className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity" 
-                       style={{ 
-                         backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-                         backgroundSize: '16px 16px'
-                       }} 
-                  />
-                  <prog.icon className={`w-16 h-16 ${prog.color} group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 z-10`} />
-                  
-                  <div className="absolute top-4 left-4 text-[8px] font-bold tracking-[0.3em] uppercase text-muted-foreground/30">
-                    Module_0{i + 1}
-                  </div>
+                <div className="mb-6">
+                  <prog.icon className="w-10 h-10 text-blue-600" />
                 </div>
 
-                {/* Content Details */}
-                <div className="flex-grow space-y-6">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-1 h-1 bg-primary" />
-                      <span className={`text-[8px] font-bold tracking-[0.3em] uppercase ${prog.color}`}>Specialization</span>
-                    </div>
-                    <h2 className="text-3xl font-display font-extrabold tracking-tighter group-hover:text-primary transition-colors">{prog.title}</h2>
-                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 font-medium">
-                      {prog.description}
-                    </p>
-                  </div>
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">
+                  {prog.title}
+                </h3>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 border border-white/5 bg-white/[0.01] space-y-1">
-                      <div className="flex items-center gap-2">
-                        <Clock className={`w-3 h-3 ${prog.color}`} />
-                        <span className="text-[8px] font-bold tracking-[0.2em] uppercase text-muted-foreground">Duration</span>
-                      </div>
-                      <p className="text-sm font-bold text-foreground">4 Weeks</p>
-                    </div>
-                    <div className="p-4 border border-white/5 bg-white/[0.01] space-y-1">
-                      <div className="flex items-center gap-2">
-                        <Globe className={`w-3 h-3 ${prog.color}`} />
-                        <span className="text-[8px] font-bold tracking-[0.2em] uppercase text-muted-foreground">Location</span>
-                      </div>
-                      <p className="text-sm font-bold text-foreground">Remote</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <span className="text-[8px] font-bold tracking-[0.3em] uppercase text-muted-foreground/60">Core Competencies</span>
-                    <ul className="space-y-2">
-                      {prog.details.slice(0, 3).map((detail, idx) => (
-                        <li key={idx} className="flex items-start gap-2 group/item">
-                          <CheckCircle2 className={`w-3.5 h-3.5 ${prog.color} shrink-0 mt-0.5 opacity-40 group-hover/item:opacity-100 transition-opacity`} />
-                          <span className="text-xs font-medium text-muted-foreground group-hover/item:text-foreground transition-colors">{detail}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="pt-8 mt-auto">
-                  <Link href="/apply" className="w-full">
-                    <Button className="w-full h-12 rounded-none bg-white text-black hover:bg-primary hover:text-white transition-all font-bold text-[10px] tracking-[0.2em] uppercase group flex items-center justify-center gap-3 relative overflow-hidden">
-                      <div className="w-1.5 h-1.5 bg-black group-hover:bg-white transition-colors" />
-                      <span>Register Now</span>
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </Link>
-                </div>
+                <p className="text-slate-600 leading-relaxed text-sm">
+                  {prog.description}
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Bottom Section - More Compact */}
-      <section className="py-24 relative bg-white/[0.02] border-y border-white/5">
-        <div className="container mx-auto px-6 md:px-12">
+      <section className="py-24 relative bg-slate-50 border-y border-slate-200">
+        <div className="container mx-auto px-8 md:px-16">
           <div className="flex flex-col items-center text-center max-w-2xl mx-auto space-y-8">
-            <h2 className="text-3xl md:text-5xl font-display font-extrabold tracking-tighter">
+            <h2 className="text-3xl md:text-5xl font-display font-extrabold tracking-tighter text-slate-900">
               Ready to start your professional journey?
             </h2>
             <Link href="/apply">
-              <Button className="h-16 px-12 rounded-none bg-primary text-black hover:bg-white transition-all font-bold text-sm tracking-[0.2em] uppercase group flex items-center gap-4 relative overflow-hidden">
-                <Sparkles className="w-5 h-5" />
-                <span>Begin Application</span>
-                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black/10" />
+              <Button className="h-16 px-12 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm tracking-[0.2em] uppercase flex items-center gap-4 rounded-none transition-all duration-300">
+                Begin Application
               </Button>
             </Link>
           </div>
         </div>
-
-        <div className="hidden">
-        free internship India, remote internship for students, internship certificate,
-        web development internship, AI internship India
-        </div>
       </section>
     </MainLayout>
   );
-
-  
 }

@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Sparkles, Send, User, Mail, Phone, GraduationCap, Calendar, Globe, Briefcase } from "lucide-react";
+import { Loader2, Sparkles, Send, User, Mail, Phone, GraduationCap, Calendar, Globe, Briefcase, ArrowRight, MessageSquare, Award, CheckCircle2 } from "lucide-react";
 
 export default function Apply() {
   const mutation = useSubmitApplication();
@@ -46,379 +46,377 @@ export default function Apply() {
 
   return (
     <MainLayout>
-      <div className="min-h-screen relative overflow-hidden bg-[#020617] pt-32 pb-24">
-        {/* Advanced Animative Background - Matching Home Page */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div className="absolute inset-0 z-[1] opacity-[0.15] pointer-events-none noise" />
+      <div className="min-h-screen w-full relative">
+        {/* Hero Section */}
+        <section className="pt-32 pb-12 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+          <div className="absolute inset-0 opacity-40">
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'url("https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&h=1080&fit=crop")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              filter: 'brightness(0.3) contrast(1.2)'
+            }} />
+          </div>
+          <div className="absolute inset-0 opacity-20" style={{
+            backgroundImage: 'linear-gradient(135deg, rgba(255,255,255,0.05) 25%, transparent 25%), linear-gradient(225deg, rgba(255,255,255,0.05) 25%, transparent 25%), linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%), linear-gradient(315deg, rgba(255,255,255,0.05) 25%, transparent 25%)',
+            backgroundSize: '40px 40px',
+            backgroundPosition: '0 0, 20px 0, 20px -20px, 0px 20px'
+          }} />
           
-          <motion.div
-            animate={{
-              x: ["-25%", "25%", "-25%"],
-              y: ["-15%", "15%", "-15%"],
-              scale: [1, 1.3, 1],
-              rotate: [12, 18, 12],
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[-20%] left-[-20%] w-[150%] h-[100%] energy-wave opacity-60 mix-blend-screen bg-primary/40 blur-[100px]"
-          />
-          <motion.div
-            animate={{
-              x: ["25%", "-25%", "25%"],
-              y: ["15%", "-15%", "15%"],
-              scale: [1.2, 1, 1.2],
-              rotate: [-6, -15, -6],
-            }}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-[-20%] right-[-20%] w-[150%] h-[90%] energy-wave opacity-50 mix-blend-screen bg-secondary/40 blur-[100px]"
-          />
-
-          {/* Moving Blending Orbs */}
-          {[...Array(3)].map((_, i) => (
-            <motion.div
-              key={`orb-${i}`}
-              animate={{
-                x: [`${Math.random() * 80}%`, `${Math.random() * 80}%`],
-                y: [`${Math.random() * 80}%`, `${Math.random() * 80}%`],
-              }}
-              transition={{
-                duration: 25 + i * 5,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="absolute w-[600px] h-[600px] rounded-full blur-[150px] opacity-20 mix-blend-overlay"
-              style={{
-                background: i % 2 === 0 
-                  ? "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)"
-                  : "radial-gradient(circle, hsl(var(--secondary)) 0%, transparent 70%)",
-                top: i * 30 + "%",
-                left: i * 20 + "%",
-              }}
-            />
-          ))}
-
-          {/* Tech Grid Overlay */}
-          <div 
-            className="absolute inset-0 opacity-[0.15] pointer-events-none"
-            style={{ 
-              backgroundImage: `linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
-              backgroundSize: '40px 40px'
-            }}
-          />
-
-          {/* Data Stream lines */}
-          {[...Array(4)].map((_, i) => (
-            <motion.div
-              key={`stream-${i}`}
-              animate={{
-                x: ["-100%", "100%"],
-                opacity: [0, 0.3, 0],
-              }}
-              transition={{
-                duration: 10 + i * 2,
-                repeat: Infinity,
-                delay: i * 2,
-                ease: "linear",
-              }}
-              className="absolute h-[1px] w-[300px] bg-gradient-to-r from-transparent via-primary to-transparent blur-[1px]"
-              style={{
-                top: `${20 + i * 20}%`,
-                left: "-10%",
-              }}
-            />
-          ))}
-
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black" />
-        </div>
-
-        <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <div className="max-w-6xl mx-auto">
-            {/* Header Section */}
-            <div className="mb-12">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                className="flex items-center gap-3 mb-4"
-              >
-                <div className="w-1.5 h-1.5 bg-primary" />
-                <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-muted-foreground/80">
-                  Career Launchpad
-                </span>
-              </motion.div>
-
-              <motion.h1 
-                className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold mb-6 tracking-tighter"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
-              >
-                Internship <span className="text-foreground/90">Application</span>
-              </motion.h1>
-              
-              <motion.p 
-                className="text-lg md:text-xl text-muted-foreground/80 max-w-2xl font-medium border-l border-white/10 pl-6"
+          <div className="container mx-auto px-6 relative z-10">
+            <div className="flex justify-center mb-4">
+              <div className="flex items-center gap-3">
+                <a href="#" className="text-sm text-blue-100 hover:text-white">Home</a>
+                <span className="text-blue-300">/</span>
+                <a href="#" className="text-sm text-blue-300 font-bold">Apply Now</a>
+              </div>
+            </div>
+            
+            <div className="text-center mb-16">
+              <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
+                transition={{ duration: 0.6 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white mb-4"
+              >
+                Internship Application
+              </motion.h1>
+              
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-lg text-blue-100 max-w-2xl mx-auto"
               >
                 Take the first step towards your professional tech career. Fill out the secure form below to join our next cohort.
               </motion.p>
             </div>
-
-            {/* Compact Internship Benefits Ticker */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="mb-8 overflow-hidden relative max-w-4xl"
-            >
-              <div className="flex whitespace-nowrap gap-8 py-2 border-y border-white/5 bg-white/[0.02]">
-                <motion.div
-                  animate={{ x: [0, -1000] }}
-                  transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                  className="flex gap-12 items-center"
-                >
-                  {[...Array(3)].map((_, i) => (
-                    <React.Fragment key={i}>
-                      {[
-                        "INDUSTRY MENTORSHIP",
-                        "REAL-WORLD PROJECTS",
-                        "VERIFIED CERTIFICATION",
-                        "TASK-BASED LEARNING",
-                        "REMOTE FLEXIBILITY"
-                      ].map((text) => (
-                        <div key={text} className="flex items-center gap-2">
-                          <div className="w-1 h-1 rounded-full bg-primary" />
-                          <span className="text-[9px] font-bold tracking-[0.2em] text-muted-foreground/60">{text}</span>
-                        </div>
-                      ))}
-                    </React.Fragment>
-                  ))}
-                </motion.div>
-              </div>
-              <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#020617] to-transparent z-10" />
-              <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#020617] to-transparent z-10" />
-            </motion.div>
-
-            {/* Form Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 40, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 0.5, duration: 1, ease: [0.23, 1, 0.32, 1] }}
-              className="relative max-w-4xl"
-            >
-              {/* Decorative Corner Elements */}
-              <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-primary/30 z-20" />
-              <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-primary/30 z-20" />
-
-              <div className="glass-card border border-white/5 bg-black/40 backdrop-blur-3xl p-8 md:p-12 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
-                
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    
-                    {/* Form Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
-                      <FormField
-                        control={form.control}
-                        name="fullName"
-                        render={({ field }) => (
-                          <FormItem className="space-y-3">
-                            <div className="flex items-center gap-2">
-                              <User className="w-3.5 h-3.5 text-primary" />
-                              <FormLabel className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">Full name</FormLabel>
-                            </div>
-                            <FormControl>
-                              <Input 
-                                placeholder="e.g. John Doe" 
-                                className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-base placeholder:text-muted-foreground/20" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem className="space-y-3">
-                            <div className="flex items-center gap-2">
-                              <Mail className="w-3.5 h-3.5 text-primary" />
-                              <FormLabel className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">Email address</FormLabel>
-                            </div>
-                            <FormControl>
-                              <Input 
-                                type="email"
-                                placeholder="e.g. john@example.com" 
-                                className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-base placeholder:text-muted-foreground/20" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="phone"
-                        render={({ field }) => (
-                          <FormItem className="space-y-3">
-                            <div className="flex items-center gap-2">
-                              <Phone className="w-3.5 h-3.5 text-primary" />
-                              <FormLabel className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">Phone number</FormLabel>
-                            </div>
-                            <FormControl>
-                              <Input 
-                                placeholder="+1 (555) 000-0000" 
-                                className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-base placeholder:text-muted-foreground/20" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="college"
-                        render={({ field }) => (
-                          <FormItem className="space-y-3">
-                            <div className="flex items-center gap-2">
-                              <GraduationCap className="w-3.5 h-3.5 text-primary" />
-                              <FormLabel className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">College / University</FormLabel>
-                            </div>
-                            <FormControl>
-                              <Input 
-                                placeholder="Tech University" 
-                                className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-base placeholder:text-muted-foreground/20" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="yearOfStudy"
-                        render={({ field }) => (
-                          <FormItem className="space-y-3">
-                            <div className="flex items-center gap-2">
-                              <Calendar className="w-3.5 h-3.5 text-primary" />
-                              <FormLabel className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">Year of study</FormLabel>
-                            </div>
-                            <FormControl>
-                              <Input 
-                                placeholder="e.g. 3rd Year" 
-                                className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-base placeholder:text-muted-foreground/20" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="domain"
-                        render={({ field }) => (
-                          <FormItem className="space-y-3">
-                            <div className="flex items-center gap-2">
-                              <Briefcase className="w-3.5 h-3.5 text-primary" />
-                              <FormLabel className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">Select specialization</FormLabel>
-                            </div>
-                            <Select onValueChange={field.onChange} value={field.value}>
-                              <FormControl>
-                                <SelectTrigger className="bg-transparent border-0 border-b border-white/10 rounded-none focus:ring-0 focus:border-primary transition-all h-10 px-0 text-base">
-                                  <SelectValue placeholder="Choose a domain" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent className="bg-black border-white/10 text-foreground">
-                                <SelectItem value="Artificial Intelligence" className="focus:bg-primary/20">Artificial Intelligence</SelectItem>
-                                <SelectItem value="MERN Stack Development" className="focus:bg-primary/20">MERN Stack Development</SelectItem>
-                                <SelectItem value="Web Development" className="focus:bg-primary/20">Web Development</SelectItem>
-                                <SelectItem value="UI/UX Design" className="focus:bg-primary/20">UI/UX Design</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <FormField
-                      control={form.control}
-                      name="portfolioUrl"
-                      render={({ field }) => (
-                        <FormItem className="space-y-3">
-                          <div className="flex items-center gap-2">
-                            <Globe className="w-3.5 h-3.5 text-primary" />
-                            <FormLabel className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">GitHub / Portfolio URL (Optional)</FormLabel>
-                          </div>
-                          <FormControl>
-                            <Input 
-                              placeholder="https://github.com/yourusername" 
-                              className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-base placeholder:text-muted-foreground/20" 
-                              {...field} 
-                              value={field.value || ''} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="statement"
-                      render={({ field }) => (
-                        <FormItem className="space-y-3">
-                          <div className="flex items-center gap-2">
-                            <Sparkles className="w-3.5 h-3.5 text-primary" />
-                            <FormLabel className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">Statement of Interest</FormLabel>
-                          </div>
-                          <FormControl>
-                            <Textarea 
-                              placeholder="Tell us about your background and why you want to join..." 
-                              className="bg-transparent border border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all min-h-[120px] p-4 text-base placeholder:text-muted-foreground/20 resize-none" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <div className="pt-6">
-                      <Button 
-                        type="submit" 
-                        className="w-full h-14 rounded-none bg-primary text-black hover:bg-white transition-all font-bold text-base tracking-[0.2em] uppercase group flex items-center justify-center gap-4 relative overflow-hidden disabled:opacity-50"
-                        disabled={mutation.isPending}
-                      >
-                        {mutation.isPending ? (
-                          <Loader2 className="w-6 h-6 animate-spin" />
-                        ) : (
-                          <>
-                            <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                            <span>Submit Application</span>
-                          </>
-                        )}
-                        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black/10" />
-                      </Button>
-                    </div>
-                  </form>
-                </Form>
-              </div>
-            </motion.div>
           </div>
-        </div>
+        </section>
+
+        {/* Main Section */}
+        <section className="py-16 bg-slate-50">
+          <div className="container mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+              {/* Left Column - Info */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="space-y-8"
+              >
+                <div>
+                  <h2 className="text-3xl md:text-4xl font-display font-extrabold text-slate-900 mb-4">
+                    What will be your next step?
+                  </h2>
+                  <p className="text-lg text-slate-600 mb-8">
+                    You are one step closer to building your perfect future with SkyForger Technologies.
+                  </p>
+                </div>
+
+                {/* Benefits Steps */}
+                <div className="space-y-6">
+                  {[
+                    {
+                      num: "01",
+                      title: "We process your application",
+                      desc: "Our team reviews your profile and statement of interest carefully."
+                    },
+                    {
+                      num: "02",
+                      title: "Together we discuss your goals",
+                      desc: "Selected candidates receive an acceptance email and onboarding details."
+                    },
+                    {
+                      num: "03",
+                      title: "Let's start building",
+                      desc: "Begin your first task and start your journey towards tech excellence."
+                    }
+                  ].map((step, i) => (
+                    <div key={i} className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                        <span className="text-blue-600 font-bold text-lg">{step.num}</span>
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-semibold text-slate-900 mb-1">{step.title}</h3>
+                        <p className="text-slate-600">{step.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Benefits List */}
+                <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                  <h3 className="text-xl font-semibold text-slate-900 mb-4">Why Join Us?</h3>
+                  <div className="grid grid-cols-1 gap-3">
+                    {[
+                      "Industry Mentorship",
+                      "Real-world Projects",
+                      "Verified Certification",
+                      "Task-based Learning",
+                      "Remote Flexibility"
+                    ].map((benefit, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                        <span className="text-slate-700">{benefit}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Right Column - Form */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <div className="bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-slate-200">
+                  <div className="flex items-center gap-3 mb-8">
+                    <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                      <MessageSquare className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-slate-900">Write to us a few words</h3>
+                      <p className="text-slate-500 text-sm">about your project and we'll prepare a proposal for you within 24 hours.</p>
+                    </div>
+                  </div>
+
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                      
+                      {/* Form Grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <FormField
+                          control={form.control}
+                          name="fullName"
+                          render={({ field }) => (
+                            <FormItem className="space-y-2">
+                              <FormLabel className="text-sm font-medium text-slate-700">Full Name</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="e.g. John Doe" 
+                                  className="h-12 bg-slate-50 border-slate-200 rounded-xl focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem className="space-y-2">
+                              <FormLabel className="text-sm font-medium text-slate-700">Email Address</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  type="email"
+                                  placeholder="e.g. john@example.com" 
+                                  className="h-12 bg-slate-50 border-slate-200 rounded-xl focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="phone"
+                          render={({ field }) => (
+                            <FormItem className="space-y-2">
+                              <FormLabel className="text-sm font-medium text-slate-700">Phone Number</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="+1 (555) 000-0000" 
+                                  className="h-12 bg-slate-50 border-slate-200 rounded-xl focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="college"
+                          render={({ field }) => (
+                            <FormItem className="space-y-2">
+                              <FormLabel className="text-sm font-medium text-slate-700">College / University</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Tech University" 
+                                  className="h-12 bg-slate-50 border-slate-200 rounded-xl focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="yearOfStudy"
+                          render={({ field }) => (
+                            <FormItem className="space-y-2">
+                              <FormLabel className="text-sm font-medium text-slate-700">Year of Study</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="e.g. 3rd Year" 
+                                  className="h-12 bg-slate-50 border-slate-200 rounded-xl focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="domain"
+                          render={({ field }) => (
+                            <FormItem className="space-y-2">
+                              <FormLabel className="text-sm font-medium text-slate-700">Select Specialization</FormLabel>
+                              <Select onValueChange={field.onChange} value={field.value}>
+                                <FormControl>
+                                  <SelectTrigger className="h-12 bg-slate-50 border-slate-200 rounded-xl focus:ring-blue-500 focus:border-blue-500 transition-all">
+                                    <SelectValue placeholder="Choose a domain" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent className="bg-white border-slate-200 text-slate-900">
+                                  <SelectItem value="Artificial Intelligence" className="focus:bg-blue-50">Artificial Intelligence</SelectItem>
+                                  <SelectItem value="MERN Stack Development" className="focus:bg-blue-50">MERN Stack Development</SelectItem>
+                                  <SelectItem value="Web Development" className="focus:bg-blue-50">Web Development</SelectItem>
+                                  <SelectItem value="UI/UX Design" className="focus:bg-blue-50">UI/UX Design</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <FormField
+                        control={form.control}
+                        name="portfolioUrl"
+                        render={({ field }) => (
+                          <FormItem className="space-y-2">
+                            <FormLabel className="text-sm font-medium text-slate-700">GitHub / Portfolio URL (Optional)</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="https://github.com/yourusername" 
+                                className="h-12 bg-slate-50 border-slate-200 rounded-xl focus:ring-blue-500 focus:border-blue-500 transition-all" 
+                                {...field} 
+                                value={field.value || ''} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="statement"
+                        render={({ field }) => (
+                          <FormItem className="space-y-2">
+                            <FormLabel className="text-sm font-medium text-slate-700">Statement of Interest (Optional)</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                placeholder="Tell us about your background and why you want to join..." 
+                                className="bg-slate-50 border-slate-200 rounded-xl focus:ring-blue-500 focus:border-blue-500 transition-all min-h-[140px] p-4 resize-none" 
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <div className="pt-4">
+                        <Button 
+                          type="submit" 
+                          className="w-full h-12 rounded-full bg-black hover:bg-slate-800 text-white font-semibold text-base transition-all flex items-center justify-center gap-2"
+                          disabled={mutation.isPending}
+                        >
+                          {mutation.isPending ? (
+                            <>
+                              <Loader2 className="w-5 h-5 animate-spin" />
+                              <span>Submitting...</span>
+                            </>
+                          ) : (
+                            <>
+                              <span>Submit Application</span>
+                              <ArrowRight className="w-5 h-5" />
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </form>
+                  </Form>
+
+                  <div className="mt-8 pt-6 border-t border-slate-200 text-center">
+                    <p className="text-xs text-slate-500">
+                      If you want to hear from us directly, just contact us at <a href="mailto:contact@skyforger.com" className="text-blue-600 font-medium">contact@skyforger.com</a>
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer Section */}
+        <section className="py-16 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+          <div className="container mx-auto px-6 md:px-12">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl md:text-3xl font-display font-extrabold text-white mb-4">Need a help?</h2>
+              <p className="text-blue-100 text-lg mb-8">We are available for hire</p>
+              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-slate-900 rounded-full px-8">
+                Create a free consultation
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mb-12">
+              {[
+                { title: "Services", items: ["Web Development", "UI/UX Design", "AI Solutions"] },
+                { title: "Company", items: ["About Us", "Careers", "Contact"] },
+                { title: "Case Studies", items: ["E-commerce", "SaaS", "Mobile Apps"] },
+                { title: "About Us", items: ["Our Story", "Team", "Blog"] }
+              ].map((section, i) => (
+                <div key={i}>
+                  <h3 className="text-white font-semibold mb-4">{section.title}</h3>
+                  <ul className="space-y-2">
+                    {section.items.map((item, j) => (
+                      <li key={j}>
+                        <a href="#" className="text-blue-200 hover:text-white text-sm transition-colors">{item}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex justify-between items-center pt-8 border-t border-blue-800">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">S</span>
+                </div>
+                <span className="text-white font-bold">SkyForger</span>
+              </div>
+              <p className="text-blue-300 text-sm">© 2025 SkyForger Technologies. All rights reserved.</p>
+            </div>
+          </div>
+        </section>
       </div>
     </MainLayout>
   );

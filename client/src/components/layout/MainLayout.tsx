@@ -5,14 +5,7 @@ import { motion } from "framer-motion";
 
 export function MainLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col bg-background relative selection:bg-primary/30 selection:text-primary-foreground">
-      <div className="noise fixed inset-0 z-[9998] pointer-events-none" />
-      
-      {/* Global Ambient Glow */}
-      <div className="fixed inset-0 z-0 pointer-events-none flex justify-center items-center overflow-hidden">
-        <div className="w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] mix-blend-screen transform -translate-y-1/2" />
-      </div>
-      
+    <div className="min-h-screen flex flex-col bg-white relative selection:bg-blue-100 selection:text-blue-900">
       <Navbar />
       
       <motion.main 

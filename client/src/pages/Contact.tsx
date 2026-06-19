@@ -15,116 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Linkedin, Globe, Send } from "lucide-react";
-
-const FloatingShape = () => {
-  return (
-    <div className="relative w-64 h-64 md:w-96 md:h-96 mx-auto flex items-center justify-center">
-      {/* Glow effect */}
-      <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute w-full h-full bg-primary/20 blur-[80px] rounded-full pointer-events-none"
-      />
-
-      <div className="relative z-10 w-full h-full">
-        {/* Outer Ring */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-0 border-[1px] border-primary/20 rounded-full"
-        >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-primary rounded-full shadow-[0_0_15px_rgba(var(--primary),0.8)]" />
-        </motion.div>
-
-        {/* Middle Ring */}
-        <motion.div
-          animate={{ rotate: -360 }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-8 border-[1px] border-secondary/30 rounded-full"
-        >
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-secondary rounded-full shadow-[0_0_12px_rgba(var(--secondary),0.8)]" />
-        </motion.div>
-
-        {/* Inner Ring with Dashed line */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-16 border-[1px] border-dashed border-accent/40 rounded-full"
-        />
-
-        {/* Core Tech Orb */}
-        <div className="absolute inset-24 flex items-center justify-center">
-          <motion.div
-            animate={{
-              scale: [1, 1.05, 1],
-              boxShadow: [
-                "0 0 40px rgba(var(--primary), 0.3)",
-                "0 0 60px rgba(var(--primary), 0.6)",
-                "0 0 40px rgba(var(--primary), 0.3)",
-              ],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="w-full h-full rounded-full bg-gradient-to-br from-primary via-secondary to-accent relative overflow-hidden flex items-center justify-center group"
-          >
-            {/* Animated internal lines */}
-            <motion.div
-              animate={{
-                y: ["-100%", "100%"],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="absolute inset-0 w-full h-[2px] bg-white/20 blur-[1px]"
-            />
-            
-            {/* Central icon or symbol */}
-            <Globe className="w-1/2 h-1/2 text-white/90 drop-shadow-lg z-10" />
-            
-            {/* Glossy overlay */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent pointer-events-none" />
-          </motion.div>
-        </div>
-
-        {/* Floating tech bits */}
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{
-              y: [0, -30, 0],
-              x: [0, 20, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 5 + i,
-              repeat: Infinity,
-              delay: i * 2,
-              ease: "easeInOut",
-            }}
-            className="absolute w-1 h-1 bg-white rounded-full"
-            style={{
-              top: `${20 + i * 30}%`,
-              left: `${10 + i * 40}%`,
-            }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
+import { Loader2, Linkedin, Mail, MapPin, Phone, Send, MessageSquare, Users, Zap } from "lucide-react";
 
 export default function Contact() {
   const mutation = useSubmitContact();
@@ -147,147 +38,161 @@ export default function Contact() {
     });
   }
 
+  const steps = [
+    {
+      icon: MessageSquare,
+      title: "We prepare a proposal",
+      description: "Tell us about your project and we'll prepare a detailed proposal within 24 hours."
+    },
+    {
+      icon: Users,
+      title: "Together we discuss",
+      description: "We'll have a call to discuss your requirements and fine-tune the proposal to your needs."
+    },
+    {
+      icon: Zap,
+      title: "Let's start building",
+      description: "Once you're happy, we'll kick off the project and start bringing your ideas to life!"
+    }
+  ];
+
   return (
     <MainLayout>
-      <div className="min-h-screen relative overflow-hidden bg-[#020617] pt-32 pb-24">
-        {/* Advanced Animative Background - Matching Design System */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div className="absolute inset-0 z-[1] opacity-[0.15] pointer-events-none noise" />
-          
-          <motion.div
-            animate={{
-              x: ["-25%", "25%", "-25%"],
-              y: ["-15%", "15%", "-15%"],
-              scale: [1, 1.3, 1],
-              rotate: [12, 18, 12],
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[-20%] left-[-20%] w-[150%] h-[100%] energy-wave opacity-60 mix-blend-screen bg-primary/40 blur-[100px]"
-          />
-          <motion.div
-            animate={{
-              x: ["25%", "-25%", "25%"],
-              y: ["15%", "-15%", "15%"],
-              scale: [1.2, 1, 1.2],
-              rotate: [-6, -15, -6],
-            }}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-[-20%] right-[-20%] w-[150%] h-[90%] energy-wave opacity-50 mix-blend-screen bg-secondary/40 blur-[100px]"
-          />
-
-          <div 
-            className="absolute inset-0 opacity-[0.15] pointer-events-none"
-            style={{ 
-              backgroundImage: `linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
-              backgroundSize: '40px 40px'
-            }}
-          />
-
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black" />
-        </div>
-
+      {/* Hero Section */}
+      <section className="pt-32 pb-24 bg-gradient-to-br from-slate-900 to-blue-900">
         <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <div className="max-w-6xl mx-auto">
-            {/* Header Section */}
-            <div className="mb-20">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                className="flex items-center gap-3 mb-6"
-              >
-                <div className="w-1.5 h-1.5 bg-primary" />
-                <span className="text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase text-muted-foreground/80">
-                  Contact Support
-                </span>
-              </motion.div>
-
-              <motion.h1 
-                className="text-[10vw] md:text-[7vw] lg:text-[6vw] font-display font-extrabold mb-8 leading-[0.9] tracking-tighter"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
-              >
-                Get In <br />
-                <span className="text-foreground/90">Touch With</span> <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]">Us</span>
-              </motion.h1>
-              
-              <motion.p 
-                className="text-xl md:text-2xl text-muted-foreground/80 max-w-2xl font-medium border-l border-white/10 pl-8 leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-              >
-                Questions, ideas, or feedback—let's make progress together. Reach out through the form below.
-              </motion.p>
+          <div className="flex justify-between items-start mb-12">
+            <div className="text-sm text-blue-300 mb-2">support@skyforger.com</div>
+            <div className="flex items-center gap-6">
+              <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+              <div className="text-sm text-blue-300">Begin project</div>
+              <div className="text-sm text-blue-300">Contact</div>
             </div>
+          </div>
+          
+          <div className="max-w-3xl">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold mb-4 text-white leading-tight">
+                Contact Us
+              </h1>
+              <p className="text-xl text-blue-200 max-w-lg">
+                Looking for a design partner? You found it.
+              </p>
+            </motion.div>
+          </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-              
-              {/* Left Column: Visual & Social */}
-              <div className="space-y-12">
-                <div className="flex flex-col items-center lg:items-start">
-                  <FloatingShape />
-                  
-                  <div className="mt-12 space-y-10 w-full max-w-md mx-auto lg:mx-0">
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.6 }}
-                      className="group"
-                    >
-                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 mb-3">Email Address</p>
-                      <a href="mailto:skyforgertechnologies@gmail.com" className="text-xl md:text-3xl font-display font-extrabold text-foreground hover:text-primary transition-all tracking-tight break-all">
-                        skyforgertechnologies@gmail.com
-                      </a>
-                    </motion.div>
+          <div className="flex items-center gap-6 mt-12">
+            <a href="#" className="text-blue-300 hover:text-white transition-colors">
+              <Linkedin className="w-5 h-5" />
+            </a>
+            <a href="#" className="text-blue-300 hover:text-white transition-colors">
+              <div className="w-5 h-5 border-2 border-blue-300 rounded-full flex items-center justify-center">
+                <div className="w-2 h-2 bg-blue-300 rounded-full"></div>
+              </div>
+            </a>
+            <a href="#" className="text-blue-300 hover:text-white transition-colors">
+              <div className="w-5 h-5 flex items-center justify-center">
+                <div className="w-3 h-3 border-2 border-blue-300"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
 
+      {/* Main Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-6 md:px-12">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            {/* Left Column */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-8 text-slate-900">
+                What will be your next step?
+              </h2>
+              <p className="text-slate-600 mb-10 text-lg">
+                You are one step closer to build your perfect product.
+              </p>
+
+              <div className="space-y-8">
+                {steps.map((step, i) => {
+                  const Icon = step.icon;
+                  return (
                     <motion.div
+                      key={i}
                       initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.8 }}
-                      className="space-y-4"
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: i * 0.15 }}
+                      className="relative pl-12"
                     >
-                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 mb-3">Professional Network</p>
-                      <div className="flex gap-6">
-                        <a href="https://www.linkedin.com/company/skyforger/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-all group">
-                          <div className="w-10 h-10 rounded-none border border-white/10 flex items-center justify-center group-hover:border-primary transition-colors">
-                            <Linkedin className="w-5 h-5" />
-                          </div>
-                          <span className="font-bold tracking-tight text-lg">skyforger</span>
-                        </a>
+                      {/* Numbered circle */}
+                      <div className="absolute left-0 top-0 w-8 h-8 rounded-full border-2 border-pink-500 flex items-center justify-center">
+                        <span className="text-pink-500 font-bold text-sm">{i + 1}</span>
                       </div>
+                      
+                      {/* Connecting line */}
+                      {i < steps.length - 1 && (
+                        <div className="absolute left-4 top-8 w-0.5 h-16 bg-pink-500"></div>
+                      )}
+
+                      <div className="flex items-start gap-4 mb-2">
+                        <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center">
+                          <Icon className="w-5 h-5 text-pink-600" />
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900">
+                          {step.title}
+                        </h3>
+                      </div>
+                      <p className="text-slate-600 text-sm leading-relaxed ml-14">
+                        {step.description}
+                      </p>
                     </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+
+            {/* Right Column: Form */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative"
+            >
+              <div className="bg-white rounded-2xl p-8 md:p-12 shadow-2xl border border-slate-200">
+                <div className="flex items-start gap-4 mb-8">
+                  <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    <MessageSquare className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">
+                      Write us a few words about your project and we'll prepare a proposal for you within 24 hours.
+                    </h3>
                   </div>
                 </div>
-              </div>
-
-              {/* Right Column: Form */}
-              <motion.div
-                initial={{ opacity: 0, y: 40, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ delay: 0.5, duration: 1, ease: [0.23, 1, 0.32, 1] }}
-                className="relative"
-              >
-                {/* Decorative Corner Elements */}
-                <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-primary/30 z-20" />
-                <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-primary/30 z-20" />
-
-                <div className="glass-card border border-white/5 bg-black/40 backdrop-blur-3xl p-8 md:p-12 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
-                  
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+                
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <FormField
                         control={form.control}
                         name="name"
                         render={({ field }) => (
-                          <FormItem className="space-y-3">
-                            <FormLabel className="text-muted-foreground/60 text-[10px] font-bold uppercase tracking-[0.2em]">Full name</FormLabel>
+                          <FormItem>
+                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-500">Your name</FormLabel>
                             <FormControl>
                               <Input 
-                                placeholder="e.g. John Doe" 
-                                className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-lg placeholder:text-muted-foreground/20" 
+                                placeholder="Your name" 
+                                className="bg-slate-50 border-slate-300 rounded-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:border-blue-600 transition-all h-12 px-4" 
                                 {...field} 
                               />
                             </FormControl>
@@ -300,13 +205,13 @@ export default function Contact() {
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                          <FormItem className="space-y-3">
-                            <FormLabel className="text-muted-foreground/60 text-[10px] font-bold uppercase tracking-[0.2em]">Email address</FormLabel>
+                          <FormItem>
+                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-500">Your email</FormLabel>
                             <FormControl>
                               <Input 
                                 type="email"
-                                placeholder="e.g. john@example.com" 
-                                className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-lg placeholder:text-muted-foreground/20" 
+                                placeholder="Your email" 
+                                className="bg-slate-50 border-slate-300 rounded-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:border-blue-600 transition-all h-12 px-4" 
                                 {...field} 
                               />
                             </FormControl>
@@ -314,17 +219,19 @@ export default function Contact() {
                           </FormItem>
                         )}
                       />
+                    </div>
 
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <FormField
                         control={form.control}
                         name="company"
                         render={({ field }) => (
-                          <FormItem className="space-y-3">
-                            <FormLabel className="text-muted-foreground/60 text-[10px] font-bold uppercase tracking-[0.2em]">Company / Institution</FormLabel>
+                          <FormItem>
+                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-500">Company</FormLabel>
                             <FormControl>
                               <Input 
-                                placeholder="e.g. Tech University" 
-                                className="bg-transparent border-0 border-b border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all h-10 px-0 text-lg placeholder:text-muted-foreground/20" 
+                                placeholder="Company" 
+                                className="bg-slate-50 border-slate-300 rounded-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:border-blue-600 transition-all h-12 px-4" 
                                 {...field} 
                                 value={field.value || ""}
                               />
@@ -334,49 +241,167 @@ export default function Contact() {
                         )}
                       />
 
-                      <FormField
-                        control={form.control}
-                        name="message"
-                        render={({ field }) => (
-                          <FormItem className="space-y-3">
-                            <FormLabel className="text-muted-foreground/60 text-[10px] font-bold uppercase tracking-[0.2em]">Message or Inquiry</FormLabel>
-                            <FormControl>
-                              <Textarea 
-                                placeholder="How can we help you?" 
-                                className="bg-transparent border border-white/10 rounded-none focus-visible:ring-0 focus-visible:border-primary transition-all min-h-[120px] p-4 text-lg placeholder:text-muted-foreground/20 resize-none" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <FormItem>
+                        <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-500">Budget</FormLabel>
+                        <FormControl>
+                          <select 
+                            className="w-full bg-slate-50 border-slate-300 rounded-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:border-blue-600 transition-all h-12 px-4"
+                          >
+                            <option>Select budget</option>
+                            <option>$500 - $1000</option>
+                            <option>$1000 - $5000</option>
+                            <option>$5000 - $10000</option>
+                            <option>$10000+</option>
+                          </select>
+                        </FormControl>
+                      </FormItem>
+                    </div>
 
-                      <div className="pt-6">
-                        <Button 
-                          type="submit" 
-                          className="w-full h-16 rounded-none bg-primary text-black hover:bg-white transition-all font-bold text-base tracking-[0.2em] uppercase group flex items-center justify-center gap-4 relative overflow-hidden"
-                          disabled={mutation.isPending}
-                        >
-                          {mutation.isPending ? (
-                            <Loader2 className="w-6 h-6 animate-spin" />
-                          ) : (
-                            <>
-                              <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                              <span>Send Message</span>
-                            </>
-                          )}
-                          <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black/10" />
-                        </Button>
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-500">Project details</FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              placeholder="Tell us about your project" 
+                              className="bg-slate-50 border-slate-300 rounded-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:border-blue-600 transition-all min-h-[120px] p-4 resize-none" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-16 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                        <div className="w-1 h-1 bg-white/70 rounded-full ml-1"></div>
+                        <div className="w-1 h-1 bg-white/50 rounded-full ml-1"></div>
                       </div>
-                    </form>
-                  </Form>
+                      <span className="text-xs text-slate-500 italic">
+                        0x0001 111E 015... It's not a hot
+                      </span>
+                    </div>
+
+                    <Button 
+                      type="submit" 
+                      className="w-full h-14 rounded-none bg-slate-900 hover:bg-slate-800 text-white transition-all font-bold flex items-center justify-center gap-3"
+                      disabled={mutation.isPending}
+                    >
+                      {mutation.isPending ? (
+                        <Loader2 className="w-6 h-6 animate-spin" />
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5" />
+                          <span>Send</span>
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                </Form>
+
+                <div className="mt-6 pt-6 border-t border-slate-200">
+                  <p className="text-xs text-slate-500 text-center">
+                    If you need to send a DNA file, just contact us at <a href="mailto:skyforgertechnologies@gmail.com" className="text-blue-600 font-bold">skyforgertechnologies@gmail.com</a>
+                  </p>
                 </div>
-              </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer Section */}
+      <section className="py-20 bg-gradient-to-br from-slate-900 to-blue-900">
+        <div className="container mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div>
+              <h3 className="text-2xl font-display font-extrabold text-white mb-4">
+                Need a help?
+              </h3>
+              <p className="text-blue-200 mb-6">
+                We are available for hire
+              </p>
+              <a href="#" className="text-white font-bold underline">
+                Create a free consultation
+              </a>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-4">
+                  Social
+                </div>
+                <div className="space-y-2 text-sm text-blue-200">
+                  <div>LinkedIn</div>
+                  <div>Behance</div>
+                  <div>Dribbble</div>
+                  <div>Instagram</div>
+                </div>
+              </div>
+              <div>
+                <div className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-4">
+                  Services
+                </div>
+                <div className="space-y-2 text-sm text-blue-200">
+                  <div>UI/UX Design</div>
+                  <div>Web Development</div>
+                  <div>Mobile Apps</div>
+                  <div>Branding</div>
+                </div>
+              </div>
+              <div>
+                <div className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-4">
+                  Case Studies
+                </div>
+                <div className="space-y-2 text-sm text-blue-200">
+                  <div>Fintech</div>
+                  <div>E-commerce</div>
+                  <div>Healthcare</div>
+                  <div>Education</div>
+                </div>
+              </div>
+              <div>
+                <div className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-4">
+                  About
+                </div>
+                <div className="space-y-2 text-sm text-blue-200">
+                  <div>Our Story</div>
+                  <div>Team</div>
+                  <div>Careers</div>
+                  <div>Blog</div>
+                </div>
               </div>
             </div>
           </div>
+          
+          <div className="mt-20 pt-12 border-t border-blue-800 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="flex items-center gap-4">
+              <a href="#" className="text-blue-300 hover:text-white transition-colors">
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-blue-300 hover:text-white transition-colors">
+                <div className="w-5 h-5 border-2 border-blue-300 rounded-full flex items-center justify-center">
+                  <div className="w-2 h-2 bg-blue-300 rounded-full"></div>
+                </div>
+              </a>
+              <a href="#" className="text-blue-300 hover:text-white transition-colors">
+                <div className="w-5 h-5 flex items-center justify-center">
+                  <div className="w-3 h-3 border-2 border-blue-300"></div>
+                </div>
+              </a>
+            </div>
+            <div className="text-lg font-display font-bold text-white">
+              SKYFORGER
+            </div>
+            <div className="text-xs text-blue-400">
+              2023 © SKYFORGER TECHNOLOGIES — All Rights Reserved
+            </div>
+          </div>
         </div>
-      </MainLayout>
-    );
+      </section>
+    </MainLayout>
+  );
 }
