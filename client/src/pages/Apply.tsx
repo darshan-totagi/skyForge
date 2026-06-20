@@ -151,7 +151,7 @@ export default function Apply() {
                   <h3 className="text-xl font-semibold text-slate-900 mb-4">Why Join Us?</h3>
                   <div className="grid grid-cols-1 gap-3">
                     {[
-                      "Industry Mentorship",
+                      "Guidance",
                       "Real-world Projects",
                       "Verified Certification",
                       "Task-based Learning",
@@ -179,8 +179,8 @@ export default function Apply() {
                       <MessageSquare className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900">Write to us a few words</h3>
-                      <p className="text-slate-500 text-sm">about your project and we'll prepare a proposal for you within 24 hours.</p>
+                      <h3 className="text-xl font-bold text-slate-900">Apply now</h3>
+                      <p className="text-slate-500 text-sm"></p>
                     </div>
                   </div>
 
@@ -366,7 +366,7 @@ export default function Apply() {
 
                   <div className="mt-8 pt-6 border-t border-slate-200 text-center">
                     <p className="text-xs text-slate-500">
-                      If you want to hear from us directly, just contact us at <a href="mailto:contact@skyforger.com" className="text-blue-600 font-medium">contact@skyforger.com</a>
+                      If you want to hear from us directly, just contact us at <a href="mailto:skyforgertechnologies@gmail.com" className="text-blue-600 font-medium">skyforgertechnologies@gmail.com</a> or <a href="mailto:info@skyforgertechnologies.me" className="text-blue-600 font-medium">info@skyforgertechnologies.me</a>
                     </p>
                   </div>
                 </div>
@@ -375,48 +375,7 @@ export default function Apply() {
           </div>
         </section>
 
-        {/* Footer Section */}
-        <section className="py-16 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-          <div className="container mx-auto px-6 md:px-12">
-            <div className="text-center mb-12">
-              <h2 className="text-2xl md:text-3xl font-display font-extrabold text-white mb-4">Need a help?</h2>
-              <p className="text-blue-100 text-lg mb-8">We are available for hire</p>
-              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-slate-900 rounded-full px-8">
-                Create a free consultation
-              </Button>
-            </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mb-12">
-              {[
-                { title: "Services", items: ["Web Development", "UI/UX Design", "AI Solutions"] },
-                { title: "Company", items: ["About Us", "Careers", "Contact"] },
-                { title: "Case Studies", items: ["E-commerce", "SaaS", "Mobile Apps"] },
-                { title: "About Us", items: ["Our Story", "Team", "Blog"] }
-              ].map((section, i) => (
-                <div key={i}>
-                  <h3 className="text-white font-semibold mb-4">{section.title}</h3>
-                  <ul className="space-y-2">
-                    {section.items.map((item, j) => (
-                      <li key={j}>
-                        <a href="#" className="text-blue-200 hover:text-white text-sm transition-colors">{item}</a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex justify-between items-center pt-8 border-t border-blue-800">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">S</span>
-                </div>
-                <span className="text-white font-bold">SkyForger</span>
-              </div>
-              <p className="text-blue-300 text-sm">© 2025 SkyForger Technologies. All rights reserved.</p>
-            </div>
-          </div>
-        </section>
       </div>
     </MainLayout>
   );

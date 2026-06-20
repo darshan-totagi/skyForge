@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { 
   ArrowRight, Cpu, Code, Monitor, 
   UserPlus, FileCheck, FileCheck2, Send, Award, 
-  Sparkles, ChevronDown, Palette, TrendingUp, Users, Zap, Star,
+  Sparkles, ChevronDown, Palette, TrendingUp, Users, Zap,
   Code2, BrainCircuit, LayoutTemplate
 } from "lucide-react";
 import { AdSection } from "@/components/AdSection";
@@ -171,7 +171,7 @@ export default function Home() {
           >
             {[
               { label: "Candidates", value: "300+", icon: Users },
-              { label: "Certifications", value: "100+", icon: Star },
+              { label: "Certifications", value: "100+", icon: Award },
               { label: "Projects", value: "100+", icon: Code2 },
               { label: "Success Stories", value: "200+", icon: TrendingUp }
             ].map((stat, i) => {

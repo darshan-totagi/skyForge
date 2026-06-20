@@ -51,6 +51,14 @@ export function Footer() {
                   skyforgertechnologies@gmail.com
                 </a>
               </li>
+              <li className="flex items-center gap-2">
+                <div className="w-6 h-6 flex items-center justify-center text-blue-600 shrink-0">
+                  <Mail size={14} />
+                </div>
+                <a href="mailto:info@skyforgertechnologies.me" className="text-slate-600 hover:text-blue-600 transition-all text-xs font-semibold break-all">
+                  info@skyforgertechnologies.me
+                </a>
+              </li>
             </ul>
           </div>
         </div>

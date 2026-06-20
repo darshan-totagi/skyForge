@@ -108,13 +108,13 @@ export default function About() {
                 className="space-y-8"
               >
                 <p className="text-lg text-slate-700 leading-relaxed">
-                  Founded in 2022, SkyForger Technologies was born from a simple observation: too many talented individuals were struggling to transition from academic environments to professional roles. We realized that traditional education often lacked the practical, hands-on experience that employers truly value.
+                  SkyForger Technologies was founded with a vision to bridge the gap between academic learning and industry expectations. We recognized that many students and aspiring professionals possess strong theoretical knowledge but often lack opportunities to gain practical, real-world experience that employers value.
                 </p>
                 <p className="text-lg text-slate-700 leading-relaxed">
-                  Our founders, having experienced this gap firsthand, set out to create a different kind of learning platform—one that combines real-world projects with expert mentorship. Today, we've helped hundreds of individuals launch their tech careers through our immersive internship programs.
+                  What started as a mission to empower learners has evolved into a growing technology and learning platform focused on skill development, innovation, and career growth. Through industry-oriented internships, hands-on projects, technical training programs, and mentorship, we help individuals transform their potential into professional success.
                 </p>
                 <p className="text-lg text-slate-700 leading-relaxed">
-                  What makes us different is our commitment to quality over quantity. We work closely with industry partners to ensure our programs stay relevant, and we provide personalized support to every intern who joins our community.
+                  
                 </p>
               </motion.div>
             </div>

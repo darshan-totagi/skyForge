@@ -62,7 +62,7 @@ export default function Contact() {
       <section className="pt-32 pb-24 bg-gradient-to-br from-slate-900 to-blue-900">
         <div className="container mx-auto px-6 md:px-12 relative z-10">
           <div className="flex justify-between items-start mb-12">
-            <div className="text-sm text-blue-300 mb-2">support@skyforger.com</div>
+
             <div className="flex items-center gap-6">
               <div className="w-2 h-2 rounded-full bg-blue-500"></div>
               <div className="text-sm text-blue-300">Begin project</div>
@@ -245,14 +245,15 @@ export default function Contact() {
                         <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-500">Budget</FormLabel>
                         <FormControl>
                           <select 
-                            className="w-full bg-slate-50 border-slate-300 rounded-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:border-blue-600 transition-all h-12 px-4"
-                          >
-                            <option>Select budget</option>
-                            <option>$500 - $1000</option>
-                            <option>$1000 - $5000</option>
-                            <option>$5000 - $10000</option>
-                            <option>$10000+</option>
-                          </select>
+                    className="w-full bg-slate-50 border-slate-300 rounded-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:border-blue-600 transition-all h-12 px-4"
+                  >
+                    <option>Select budget</option>
+                    <option>$50 - $100</option>
+                    <option>$500 - $1000</option>
+                    <option>$1000 - $5000</option>
+                    <option>$5000 - $10000</option>
+                    <option>$10000+</option>
+                  </select>
                         </FormControl>
                       </FormItem>
                     </div>
@@ -305,7 +306,7 @@ export default function Contact() {
 
                 <div className="mt-6 pt-6 border-t border-slate-200">
                   <p className="text-xs text-slate-500 text-center">
-                    If you need to send a DNA file, just contact us at <a href="mailto:skyforgertechnologies@gmail.com" className="text-blue-600 font-bold">skyforgertechnologies@gmail.com</a>
+                    If you need to contact us, reach out at <a href="mailto:skyforgertechnologies@gmail.com" className="text-blue-600 font-bold">skyforgertechnologies@gmail.com</a> or <a href="mailto:info@skyforgertechnologies.me" className="text-blue-600 font-bold">info@skyforgertechnologies.me</a>
                   </p>
                 </div>
               </div>
@@ -314,94 +315,7 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Footer Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-900 to-blue-900">
-        <div className="container mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div>
-              <h3 className="text-2xl font-display font-extrabold text-white mb-4">
-                Need a help?
-              </h3>
-              <p className="text-blue-200 mb-6">
-                We are available for hire
-              </p>
-              <a href="#" className="text-white font-bold underline">
-                Create a free consultation
-              </a>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div>
-                <div className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-4">
-                  Social
-                </div>
-                <div className="space-y-2 text-sm text-blue-200">
-                  <div>LinkedIn</div>
-                  <div>Behance</div>
-                  <div>Dribbble</div>
-                  <div>Instagram</div>
-                </div>
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-4">
-                  Services
-                </div>
-                <div className="space-y-2 text-sm text-blue-200">
-                  <div>UI/UX Design</div>
-                  <div>Web Development</div>
-                  <div>Mobile Apps</div>
-                  <div>Branding</div>
-                </div>
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-4">
-                  Case Studies
-                </div>
-                <div className="space-y-2 text-sm text-blue-200">
-                  <div>Fintech</div>
-                  <div>E-commerce</div>
-                  <div>Healthcare</div>
-                  <div>Education</div>
-                </div>
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-4">
-                  About
-                </div>
-                <div className="space-y-2 text-sm text-blue-200">
-                  <div>Our Story</div>
-                  <div>Team</div>
-                  <div>Careers</div>
-                  <div>Blog</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="mt-20 pt-12 border-t border-blue-800 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-4">
-              <a href="#" className="text-blue-300 hover:text-white transition-colors">
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-blue-300 hover:text-white transition-colors">
-                <div className="w-5 h-5 border-2 border-blue-300 rounded-full flex items-center justify-center">
-                  <div className="w-2 h-2 bg-blue-300 rounded-full"></div>
-                </div>
-              </a>
-              <a href="#" className="text-blue-300 hover:text-white transition-colors">
-                <div className="w-5 h-5 flex items-center justify-center">
-                  <div className="w-3 h-3 border-2 border-blue-300"></div>
-                </div>
-              </a>
-            </div>
-            <div className="text-lg font-display font-bold text-white">
-              SKYFORGER
-            </div>
-            <div className="text-xs text-blue-400">
-              2023 © SKYFORGER TECHNOLOGIES — All Rights Reserved
-            </div>
-          </div>
-        </div>
-      </section>
+
     </MainLayout>
   );
 }

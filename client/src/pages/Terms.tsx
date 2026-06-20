@@ -121,6 +121,7 @@ export default function Terms() {
                 <div className="space-y-2 text-foreground">
                   <p><span className="font-semibold">Company Name:</span> SkyForger</p>
                   <p><span className="font-semibold">Email:</span> skyforgertechnologies@gmail.com</p>
+                  <p><span className="font-semibold">Email:</span> info@skyforgertechnologies.me</p>
                   <p><span className="font-semibold">Founder:</span> Darshan</p>
                 </div>
               </section>
