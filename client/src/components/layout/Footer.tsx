@@ -59,6 +59,14 @@ export function Footer() {
                   info@skyforgertechnologies.me
                 </a>
               </li>
+              <li className="flex items-center gap-2">
+                <div className="w-6 h-6 flex items-center justify-center text-blue-600 shrink-0">
+                  <Linkedin size={14} />
+                </div>
+                <a href="https://www.linkedin.com/company/skyforger/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-blue-600 transition-all text-xs font-semibold break-all">
+                  Follow us on LinkedIn
+                </a>
+              </li>
             </ul>
           </div>
         </div>

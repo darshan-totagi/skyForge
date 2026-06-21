@@ -86,7 +86,7 @@ export default function Contact() {
           </div>
 
           <div className="flex items-center gap-6 mt-12">
-            <a href="#" className="text-blue-300 hover:text-white transition-colors">
+            <a href="https://www.linkedin.com/company/skyforger/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-white transition-colors">
               <Linkedin className="w-5 h-5" />
             </a>
             <a href="#" className="text-blue-300 hover:text-white transition-colors">
