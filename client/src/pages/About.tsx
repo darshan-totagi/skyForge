@@ -19,9 +19,19 @@ export default function About() {
                 className="pt-8"
               >
                 <span className="text-xs font-bold tracking-widest uppercase text-blue-600 mb-4 block">About Us</span>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-slate-900 mb-8 leading-tight">
-                  Empowering Future Tech Professionals
-                </h1>
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <img 
+              src="/portal.png" 
+              alt="AICTE Approved" 
+              className="h-16 w-auto object-contain"
+            />
+            <span className="text-lg font-bold text-blue-800">
+              AICTE Approved Internship Provider
+            </span>
+          </div>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-slate-900 mb-8 leading-tight">
+            Empowering Future Tech Professionals
+          </h1>
                 <p className="text-lg text-slate-700 leading-relaxed mb-10">
                   At SkyForger Technologies, we believe that practical experience is the key to unlocking potential in the tech industry. Our mission is to bridge the gap between academic learning and real-world application through hands-on internships, mentorship programs, and industry-focused training.
                 </p>

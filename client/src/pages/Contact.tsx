@@ -276,16 +276,7 @@ export default function Contact() {
                       )}
                     />
 
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="w-16 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded flex items-center justify-center">
-                        <div className="w-2 h-2 bg-white rounded-full"></div>
-                        <div className="w-1 h-1 bg-white/70 rounded-full ml-1"></div>
-                        <div className="w-1 h-1 bg-white/50 rounded-full ml-1"></div>
-                      </div>
-                      <span className="text-xs text-slate-500 italic">
-                        0x0001 111E 015... It's not a hot
-                      </span>
-                    </div>
+
 
                     <Button 
                       type="submit" 

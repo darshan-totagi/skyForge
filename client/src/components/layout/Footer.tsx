@@ -15,7 +15,17 @@ export function Footer() {
                 Technologies
               </span>
             </Link>
-            <p className="text-slate-600 mb-4 max-w-xs text-sm leading-relaxed">
+            <div className="flex items-center gap-3 mb-4">
+              <img 
+                src="/portal.png" 
+                alt="AICTE Approved" 
+                className="h-12 w-auto object-contain"
+              />
+              <span className="text-xs font-bold text-blue-800">
+                AICTE Approved Internship Provider
+              </span>
+            </div>
+            <p className="text-slate-600 max-w-xs text-sm leading-relaxed">
               Empowering the next generation of developers.
             </p>
           </div>
